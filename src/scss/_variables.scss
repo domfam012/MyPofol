@@ -44,9 +44,9 @@ $yellow:  #ffc107 !default;
 $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
-$primary: #04bcde !default;
+$primary: #d63d45 !default;
 $error:   #cc1e03 !default;
-$normal:  #c2c2c2 !default;
+$header:  #2E0000 !default;
 
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -66,8 +66,7 @@ $colors: map-merge(
     "gray":       $gray-600,
     "gray-dark":  $gray-800,
     "primary":  $primary,
-    "error":    $error,
-    "normal": $normal
+    "error":    $error
   ),
   $colors
 );
@@ -87,14 +86,14 @@ $theme-colors: map-merge(
   (
     "primary":    $primary,
     "secondary":  $secondary,
-    "normal":     $normal,
     "success":    $success,
     "info":       $info,
     "warning":    $warning,
     "danger":     $danger,
     "light":      $light,
     "dark":       $dark,
-    "error":      $error
+    "error":      $error,
+    "header":     $header
   ),
   $theme-colors
 );
@@ -148,11 +147,11 @@ $spacers: () !default;
 $spacers: map-merge(
   (
     0: 0,
-    1: ($spacer * .25),
-    2: ($spacer * .5),
-    3: $spacer,
-    4: ($spacer * 1.5),
-    5: ($spacer * 3)
+    1: ($spacer * .3125),
+    2: ($spacer * .625),
+    3: ($spacer * 1.25),
+    4: ($spacer * 1.875),
+    5: ($spacer * 2.5)
   ),
   $spacers
 );
@@ -299,7 +298,7 @@ $font-size-sm:                $font-size-base * .875 !default;
 $font-weight-lighter:         lighter !default;
 $font-weight-light:           300 !default;
 $font-weight-normal:          normal !default;
-$font-weight-bold:            500 !default;
+$font-weight-bold:            600 !default;
 $font-weight-bolder:          bolder !default;
 
 $font-weight-base:            $font-weight-normal !default;
@@ -447,7 +446,7 @@ $btn-line-height-lg:          1.125rem !default;
 
 $btn-padding-y-xl:            0.9375rem !default;
 $btn-padding-x-xl:            0.625rem !default;
-$btn-font-size-xl:            0.875rem !default;
+$btn-font-size-xl:            1rem !default;
 $btn-line-height-xl:          1.125rem !default;
 
 $btn-border-width:            $input-btn-border-width !default;
@@ -537,7 +536,7 @@ $form-check-inline-margin-x:            .75rem !default;
 $form-check-inline-input-margin-x:      .3125rem !default;
 
 $form-grid-gutter-width:                10px !default;
-$form-group-margin-bottom:              1rem !default;
+$form-group-margin-bottom:              1.25rem !default;
 
 $input-group-addon-color:               $input-color !default;
 $input-group-addon-bg:                  $gray-200 !default;
@@ -741,7 +740,7 @@ $nav-divider-margin-y:              $spacer / 2 !default;
 // Navbar
 
 $navbar-padding-y:                  16px !default;
-$navbar-padding-x:                  30px !default;
+$navbar-padding-x:                  0 !default;
 
 $navbar-nav-link-padding-x:         5px !default;
 

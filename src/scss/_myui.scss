@@ -9,7 +9,13 @@ a {
     text-decoration: none;
   }
 }
-
+button {
+  background: none;
+  border: 0;
+  &:focus {
+    outline: none;
+  }
+}
 
 
 // section with background-color

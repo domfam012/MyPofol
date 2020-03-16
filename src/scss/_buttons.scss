@@ -101,6 +101,8 @@ fieldset:disabled a.btn {
 }
 
 .btn-lg {
+  height: 40px;
+  vertical-align: inherit;
   @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-line-height-lg, $btn-border-radius-lg);
 }
 

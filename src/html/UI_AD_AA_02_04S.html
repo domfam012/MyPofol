@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+@@include('../html/include/head.html')
+<body>
+<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_02_04S.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
+<div class="wrap">
+  <!-- header -->
+  @@include('../html/include/header_popup.html')
+  <!-- 초기화면 -->
+  <section class="container-fluid init detail category">
+    <h2 class="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
+    <p class="title font-weight-normal pl"><img src="../img/common/3.png" alt="1">당신의 웹사이트에 필요한<span
+      class="font-weight-bold"> 카테고리를 등록</span>하세요.</p>
+    <div class="sub">
+      <p>카테고리는 최소1개~15개까지 등록 가능해요.</p>
+    </div>
+    <form class="form_info detail">
+      <div class="form-group">
+        <input type="text" class="form-control mb-1" title="카테고리" value="카테고리*" style="width: 400px;">
+      </div>
+      <div class="form-group d-inline-block add">
+        <input type="text" class="form-control d-inline-block" title="카테고리" value="카테고리*" style="width: 400px;">
+      </div>
+      <div class="d-inline-block">
+        <button class="btn btn-lg btn-primary">카테고리 추가</button>
+      </div>
+    </form>
+    <div class="btn-area mb">
+      <button class="btn btn-xl btn-outline-secondary mr">이전</button>
+      <button class="btn btn-xl btn-primary">다음</button>
+    </div>
+  </section>
+</div>
+</body>
+</html>

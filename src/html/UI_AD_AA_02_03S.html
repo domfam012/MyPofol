@@ -2,28 +2,37 @@
 <html lang="ko">
 @@include('../html/include/head.html')
 <body>
-<img class="test" src="../../dist/img/temp/UI_AD_AA_02_03S.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>
+<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_02_03S.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
 <div class="wrap">
   <!-- header -->
   @@include('../html/include/header_popup.html')
   <!-- 초기화면 -->
   <section class="container-fluid init detail info-pf">
-    <h2 class="sr-only">당신의 상세정보를 등록, 혹은 편집 하세요.</h2>
-    <p class="title font-weight-normal pl"><img src="../img/common/2.png" alt="1">당신의 상세정보를 <span class="font-weight-bold">등록,</span> 혹은 <span class="font-weight-bold"> 편집</span>하세요.</p>
-    <form class="form_info detail mb">
+    <h2 class="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
+    <p class="title font-weight-normal pl"><img src="../img/common/2.png" alt="1">당신의 상세정보를 <span
+      class="font-weight-bold">등록,</span> 혹은 <span class="font-weight-bold"> 편집</span>하세요.</p>
+    <form class="form_info detail">
       <div class="site_name _sName">Domfam</div>
       <div class="form-group">
         <input type="tel" class="form-control mb-1" title="연락처" value="연락처" style="width: 400px;">
       </div>
       <div class="form-group">
-        <input type="email" class="form-control d-inline-block ml-1" title="이메일" value="이메일" style="width: 400px;">
+        <input type="email" class="form-control d-inline-block" title="이메일" value="이메일" style="width: 400px;">
       </div>
       <div class="add_img">
-        <a href="#"><img src="" alt="로고이미지 추가"></a>
+        <!--
+          todo!
+          이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
+        -->
+        <a href="#">
+          <span class="plus"><i class="fal fa-plus"></i></span>
+          <span class="txt">로고이미지 추가</span>
+          <img src="../../dist/img/temp/UI_AD_AA_02_03S.png" alt="로고이미지 추가">
+        </a>
       </div>
     </form>
     <div class="btn-area mb">
-      <button class="btn btn-xl btn-outline-light mr">이전</button>
+      <button class="btn btn-xl btn-outline-secondary mr">이전</button>
       <button class="btn btn-xl btn-primary">다음</button>
     </div>
   </section>

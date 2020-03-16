@@ -11,24 +11,30 @@
   header
 */
 header {
-  .navbar {
-    h1 {
-      font-size: inherit;
-    }
+  .container-fluid {
+    .navbar {
+      h1 {
+        font-size: inherit;
+      }
 
-    .login_area {
-      display: inline-block;
-      color: $white;
-      font-size: 14px;
-
-      i {
-        margin-left: 11px;
+      .login_area {
+        display: inline-block;
+        color: $white;
         font-size: 14px;
-      }
 
-      .btn-close {
-        padding: 7px 0px 7px 7px;
+        i {
+          margin-left: 11px;
+          font-size: 14px;
+        }
+
+        .btn-close {
+          padding: 7px 0px 7px 7px;
+        }
       }
+    }
+    &.edit {
+      padding: 0 40px;
+      max-width: unset;
     }
   }
 }

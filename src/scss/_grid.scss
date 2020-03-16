@@ -13,6 +13,10 @@
   .container-fluid {
     @include make-container(100px);
     max-width: 1200px;
+    &.container-fluid-lg {
+      padding: 0;
+      max-width: 1360px;
+    }
   }
 
   // Responsive containers that are 100% wide until a breakpoint

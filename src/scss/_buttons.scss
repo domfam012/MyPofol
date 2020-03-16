@@ -168,3 +168,17 @@ input[type="button"] {
     height: 50px;
   }
 }
+
+
+// delete btn
+.btn {
+  &.btn-delete {
+    border-color: #B1B1B1;
+    color: #B1B1B1;
+    &.active {
+      border-color: #666 !important;
+      color: #666 !important;
+      background-color: white !important;
+    }
+  }
+}

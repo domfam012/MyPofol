@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+@@include('../html/include/head.html')
+<body>
+<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
+<div class="wrap">
+  <!-- header -->
+  @@include('../html/include/header_before_login.html')
+  <!-- 초기화면 -->
+  <div class="inner clearfix">
+    <div class="section-container">
+      <section>
+        <div class="title_area">
+          <h2 class="title">웹사이트 관리</h2>
+          <div class="btn-area mb">
+            <!--
+              todo!
+              1. 웹사이트 템플릿 선택시 border-color: red; 삭제 버튼 active 클래스 추가
+              2. 순서변경 -> 순서저장 (텍스트 변경)
+             -->
+            <button class="btn btn-outline-secondary btn-delete active">삭제</button>
+            <button class="btn btn-outline-secondary">순서<span class="_toggle">변경</span></button>
+            <button class="btn btn-primary">새 웹사이트 추가</button>
+          </div>
+        </div>
+        <div class="contents">
+          <div class="inner">
+            <a class="site" href="#">
+              <span class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></span>
+              <p class="site-body">
+                <span class="title">POTENS</span>
+                <span class="address">http://www.mypofol.com/domfam</span>
+              </p>
+            </a>
+            <a class="site" href="#">
+              <p class="plus"><i class="fal fa-plus"></i></p>
+              <p class="txt">새 웹사이트 추가</p>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="snb">
+      <div class="select">
+        <p class="title">사이트를 선택하세요</p>
+        <p class="desc">사이트를 선택하면 관련정보를<br/>
+          이 곳에서 확인 및 수정 할 수 있습니다. </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- footer -->
+@@include('../html/include/footer.html')
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="ko">
 @@include('../html/include/head.html')
 <body>
-<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S_snb.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
+<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S_01L.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
 <div class="wrap">
   <!-- header -->
   @@include('../html/include/header_after_login.html')
@@ -13,14 +13,43 @@
         <div class="title_area">
           <h2 class="title">웹사이트 관리</h2>
           <div class="btn-area mb">
-            <!--
-              todo!
-              1. 웹사이트 템플릿 선택시 border-color: red; 삭제 버튼 active 클래스 추가
-              2. 순서변경 -> 순서저장 (텍스트 변경)
-             -->
             <button class="btn btn-outline-secondary btn-delete active">삭제</button>
-            <button class="btn btn-outline-secondary">순서<span class="_toggle">변경</span></button>
+            <button class="btn btn-outline-secondary" data-toggle="modal" data-target=".change-template">순서<span class="_toggle">변경</span></button>
             <button class="btn btn-primary">새 웹사이트 추가</button>
+          </div>
+          <div class="modal fade change-template" tabindex="-1" role="dialog" aria-labelledby="changeTemplateModal" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <span class="modal-title" id="changeTemplateModal">템플릿 변경</span>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="title">마음에 드는 <span class="font-weight-bold">템플릿을 선택</span>하세요.</div>
+                  <div class="desc">선택된 템플릿은 모든 카테고리에 동일하게 적용됩니다.</div>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                      <div class="col-3">col-xs-3</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-xl btn-outline-secondary" data-dismiss="modal">취소</button>
+                  <button type="button" class="btn btn-xl btn-primary">저장</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="contents">
@@ -91,7 +120,7 @@
           </div>
         </div>
         <div class="btn-area mb">
-          <button class="btn btn-lg btn-outline-secondary">이전</button>
+          <button class="btn btn-lg btn-outline-secondary">취소</button>
           <button class="btn btn-lg btn-primary">저장</button>
         </div>
       </div>

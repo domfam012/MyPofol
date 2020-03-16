@@ -30,8 +30,19 @@ header {
         .btn-close {
           padding: 7px 0px 7px 7px;
         }
+
+        .login {
+          display: block;
+          color: $white;
+
+          img {
+            margin-left: 11px;
+            vertical-align: sub;
+          }
+        }
       }
     }
+
     &.edit {
       padding: 0 40px;
       max-width: unset;

@@ -286,7 +286,7 @@ $embed-responsive-aspect-ratios: join(
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif:      "Noto Sans CJK KR Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-sans-serif:      'NotoSansCJKkr-Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-family-monospace:       "Noto Sans Mono CJK KR Regular", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 $font-family-base:            $font-family-sans-serif !default;
 // stylelint-enable value-keyword-case
@@ -422,9 +422,9 @@ $input-btn-border-width:      $border-width !default;
 //
 // For each of Bootstrap's buttons, define text, background, and border color.
 
-$btn-padding-y:               0.4375rem !default;
+$btn-padding-y:               0.5rem !default;
 $btn-padding-x:               0.625rem !default;
-$btn-font-family:             $font-family-base !default;
+$btn-font-family:             'NotoSansCJKkr-Medium' !default;
 $btn-font-size:               0.875rem !default;
 $btn-line-height:             1.125rem !default;
 $btn-white-space:             null !default; // Set to `nowrap` to prevent text wrapping

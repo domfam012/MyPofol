@@ -164,7 +164,7 @@
   // Enable `flex-grow: 1` so that the body take up as much space as possible
   // when there should be a fixed height on `.modal-dialog`.
   flex: 1 1 auto;
-  padding: $modal-inner-padding;
+  padding: 50px 0;
 }
 
 // Footer (for actions)
@@ -225,13 +225,13 @@
   .modal-sm { max-width: $modal-sm; }
 }
 
-@include media-breakpoint-up(lg) {
-  .modal-lg,
-  .modal-xl {
-    max-width: $modal-lg;
-  }
-}
-
+//@include media-breakpoint-up(lg) {
+//  .modal-lg,
+//  .modal-xl {
+//    max-width: $modal-lg;
+//  }
+//}
+//
 @include media-breakpoint-up(xl) {
   .modal-xl { max-width: $modal-xl; }
 }

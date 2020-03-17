@@ -82,7 +82,7 @@
   // Background-color and (when enabled) gradient
   &::before {
     position: absolute;
-    top: ($font-size-base * $line-height-base - $custom-control-indicator-size) / 2;
+    top: -1px;
     left: -($custom-control-gutter + $custom-control-indicator-size);
     display: block;
     width: 18px;
@@ -96,7 +96,7 @@
   // Foreground (icon)
   &::after {
     position: absolute;
-    top: ($font-size-base * $line-height-base - $custom-control-indicator-size) / 2;
+    top: 3px;
     left: -($custom-control-gutter + $custom-control-indicator-size);
     display: block;
     width: 10px;
@@ -122,7 +122,7 @@
     }
     &::after {
       background: escape-svg($custom-checkbox-indicator-icon-checked) no-repeat;
-      top: 5px;
+      top: 3px;
       left: -20px;
       background-size: 12px 13px;
     }
@@ -168,7 +168,7 @@
     }
     &::after {
       position: absolute;
-      top: 5px;
+      top: 3px;
       left: -20px;
       width: 10px;
       height: 10px;

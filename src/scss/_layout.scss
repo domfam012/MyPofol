@@ -4,6 +4,9 @@
 .wrap {
   width: 100%;
   min-width: 1200px;
+  &.m-wrap {
+    min-width: unset;
+  }
 }
 
 
@@ -11,7 +14,7 @@
   header
 */
 header {
-  .container-fluid {
+  .container-fluid, .container {
     .navbar {
       h1 {
         font-size: inherit;
@@ -34,10 +37,14 @@ header {
         .login {
           display: block;
           color: $white;
+          font-size: 14px;
 
           img {
             margin-left: 11px;
             vertical-align: sub;
+          }
+          .text {
+            display: none;
           }
         }
       }
@@ -48,37 +55,20 @@ header {
       max-width: unset;
     }
   }
+  .container {
+    .navbar-brand {
+      img {
+        width: 120px;
+        height: auto;
+      }
+    }
+  }
 }
 
-// header
-//.bg-header {
-//  min-width: 1200px;
-//  z-index: 100;
-//  background-color: #001D2E;
-//}
 
-// wrap
-//.wrap {
-//  width: 100%;
-//  .navbar {
-//    &.navbar-expand {
-//      max-width: 1200px;
-//      margin: 0 auto;
-//      padding-left: 50px;
-//      padding-right: 50px;
-//    }
-//    .nav-item {
-//      padding-left: 2px;
-//    }
-//  }
-//
-//  // custom container
-//  .container-fluid {
-//    min-width: 1200px;
-//  }
-//}
-
-// footer
+/*
+  footer
+*/
 footer {
   z-index: 100;
   width: 100%;
@@ -86,7 +76,12 @@ footer {
   height: 60px;
   background-color: #777;
   border: solid 1px #707070;
-
+  &.m-footer {
+    min-width: unset;
+    color: #fff;
+    font-size: 12px;
+    line-height: 18px;
+  }
   .footer {
     width: 1200px;
     padding: 0 50px;
@@ -98,6 +93,31 @@ footer {
 
     .copyright {
       color: #fff;
+      font-size: 12px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 768px) {
+
+}
+@media (min-width: 576px) {
+  header {
+    .container {
+      .navbar-brand {
+        img {
+          width: auto;
+          height: auto;
+        }
+      }
+      .login {
+        .text {
+          display: inline-block !important;
+        }
+      }
     }
   }
 }

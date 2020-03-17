@@ -13,25 +13,23 @@
         <div class="title_area">
           <h2 class="title">웹사이트 관리</h2>
           <div class="btn-area mb">
-            <!--
-              todo!
-              1. 웹사이트 템플릿 선택시 border-color: red; 삭제 버튼 active 클래스 추가
-              2. 순서변경 -> 순서저장 (텍스트 변경)
-             -->
             <button class="btn btn-outline-secondary btn-delete active">삭제</button>
-            <button class="btn btn-outline-secondary">순서<span class="_toggle">변경</span></button>
             <button class="btn btn-primary">새 웹사이트 추가</button>
           </div>
         </div>
         <div class="contents">
           <div class="inner">
-            <a class="site active" href="#">
+            <div class="site active">
               <span class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></span>
               <p class="site-body">
                 <span class="title">POTENS</span>
-                <span class="address">http://www.mypofol.com/domfam</span>
+                <a class="address" href="#">http://www.mypofol.com/domfam</a>
               </p>
-            </a>
+              <span class="btn-area">
+                <button class="btn btn-outline-secondary mr-1">선택</button>
+                <button class="btn btn-primary">상세</button>
+              </span>
+            </div>
             <a class="site" href="#">
               <p class="plus"><i class="fal fa-plus"></i></p>
               <p class="txt">새 웹사이트 추가</p>

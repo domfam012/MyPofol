@@ -2,130 +2,54 @@
 <html lang="ko">
 @@include('../html/include/head.html')
 <body>
-<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S_01L.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
 <div class="wrap">
   <!-- header -->
-  @@include('../html/include/header_after_login.html')
-  <!-- 초기화면 -->
-  <div class="inner clearfix">
-    <div class="section-container">
-      <section>
-        <div class="title_area">
-          <h2 class="title">웹사이트 관리</h2>
-          <div class="btn-area mb">
-            <button class="btn btn-outline-secondary btn-delete active">삭제</button>
-            <button class="btn btn-outline-secondary" data-toggle="modal" data-target=".change-template">순서<span class="_toggle">변경</span></button>
-            <button class="btn btn-primary">새 웹사이트 추가</button>
-          </div>
-          <div class="modal fade change-template" tabindex="-1" role="dialog" aria-labelledby="changeTemplateModal" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <span class="modal-title" id="changeTemplateModal">템플릿 변경</span>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="title">마음에 드는 <span class="font-weight-bold">템플릿을 선택</span>하세요.</div>
-                  <div class="desc">선택된 템플릿은 모든 카테고리에 동일하게 적용됩니다.</div>
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                      <div class="col-3">col-xs-3</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-xl btn-outline-secondary" data-dismiss="modal">취소</button>
-                  <button type="button" class="btn btn-xl btn-primary">저장</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="contents">
-          <div class="inner">
-            <a class="site active" href="#">
-              <span class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></span>
-              <p class="site-body">
-                <span class="title">POTENS</span>
-                <span class="address">http://www.mypofol.com/domfam</span>
-              </p>
-            </a>
-            <a class="site" href="#">
-              <p class="plus"><i class="fal fa-plus"></i></p>
-              <p class="txt">새 웹사이트 추가</p>
-            </a>
-          </div>
-        </div>
-      </section>
+  @@include('../html/include/header_popup.html')
+  <!-- 템플릿 선택 -->
+  <section class="container-fluid init select_template">
+    <div class="title_area">
+      <h2 class="title">마음에 드는 템플릿을 선택하세요.</h2>
+      <div class="sub">
+        <p>선택된 템플릿은 모든 카테고리에 동일하게 적용됩니다.</p>
+      </div>
     </div>
-    <div class="snb">
-      <div class="contents">
-        <div class="box">
-          <form class="form_site">
-            <div class="form-group">
-              <input type="text" class="form-control" title="사이트명" value="POTENS">
-              <span class="site">http://www.mypofol.com/domfam</span>
-            </div>
-          </form>
+    <div class="box d-center">
+      <div class="site active">
+        <div class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></div>
+        <div class="site-body">
+          <div class="title">Template A</div>
         </div>
-        <div class="box add_logo">
-          <a class="add_logo" href="#">
-            <p class="plus"><i class="fal fa-plus"></i></p>
-            <p class="txt">로고이미지 추가</p>
-          </a>
-          <p class="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>- 파일명 영문, 숫자 허용</p>
+        <div class="btn-area">
+          <button class="btn btn-outline-secondary mr-1">선택</button>
+          <button class="btn btn-primary">미리보기</button>
         </div>
-        <div class="box intro">
-          <form class="form_intro">
-            <div class="form-group mb-1">
-              <label for="introduction"></label>
-              <textarea class="form-control" id="introduction" rows="7" placeholder="웹사이트 소개글을 입력하세요"></textarea>
-            </div>
-          </form>
-          <p class="desc clearfix">
-            <span class="float-left">한글기준 200자 이내</span>
-            <span class="float-right pr-2"><span class="_word">0</span>/200</span>
-          </p>
+      </div>
+      <div class="site">
+        <div class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></div>
+        <div class="site-body">
+          <div class="title">Template A</div>
         </div>
-        <div class="box mb-3">
-          <form class="form_site">
-            <div class="form-group mb-2">
-              <input type="tel" class="form-control" title="연락처" value="연락처">
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" title="이메일" value="이메일">
-            </div>
-          </form>
+        <div class="btn-area">
+          <button class="btn btn-outline-secondary mr-1">선택</button>
+          <button class="btn btn-primary">미리보기</button>
         </div>
-        <div class="box">
-          <form class="form_intro">
-            <div class="form-group mb-2">
-              <label for="changeTemplate"></label>
-              <textarea class="form-control" id="changeTemplate" rows="7"></textarea>
-            </div>
-          </form>
-          <div class="btn-area mb change">
-            <button class="btn btn-secondary">템플릿 변경</button>
-          </div>
+      </div>
+      <div class="site">
+        <div class="site-img"><img src="../../dist/img/temp/potens.png" alt="potens"></div>
+        <div class="site-body">
+          <div class="title">Template A</div>
         </div>
-        <div class="btn-area mb">
-          <button class="btn btn-lg btn-outline-secondary">취소</button>
-          <button class="btn btn-lg btn-primary">저장</button>
+        <div class="btn-area">
+          <button class="btn btn-outline-secondary mr-1">선택</button>
+          <button class="btn btn-primary">미리보기</button>
         </div>
       </div>
     </div>
-  </div>
+    <div class="btn-area mb">
+      <button class="btn btn-xl btn-outline-secondary mr">취소</button>
+      <button class="btn btn-xl btn-primary">미리보기</button>
+    </div>
+  </section>
 </div>
 <!-- footer -->
 @@include('../html/include/footer.html')

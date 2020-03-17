@@ -785,6 +785,25 @@
   }
 }
 
+.p_section {
+  height: 870px;
+  padding-top: 345px;
+  .img {
+    width: 236px;
+    height: auto;
+  }
+  .title {
+
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
 /*
  메인 페이지
 */

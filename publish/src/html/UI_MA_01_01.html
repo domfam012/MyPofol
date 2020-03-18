@@ -2,44 +2,25 @@
 <html lang="ko">
 @@include('../html/include/head.html')
 <body>
-<!--<img class="test" src="../../dist/img/temp/UI_AD_MA_01.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
-<div class="wrap m-wrap">
-<!-- todo! 반응형 -->
+<!--<img class="test" src="../../dist/img/temp/UI_MA_01.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
+<div class="wrap">
   <!-- header -->
   @@include('../html/include/header_pofol.html')
   <section class="p_section">
     <h2 class="sr-only">project</h2>
-    <div class="container">
-      <div class="row center">
-        <div class="col">
-          <div class="img">
+    <div class="container-fluid">
+      <div class="row row-cols-4">
+        <a class="col-md-6 offset-md-3" href="#">
+          <span class="img">
             <img src="../img/temp/temp.png" alt="템플릿">
-          </div>
-          <p class="title">Prototype 1(PC)</p>
-        </div>
-        <div class="col">
-          <div class="img">
-            <img src="../img/temp/proto2.png" alt="템플릿">
-          </div>
-          <p class="title">Prototype 2(MOBILE)</p>
-        </div>
-        <div class="col">
-          <div class="img">
-            <img src="../img/temp/proto3.png" alt="템플릿">
-          </div>
-          <p class="title">Prototype 3(PC)</p>
-        </div>
-        <div class="col">
-          <div class="img">
-            <img src="../img/temp/proto4.png" alt="템플릿">
-          </div>
-          <p class="title">Prototype 4(PC)</p>
-        </div>
+          </span>
+          <span class="title">Prototype 1(PC)</span>
+        </a>
       </div>
     </div>
   </section>
   <!-- footer -->
-  @@include('../html/include/footer_main.html')
+  @@include('../html/include/footer.html')
 </div>
 </body>
 </html>

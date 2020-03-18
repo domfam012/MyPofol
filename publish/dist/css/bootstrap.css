@@ -20590,6 +20590,8 @@ footer {
     height: 719px; }
   .init.info-pf {
     height: 920px; }
+    .init.info-pf .title img {
+      left: 166px; }
     .init.info-pf .form-group {
       position: relative; }
       .init.info-pf .form-group .btn {
@@ -20602,6 +20604,8 @@ footer {
   .init.detail .title {
     margin-bottom: 39px;
     letter-spacing: -.5px; }
+    .init.detail .title img {
+      left: 245px; }
   .init.detail .site_name {
     font-size: 14px;
     font-weight: bold;

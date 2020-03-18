@@ -14,7 +14,7 @@
     img {
       position: absolute;
       left: 245px;
-      top: 179px;
+      top: 179px
     }
 
     &.pl {
@@ -62,6 +62,11 @@
 
   &.info-pf {
     height: 920px;
+    .title {
+      img {
+        left: 166px;
+      }
+    }
     .form-group {
       position: relative;
       .btn {
@@ -85,6 +90,9 @@
     .title {
       margin-bottom: 39px;
       letter-spacing: -.5px;
+      img {
+        left: 245px;
+      }
     }
 
     .site_name {

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="Referrer" content="origin">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-title" content="MyPofol" />
+  <meta name="robots" content="index,nofollow"/>
+  <meta name="description" content="MyPofol"/>
+  <meta name="keywords" content="MyPofol"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <title>My Pofol</title>
+  <link rel="stylesheet" href="../../dist/css/bootstrap.css">
+  <script src="../../dist/js/lib/front.lib.js"></script>
+</head>
+
+<body>
+<!--<img class="test" src="../../dist/img/temp/UI_AD_UT_03.png" style="position: absolute; opacity: 0.5; z-index: -1"-->
+<!--     width="1440"/>-->
+<div class="wrap">
+  <!-- header -->
+  <header class="bg-header">
+  <div class="container-fluid edit">
+    <nav class="navbar navbar-expand">
+      <h1><a class="navbar-brand" href="#"><img src="../img/common/logo.png" alt="MyPofol"></a></h1>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <div class="login_area">
+          <a class="login" href="#"><span class="_name">홍길동</span>&nbsp;님<i class="far fa-sign-out"></i></a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+  <!-- 초기화면 -->
+  <div class="container-fluid">
+    <section class="mypage">
+      <div class="title_area">
+        <h2 class="title">마이페이지</h2>
+      </div>
+      <div class="list">
+        <ul>
+          <li>
+            <span class="title">프로필 이미지</span>
+            <span class="info profile _profile"><i class="fal fa-user"></i></span>
+          </li>
+          <li>
+            <span class="title">이름/닉네임</span>
+            <span class="info top _name">홍길동</span>
+          </li>
+          <li>
+            <span class="title">이메일 주소</span>
+            <span class="info top _address">abc@mypofol.com</span>
+          </li>
+          <li>
+            <span class="title">연락처</span>
+            <span class="info top _address">010-1234-5678</span>
+          </li>
+          <li>
+            <span class="title">SNS 연결</span>
+            <span class="info top _address"><img src="../../dist/img/common/facebook.png" alt="연동 이미지">
+            <span class="txt">홍길동님 계정과 연결되었습니다.</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="clearfix">
+        <p class="delete">더 이상 이용하지 않는다면 <a href="#" class="btn-link font-weight-bold" data-toggle="modal" data-target="#delete">계정을 삭제</a>해 주세요.</p>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade show" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true" style="display: block; background: rgba(0,0,0,.5);">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <span class="modal-title" id="deleteModal">템플릿 변경</span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="desc mb-4">계정 삭제 후에는 MY PoFoL에서<br/>
+                동일한 계정으로 더이상 사용할 수 없습니다.<br/>
+                <span class="font-weight-bold">삭제하시겠습니까?</span>
+              </div>
+              <div class="custom-control custom-checkbox text-center mb-4">
+                <input type="checkbox" class="custom-control-input" id="deleteAccount">
+                <label class="custom-control-label" for="deleteAccount">네, 계정을 삭제하겠습니다.</label>
+              </div>
+              <div class="btn-area">
+                <button class="btn btn-xl btn-outline-secondary">취소</button>
+                <button class="btn btn-xl btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">삭제신청</button>
+              </div>
+<!--              <div class="modal fade bd-example-modal-sm show" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-modal="true" style="display: block;">-->
+<!--                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">-->
+<!--                  <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                      <span class="modal-title" id="mySmallModalLabel">&nbsp;</span>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                      <p class="text-center">삭제되었습니다.</p>-->
+<!--                    </div>-->
+<!--                    <div class="btn-area confirm p-0 mb-3 ">-->
+<!--                      <button class="btn btn-lg btn-primary m-0" data-toggle="modal" data-target=".bd-example-modal-sm">확인</button>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!-- footer -->
+<footer>
+  <div class="footer">
+    <div class="copyright">Copyright © Domfam Corp. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>

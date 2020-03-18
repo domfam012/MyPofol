@@ -48,6 +48,55 @@ header {
           }
         }
       }
+      .page-area {
+        display: inline-block;
+        color: $white;
+        font-size: 14px;
+        .item {
+          margin-left: 40px;
+          position: relative;
+          display: inline-block;
+          .page {
+            color: $primary;
+            font-size: 18px;
+          }
+          .pages {
+            color: $white;
+            font-size: 18px;
+          }
+          i {
+            color: $white;
+            font-size: 26px;
+            &.fa-pause {
+              display: none;
+            }
+          }
+          &::before {
+            content: '';
+            position: absolute;
+            border-left: 1px solid #714848;
+            width: 2px;
+            height: 20px;
+            top: 3px;
+            left: -23px;
+          }
+          &:first-child {
+            &::before {
+              content: none;
+            }
+          }
+          &.active {
+            i {
+              &.fa-pause {
+                display: inline-block;
+              }
+              &.fa-play {
+                display: none;
+              }
+            }
+          }
+        }
+      }
     }
 
     &.edit {
@@ -66,8 +115,13 @@ header {
   .pofol {
     padding-top: 0 !important;
     margin-bottom: 0 !important;
+    .navbar-brand {
+      position: absolute;
+      left: 0;
+      top: 17px;
+    }
     .title {
-      padding-left: 144px;
+      margin: 0 auto;
       color: $white;
       font-size: 36px;
     }

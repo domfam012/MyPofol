@@ -44,12 +44,12 @@
 
 .carousel-item-next:not(.carousel-item-left),
 .active.carousel-item-right {
-  transform: translateX(100%);
+  //transform: translateX(100%);
 }
 
 .carousel-item-prev:not(.carousel-item-right),
 .active.carousel-item-left {
-  transform: translateX(-100%);
+  //transform: translateX(-100%);
 }
 
 
@@ -109,13 +109,13 @@
   }
 }
 .carousel-control-prev {
-  left: 0;
+  left: -193px;
   @if $enable-gradients {
     background-image: linear-gradient(90deg, rgba($black, .25), rgba($black, .001));
   }
 }
 .carousel-control-next {
-  right: 0;
+  right: -193px;
   @if $enable-gradients {
     background-image: linear-gradient(270deg, rgba($black, .25), rgba($black, .001));
   }
@@ -217,4 +217,18 @@
   padding-bottom: 20px;
   color: $carousel-caption-color;
   text-align: center;
+}
+
+// carousel img
+//
+//
+.carousel {
+  .carousel-inner {
+    .carousel-item {
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 }

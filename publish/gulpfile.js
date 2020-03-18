@@ -59,10 +59,9 @@ function jsLib() {
     'src/js/dist/index.js',
     'src/js/dist/modal.js',
     'src/js/dist/popover.js',
-    'src/js/dist/scrollspy.js',
     'src/js/dist/tab.js',
-    'src/js/dist/toast.js',
-  ];
+    'src/js/dist/toast.js'
+  ]
   return gulp.src(sourceLib)
     .pipe(concat('front.lib.js'))
     .pipe(gulp.dest('dist/js/lib'))

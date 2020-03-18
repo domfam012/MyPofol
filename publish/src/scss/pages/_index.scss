@@ -13,7 +13,7 @@
 
     img {
       position: absolute;
-      left: 138px;
+      left: 245px;
       top: 179px;
     }
 
@@ -226,6 +226,7 @@
       .btn {
         width: 400px;
         margin: 0 auto 20px;
+        padding: 0;
 
         &:last-child {
           margin-bottom: 0;
@@ -284,7 +285,7 @@
           }
         }
         .btn-area {
-          left: 26px;
+          left: 29px;
         }
       }
     }
@@ -319,7 +320,7 @@
   .site-body {
     display: block;
     border-top: 1px solid #e0e0e0;
-    padding: 20px;
+    padding: 17px 20px;
 
     .title {
       display: block;
@@ -511,7 +512,6 @@
   .snb {
     float: right;
     width: 300px;
-    //height: 100vh;
     height: 1040px;
     background-color: #f5f5f5;
     padding: 0 20px;
@@ -543,7 +543,7 @@
               margin-bottom: 6px;
             }
 
-            .site {
+            .site_title {
               font-size: 14px;
               line-height: 18px;
               padding: 0 10px;
@@ -706,7 +706,7 @@
 
   .title_area {
     padding-bottom: 33px;
-    border-bottom: 1px solid #909090;
+    border-bottom: 2px solid #909090;
     margin-bottom: 20px;
 
     .title {

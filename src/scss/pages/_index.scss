@@ -786,14 +786,20 @@
 }
 
 .p_section {
-  height: 870px;
-  padding-top: 345px;
+  padding-top: 267px;
   .img {
-    width: 236px;
+    display: block;
+    width: 100%;
     height: auto;
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
   .title {
-
+    display: block;
+    text-align: center;
+    margin-top: 10px;
   }
   .container {
     display: flex;

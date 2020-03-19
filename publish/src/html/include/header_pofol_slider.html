@@ -1,10 +1,27 @@
 <header class="bg-header">
-  <div class="container-fluid no-mw pofol">
+  <div class="container-fluid no-mw pofol slider">
     <nav class="navbar navbar-expand">
-      <h1><a class="navbar-brand" href="#"><img src="../img/common/logo.png" alt="MyPofol"></a></h1>
+      <h1>
+        <a class="navbar-brand" href="#">
+          <span>Website Logo</span>
+<!--        <img src="../img/common/logo.png" alt="MyPofol">-->
+        </a>
+      </h1>
+      <a class="navbar-prev" href="#">
+        <span class="nav-prev-title">Website Name</span>
+        <span class="navbar-prev-icon"></span>
+      </a>
       <div class="collapse navbar-collapse">
         <div class="title">
-          <p>Project Name</p>
+          <a class="carousel-control-prev" href="#carouselProject" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselProject" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+          <p class="t-img">Image Name</p>
         </div>
         <div class="page-area slider">
           <a class="item" href="#"><span class="page">1</span><span class="pages">/50</span></a>
@@ -15,12 +32,3 @@
     </nav>
   </div>
 </header>
-<script>
-  $(document).ready(function () {
-
-    $('._play').on('click',function () {
-      $('._play').toggleClass('active').carousel('pause');
-    })
-
-  })
-</script>

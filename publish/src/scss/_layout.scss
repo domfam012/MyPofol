@@ -121,15 +121,80 @@ header {
     z-index: 111;
     padding-top: 0 !important;
     margin-bottom: 0 !important;
-    .navbar-brand {
-      position: absolute;
-      left: 0;
-      top: 17px;
+    .navbar {
+      height: 70px;
+      .navbar-brand {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 160px;
+
+        span {
+          display: block;
+          text-align: center;
+          line-height: 40px;
+          border: 1px solid white;
+          font-size: 20px;
+          color: $white;
+        }
+      }
+      .navbar-prev {
+        position: absolute;
+        z-index: 1;
+        display: flex; // 1. allow flex styles
+        align-items: center; // 2. vertically center contents
+        justify-content: center; // 3. horizontally center contents
+        width: $carousel-control-width;
+        color: $carousel-control-color;
+        text-align: center;
+        top: 0;
+        bottom: 0;
+        left: 170px;
+        .nav-prev-title {
+          font-family: 'NotoSansCJKkr-Medium';
+          font-size: 20px;
+        }
+        .navbar-prev-icon {
+          position: relative;
+          display: inline-block;
+          width: $carousel-control-icon-width;
+          height: $carousel-control-icon-width;
+          background: no-repeat 50% / 100% 100%;
+          top: 4px;
+          left: -167px;
+          &:after {
+            content: '';
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border: 2px solid;
+            transform: rotate(225deg);
+            border-bottom: 0;
+            border-left: 0;
+          }
+        }
+      }
+      .title {
+        margin: 0 auto;
+        color: $white;
+        font-size: 20px;
+      }
     }
-    .title {
-      margin: 0 auto;
-      color: $white;
-      font-size: 36px;
+  }
+  .slider {
+    .navbar {
+      height: 70px;
+      .title {
+        position: relative;
+        font-size: 20px;
+        line-height: 28px;
+        .t-img {
+          max-width: 300px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
     }
   }
 }

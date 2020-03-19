@@ -4,10 +4,52 @@
 <body>
 <div class="wrap">
   <!-- header -->
-
-
+  @@include('../html/include/header_pofol_slider.html')
+  <section class="p_section slider">
+    <h2 class="sr-only">project</h2>
+    <div class="container-fluid p-0">
+      <div class="row">
+        <div class="col">
+          <div id="carouselProject" class="carousel slide" >
+            <div class="carousel-inner ">
+              <div class="carousel-item active">
+                <img src="../img/temp/carousel.png" class="d-block" alt="이미지1">
+              </div>
+              <div class="carousel-item">
+                <img src="../img/temp/UI_AD_AA_03_01S_snb.png" class="d-block" alt="이미지2" >
+              </div>
+              <div class="carousel-item">
+                <img src="../img/temp/carousel.png" class="d-block" alt="이미지2" >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- footer -->
   @@include('../html/include/footer.html')
 </div>
+<script>
+  $(document).ready(function () {
+
+    $('.carousel').carousel('pause');
+
+    $('._play').on('click',function () {
+      $('.carousel').carousel('cycle');
+
+      if( ! $(this).hasClass('active') ) {
+        $('.carousel').attr('data-interval','true').attr('data-ride','carousel').carousel('cycle');
+        $('._play').addClass('active');
+        $(this).blur();
+      }
+      else {
+        $('.carousel').attr('data-interval','false').attr('data-ride','carousel').carousel('pause');
+        $('._play').removeClass('active');
+        $(this).blur();
+      }
+    })
+  });
+</script>
 </body>
 </html>

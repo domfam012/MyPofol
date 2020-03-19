@@ -164,7 +164,7 @@
   // Enable `flex-grow: 1` so that the body take up as much space as possible
   // when there should be a fixed height on `.modal-dialog`.
   flex: 1 1 auto;
-  padding: 37px 20px 30px;
+  padding: 37px 20px 20px;
 }
 
 // Footer (for actions)
@@ -234,11 +234,4 @@
 
 @include media-breakpoint-up(xl) {
   .modal-xl { max-width: $modal-xl; }
-}
-
-/*
- small modal
-*/
-.bd-example-modal-sm {
-
 }

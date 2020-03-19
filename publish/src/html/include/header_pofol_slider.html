@@ -1,12 +1,12 @@
 <header class="bg-header">
-  <div class="container-fluid edit pofol">
+  <div class="container-fluid no-mw pofol">
     <nav class="navbar navbar-expand">
       <h1><a class="navbar-brand" href="#"><img src="../img/common/logo.png" alt="MyPofol"></a></h1>
       <div class="collapse navbar-collapse">
         <div class="title">
           <p>Project Name</p>
         </div>
-        <div class="page-area">
+        <div class="page-area slider">
           <a class="item" href="#"><span class="page">1</span><span class="pages">/50</span></a>
           <a class="item _play" href="#"><i class="fal fa-play"></i><i class="fal fa-pause"></i></a>
           <a class="item" href="#"><i class="fal fa-bars"></i></a>
@@ -17,13 +17,10 @@
 </header>
 <script>
   $(document).ready(function () {
-    $('.carousel').carousel({
-      interval: 2000
-    })
+
     $('._play').on('click',function () {
       $('._play').toggleClass('active').carousel('pause');
-      $('#carouselProject').carousel('pause');
     })
+
   })
 </script>
-<!--<i class="fal fa-pause"></i>-->

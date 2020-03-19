@@ -96,10 +96,14 @@ header {
             }
           }
         }
+        &.slider {
+          position: absolute;
+          right: 0;
+        }
       }
     }
 
-    &.edit {
+    &.no-mw {
       padding: 0 40px;
       max-width: unset;
     }
@@ -113,6 +117,8 @@ header {
     }
   }
   .pofol {
+    position: relative;
+    z-index: 111;
     padding-top: 0 !important;
     margin-bottom: 0 !important;
     .navbar-brand {

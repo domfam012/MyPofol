@@ -4525,7 +4525,7 @@ a.close.disabled {
 .modal-body {
   position: relative;
   flex: 1 1 auto;
-  padding: 30px 20px; }
+  padding: 37px 20px 30px; }
 
 .modal-footer {
   display: flex;
@@ -4569,6 +4569,9 @@ a.close.disabled {
   .modal-xl {
     max-width: 1200px; } }
 
+/*
+ small modal
+*/
 .tooltip {
   position: absolute;
   z-index: 1070;
@@ -4852,10 +4855,12 @@ a.close.disabled {
     outline: 0; }
 
 .carousel-control-prev {
-  left: -193px; }
+  position: absolute;
+  left: 0; }
 
 .carousel-control-next {
-  right: -193px; }
+  position: absolute;
+  right: 0; }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -20498,8 +20503,11 @@ header .container-fluid .navbar .page-area, header .container-sm .navbar .page-a
       display: inline-block; }
     header .container-fluid .navbar .page-area .item.active i.fa-play, header .container-sm .navbar .page-area .item.active i.fa-play, header .container-md .navbar .page-area .item.active i.fa-play, header .container-lg .navbar .page-area .item.active i.fa-play, header .container-xl .navbar .page-area .item.active i.fa-play, header .container .navbar .page-area .item.active i.fa-play {
       display: none; }
+  header .container-fluid .navbar .page-area.slider, header .container-sm .navbar .page-area.slider, header .container-md .navbar .page-area.slider, header .container-lg .navbar .page-area.slider, header .container-xl .navbar .page-area.slider, header .container .navbar .page-area.slider {
+    position: absolute;
+    right: 0; }
 
-header .container-fluid.edit, header .edit.container-sm, header .edit.container-md, header .edit.container-lg, header .edit.container-xl, header .container.edit {
+header .container-fluid.no-mw, header .no-mw.container-sm, header .no-mw.container-md, header .no-mw.container-lg, header .no-mw.container-xl, header .container.no-mw {
   padding: 0 40px;
   max-width: unset; }
 
@@ -20508,6 +20516,8 @@ header .container .navbar-brand img {
   height: auto; }
 
 header .pofol {
+  position: relative;
+  z-index: 111;
   padding-top: 0 !important;
   margin-bottom: 0 !important; }
   header .pofol .navbar-brand {
@@ -21081,6 +21091,9 @@ footer {
           font-size: 18px; }
     .p_section.list .title_area .title {
       margin-top: 28px; }
+  .p_section.slider {
+    height: auto;
+    padding: 50px 0; }
 
 /*
  메인 페이지

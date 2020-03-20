@@ -4,8 +4,8 @@ const html = require('gulp-file-include');
 const del = require('del');
 const htmlbeautify = require('gulp-html-beautify');
 const sass = require('gulp-sass');
-sass.compiler = require('node-sass');
 const combine = require('gulp-scss-combine');
+sass.compiler = require('node-sass');
 
 gulp.task('distDel', async function () {
   await del('dist');

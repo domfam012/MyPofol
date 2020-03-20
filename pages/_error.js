@@ -1,6 +1,6 @@
 import React from "react";
 
-const Page = () => {
+const Error = () => {
   return (
     <div>
         요청하신 페이지를 찾을 수 없습니다.
@@ -10,4 +10,9 @@ const Page = () => {
   );
 };
 
-export default Page;
+Error.getInitialProps = async (something) => {
+    console.log(something);
+    return {}
+};
+
+export default Error;

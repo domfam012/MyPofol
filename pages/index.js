@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 const Index = props => {
   return (
     <Layout page={"index"}>
-
+      MyPofol Index Page
     </Layout>
   );
 };

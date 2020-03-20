@@ -20,7 +20,11 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        <Head></Head>
+        <Head>
+            <title>
+                MyPofol
+            </title>
+        </Head>
         <body>
           <Main />
           <NextScript />

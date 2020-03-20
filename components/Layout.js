@@ -15,7 +15,7 @@ const Layout = props => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
                 {/* app 파비콘 설정 */}
-                <link rel="shortcut icon" type="image/x-icon" href="/img/common/favicon.ico"/>
+                {/*<link rel="shortcut icon" type="image/x-icon" href="/img/common/favicon.ico"/>*/}
 
                 <script src="/js/bundle.js"/>
             </Head>

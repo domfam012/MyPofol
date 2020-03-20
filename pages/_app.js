@@ -5,12 +5,13 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import store from '../redux/store';
 
+/**
+ *  css loading
+ *  ../ -> /
+ *  ../../ -> /
+ */
 // 전역 css
 import "../public/css/bootstrap.min.css";
-import "../public/css/fonts/fontawesome/fontawesome.css";
-import "../public/css/fonts/fontawesome/brands.css";
-import "../public/css/fonts/fontawesome/regular.css";
-import "../public/css/fonts/fontawesome/solid.css";
 
 function MyApp({ Component, pageProps, store }) {
 // pageProps that were returned from 'getInitialProps are stored in the props

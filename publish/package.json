@@ -1,8 +1,8 @@
 {
-  "name": "bootstrap",
-  "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
-  "version": "4.4.1",
-  "version_short": "4.4",
+  "name": "MyPofol",
+  "description": "마이포폴",
+  "version": "0.1.1",
+  "version_short": "0.1",
   "keywords": [
     "css",
     "sass",
@@ -12,29 +12,35 @@
     "framework",
     "web"
   ],
-  "homepage": "https://getbootstrap.com/",
-  "author": "The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)",
+  "homepage": "https://myui.co.kr",
+  "author": "domfam inc.",
   "contributors": [
-    "Twitter, Inc."
+    "domfam Inc."
   ],
   "scripts": {
-    "start": "npm-run-all --parallel watch",
-    "dist": "npm-run-all --parallel css && gulp",
-    "css": "npm-run-all css-compile css-minify",
+    "dev": "npm-run-all develope watch",
+    "dist": "npm-run-all css js && gulp",
+    "---------------------------- gulp task ": "",
+    "watch": "gulp watch",
+    "develope": "gulp dev",
+    "---------------------------- css task": "",
+    "css": "npm-run-all css-main",
     "css-main": "npm-run-all css-compile-main css-minify-main",
     "css-compile": "npm-run-all --parallel css-compile-*",
-    "css-compile-main": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/ -o dist/css/",
+    "css-compile-main": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/ -o src/css/dist/",
     "css-minify": "npm-run-all --parallel css-minify-*",
-    "css-minify-main": "cleancss --level 1 --format breakWith=lf --source-map --source-map-inline-sources --output dist/css/bootstrap.min.css dist/css/bootstrap.css",
-    "js": "npm-run-all js-compile js-minify js-copy",
-    "js-minify": "npm-run-all --parallel",
-    "js-minify-standalone": "uglifyjs --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"content=dist/js/bootstrap.js.map,includeSources,url=bootstrap.min.js.map\" --output dist/js/bootstrap.min.js dist/js/bootstrap.js",
-    "js-minify-bundle": "uglifyjs --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"content=dist/js/bootstrap.bundle.js.map,includeSources,url=bootstrap.bundle.min.js.map\" --output dist/js/bootstrap.bundle.min.js dist/js/bootstrap.bundle.js",
-    "release": "npm-run-all dist release-sri release-zip",
-    "release-sri": "node build/generate-sri.js",
-    "release-version": "node build/change-version.js",
-    "release-zip": "cross-env-shell \"shx rm -rf bootstrap-$npm_package_version-dist && shx cp -r dist/ bootstrap-$npm_package_version-dist && zip -r9 bootstrap-$npm_package_version-dist.zip bootstrap-$npm_package_version-dist && shx rm -rf bootstrap-$npm_package_version-dist\"",
-    "watch": "npm-run-all --parallel watch-*"
+    "css-minify-main": "cleancss --level 1 --format breakWith=lf --source-map --source-map-inline-sources --output src/css/dist/bootstrap.min.css src/css/dist/bootstrap.css",
+    "____________________________ js task": "",
+    "js": "npm-run-all js-compile js-minify",
+    "js-main": "npm-run-all js-compile js-minify-main",
+    "js-compile": "npm-run-all --parallel js-compile-* --sequential",
+    "js-compile-standalone": "rollup --environment BUNDLE:false --config build/rollup.config.js --sourcemap",
+    "js-compile-bundle": "rollup --environment BUNDLE:true --config build/rollup.config.js --sourcemap",
+    "js-compile-plugins": "node build/build-plugins.js",
+    "js-minify": "npm-run-all --parallel js-minify-main",
+    "js-minify-main": "npm-run-all js-minify-standalone js-minify-bundle",
+    "js-minify-standalone": "uglifyjs --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"content=src/js/dist/bootstrap.js.map,includeSources,url=bootstrap.min.js.map\" --output src/js/dist/bootstrap.min.js src/js/dist/bootstrap.js",
+    "js-minify-bundle": "uglifyjs --compress typeofs=false --mangle --comments \"/^!/\" --source-map \"content=src/js/dist/bootstrap.bundle.js.map,includeSources,url=bootstrap.bundle.min.js.map\" --output src/js/dist/bootstrap.bundle.min.js src/js/dist/bootstrap.bundle.js"
   },
   "style": "dist/css/bootstrap.css",
   "sass": "scss/bootstrap.scss",
@@ -121,9 +127,5 @@
       "jquery": "1.9.1 - 3",
       "popper.js": "^1.16.0"
     }
-  },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/bootstrap"
   }
 }

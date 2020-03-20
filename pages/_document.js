@@ -21,9 +21,6 @@ class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
-            <title>
-                MyPofol
-            </title>
         </Head>
         <body>
           <Main />

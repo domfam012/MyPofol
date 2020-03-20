@@ -1,6 +1,6 @@
 import Head from 'next/head';
-
 import React from "react";
+import Footer from "./footer/Admin"
 
 const Layout = props => {
     const { header, footer } = props;
@@ -21,11 +21,8 @@ const Layout = props => {
                 <script src="/js/bundle.js"/>
             </Head>
             <div className={"wrap"}>
-
-
-
                 {props.children}
-
+                <Footer/>
             </div>
 
         </>

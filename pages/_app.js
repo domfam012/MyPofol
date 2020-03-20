@@ -2,8 +2,9 @@ import React from "react";
 
 // using redux
 import { Provider } from 'react-redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import withRedux from 'next-redux-wrapper';
-import store from '../redux/store';
+import reducer from '../redux/reducers/rootReducer';
 
 /**
  *  css loading
@@ -23,7 +24,12 @@ function MyApp({ Component, pageProps, store }) {
     );
 }
 
-// makeStore fn that returns a new store for every request
-const makeStore = () => store;
-// withRedux wrapper that passes the store to the App Component
-export default withRedux(makeStore)(MyApp);
+export default withRedux((initialState, options) => {
+    const middlewares = [];
+    const enhancer = compose(
+        applyMiddleware(...middlewares),
+        !options.isServer && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,
+    );
+    const store = createStore(reducer, initialState, enhancer);
+    return store;
+})(MyApp);

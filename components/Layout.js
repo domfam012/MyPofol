@@ -1,9 +1,10 @@
 import Head from 'next/head';
-import Header from './Header';
-import Footer from './Footer';
+
 import React from "react";
 
 const Layout = props => {
+    const { header, footer } = props;
+
     return (
         <>
             {/* 공통 head 영역 */}
@@ -20,9 +21,11 @@ const Layout = props => {
                 <script src="/js/bundle.js"/>
             </Head>
             <div className={"wrap"}>
-                <Header/>
+
+
+
                 {props.children}
-                <Footer/>
+
             </div>
 
         </>

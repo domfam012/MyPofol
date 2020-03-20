@@ -8,7 +8,7 @@ const Layout = props => {
         <>
             {/* 공통 head 영역 */}
             <Head>
-                <title>무료 템플릿을 만나보세요. 부트스트랩 / 뷰 / 리액트 - My UI</title>
+                <title>나만의 포트폴리오를 만들어보세요. - My Portfolio</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport"/>
                 <meta name="Referrer" content="origin"/>
                 <meta httpEquiv="X-UA-Compatible" content="IE=Edge"/>

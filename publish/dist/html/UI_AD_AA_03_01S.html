@@ -1,136 +1,138 @@
 <!doctype html>
 <html lang="ko">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <meta name="Referrer" content="origin">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-title" content="MyPofol" />
-  <meta name="robots" content="index,nofollow"/>
-  <meta name="description" content="MyPofol"/>
-  <meta name="keywords" content="MyPofol"/>
-  <meta name="format-detection" content="telephone=no"/>
-  <title>My Pofol</title>
-  <link rel="stylesheet" href="../../dist/css/bootstrap.css">
-  <script src="../../dist/js/lib/front.lib.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Referrer" content="origin">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-title" content="MyPofol" />
+    <meta name="robots" content="index,nofollow" />
+    <meta name="description" content="MyPofol" />
+    <meta name="keywords" content="MyPofol" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>My Pofol</title>
+    <link rel="stylesheet" href="../../dist/css/bootstrap.css">
+    <script src="../../dist/js/lib/front.lib.js"></script>
 </head>
 
 <body>
-<!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S_snb.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
-<div class="wrap">
-  <!-- header -->
-  <header class="bg-header">
-  <div class="container-fluid no-mw">
-    <nav class="navbar navbar-expand">
-      <h1><a class="navbar-brand" href="#"><img src="../img/common/logo.png" alt="MyPofol"></a></h1>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-        </ul>
-        <div class="login_area">
-          <a class="login" href="#"><span class="_name">홍길동</span>&nbsp;님<i class="far fa-sign-out"></i></a>
-        </div>
-      </div>
-    </nav>
-  </div>
-</header>
+    <!--<img class="test" src="../../dist/img/temp/UI_AD_AA_03_01S_snb.png" style="position: absolute; opacity: 0.5; z-index: -1" width="1440"/>-->
+    <div class="wrap">
+        <!-- header -->
+        <header class="bg-header">
+            <div class="container-fluid no-mw">
+                <nav class="navbar navbar-expand">
+                    <h1><a class="navbar-brand" href="#"><img src="../img/common/logo.png" alt="MyPofol"></a></h1>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav mr-auto">
+                        </ul>
+                        <div class="login_area">
+                            <a class="login" href="#"><span class="_name">홍길동</span>&nbsp;님<i class="far fa-sign-out"></i></a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
 
-  <!-- 초기화면 -->
-  <div class="inner clearfix">
-    <div class="section-container">
-      <section>
-        <div class="title_area">
-          <h2 class="title">웹사이트 관리</h2>
-          <div class="btn-area mb">
-            <button class="btn btn-outline-secondary">삭제</button>
-            <button class="btn btn-primary">새 웹사이트 추가</button>
-          </div>
-        </div>
-        <div class="contents">
-          <div class="inner">
-            <div class="site active">
-              <span class="site-img"><img src="../img/common/default_thumbnail.png" alt="thumbnail"></span>
-              <p class="site-body">
-                <span class="title">POTENS</span>
-                <a class="address" href="#">http://www.mypofol.com/domfam</a>
-              </p>
-              <span class="btn-area">
-                <button class="btn btn-outline-secondary mr-1">선택</button>
-                <button class="btn btn-primary">상세</button>
-              </span>
+        <!-- 초기화면 -->
+        <div class="inner clearfix">
+            <div class="section-container">
+                <section>
+                    <div class="title_area">
+                        <h2 class="title">웹사이트 관리</h2>
+                        <div class="btn-area mb">
+                            <button class="btn btn-outline-secondary">삭제</button>
+                            <button class="btn btn-primary">새 웹사이트 추가</button>
+                        </div>
+                    </div>
+                    <div class="contents">
+                        <div class="inner">
+                            <div class="site active">
+                                <span class="site-img"><img src="../img/common/default_thumbnail.png" alt="thumbnail"></span>
+                                <p class="site-body">
+                                    <span class="title">POTENS</span>
+                                    <a class="address" href="#">http://www.mypofol.com/domfam</a>
+                                </p>
+                                <span class="btn-area">
+                                    <button class="btn btn-outline-secondary mr-1">선택</button>
+                                    <button class="btn btn-primary">상세</button>
+                                </span>
+                            </div>
+                            <a class="site" href="#">
+                                <p class="plus"><i class="fal fa-plus"></i></p>
+                                <p class="txt">새 웹사이트 추가</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <a class="site" href="#">
-              <p class="plus"><i class="fal fa-plus"></i></p>
-              <p class="txt">새 웹사이트 추가</p>
-            </a>
-          </div>
+            <div class="snb">
+                <div class="contents">
+                    <div class="box">
+                        <form class="form_site">
+                            <div class="form-group active">
+                                <input type="text" class="form-control" title="사이트명" placeholder="POTENS">
+                                <span class="site_title">http://www.mypofol.com/domfam</span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="box add_logo">
+                        <a class="add_logo" href="#">
+                            <p class="plus"><i class="fal fa-plus"></i></p>
+                            <p class="txt">로고이미지 추가</p>
+                        </a>
+                        <p class="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br />- 파일명 영문, 숫자 허용</p>
+                    </div>
+                    <div class="box add_text">
+                        <form class="form_intro">
+                            <div class="form-group mb-1">
+                                <label for="introduction"></label>
+                                <textarea class="form-control" id="introduction" rows="7" placeholder="웹사이트 소개글을 입력하세요" style="resize: none;"></textarea>
+                            </div>
+                        </form>
+                        <p class="desc clearfix">
+                            <span class="float-left">한글기준 200자 이내</span>
+                            <span class="float-right pr-2"><span class="_word">0</span>/200</span>
+                        </p>
+                    </div>
+                    <div class="box mb-3">
+                        <form class="form_site">
+                            <div class="form-group mb-2">
+                                <input type="tel" class="form-control" title="연락처" placeholder="연락처">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" title="이메일" placeholder="이메일">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="box">
+                        <form class="form_intro">
+                            <div class="form-group mb-2">
+                                <span class="img">
+                                    <img src="../img/temp/UI_AA_01.png" alt="template">
+                                </span>
+                            </div>
+                        </form>
+                        <div class="btn-area mb change">
+                            <button class="btn btn-secondary">템플릿 변경</button>
+                        </div>
+                    </div>
+                    <div class="btn-area mb">
+                        <button class="btn btn-lg btn-outline-secondary">취소</button>
+                        <button class="btn btn-lg btn-primary">저장</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
     </div>
-    <div class="snb">
-      <div class="contents">
-        <div class="box">
-          <form class="form_site">
-            <div class="form-group active">
-              <input type="text" class="form-control" title="사이트명" placeholder="POTENS">
-              <span class="site_title">http://www.mypofol.com/domfam</span>
-            </div>
-          </form>
+    <!-- footer -->
+    <footer>
+        <div class="footer">
+            <div class="copyright">Copyright © Domfam Corp. All rights reserved.</div>
         </div>
-        <div class="box add_logo">
-          <a class="add_logo" href="#">
-            <p class="plus"><i class="fal fa-plus"></i></p>
-            <p class="txt">로고이미지 추가</p>
-          </a>
-          <p class="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>- 파일명 영문, 숫자 허용</p>
-        </div>
-        <div class="box add_text">
-          <form class="form_intro">
-            <div class="form-group mb-1">
-              <label for="introduction"></label>
-              <textarea class="form-control" id="introduction" rows="7" placeholder="웹사이트 소개글을 입력하세요" style="resize: none;"></textarea>
-            </div>
-          </form>
-          <p class="desc clearfix">
-            <span class="float-left">한글기준 200자 이내</span>
-            <span class="float-right pr-2"><span class="_word">0</span>/200</span>
-          </p>
-        </div>
-        <div class="box mb-3">
-          <form class="form_site">
-            <div class="form-group mb-2">
-              <input type="tel" class="form-control" title="연락처" placeholder="연락처">
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" title="이메일" placeholder="이메일">
-            </div>
-          </form>
-        </div>
-        <div class="box">
-          <form class="form_intro">
-            <div class="form-group mb-2">
-              <span class="img">
-                <img src="../img/temp/UI_AA_01.png" alt="template">
-              </span>
-            </div>
-          </form>
-          <div class="btn-area mb change">
-            <button class="btn btn-secondary">템플릿 변경</button>
-          </div>
-        </div>
-        <div class="btn-area mb">
-          <button class="btn btn-lg btn-outline-secondary">취소</button>
-          <button class="btn btn-lg btn-primary">저장</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- footer -->
-<footer>
-  <div class="footer">
-    <div class="copyright">Copyright © Domfam Corp. All rights reserved.</div>
-  </div>
-</footer>
+    </footer>
 
 </body>
+
 </html>

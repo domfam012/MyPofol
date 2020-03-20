@@ -20535,7 +20535,6 @@ header .pofol {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 15%;
       color: #fff;
       text-align: center;
       top: 0;
@@ -20543,7 +20542,13 @@ header .pofol {
       left: 170px; }
       header .pofol .navbar .navbar-prev .nav-prev-title {
         font-family: 'NotoSansCJKkr-Medium';
-        font-size: 20px; }
+        font-size: 20px;
+        text-align: left;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 30px; }
       header .pofol .navbar .navbar-prev .navbar-prev-icon {
         position: relative;
         display: inline-block;
@@ -20551,7 +20556,7 @@ header .pofol {
         height: 20px;
         background: no-repeat 50% / 100% 100%;
         top: 4px;
-        left: -167px; }
+        left: -200px; }
         header .pofol .navbar .navbar-prev .navbar-prev-icon:after {
           content: '';
           position: absolute;

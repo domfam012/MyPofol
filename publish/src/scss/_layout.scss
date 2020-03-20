@@ -144,15 +144,21 @@ header {
         display: flex; // 1. allow flex styles
         align-items: center; // 2. vertically center contents
         justify-content: center; // 3. horizontally center contents
-        width: $carousel-control-width;
         color: $carousel-control-color;
         text-align: center;
         top: 0;
         bottom: 0;
         left: 170px;
+        //padding-left: 20px;
         .nav-prev-title {
           font-family: 'NotoSansCJKkr-Medium';
           font-size: 20px;
+          text-align: left;
+          width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding-left: 30px;
         }
         .navbar-prev-icon {
           position: relative;
@@ -161,7 +167,7 @@ header {
           height: $carousel-control-icon-width;
           background: no-repeat 50% / 100% 100%;
           top: 4px;
-          left: -167px;
+          left: -200px;
           &:after {
             content: '';
             position: absolute;

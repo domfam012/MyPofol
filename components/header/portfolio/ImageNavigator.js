@@ -2,15 +2,23 @@
 const Header = props => {
     return (
         <header className="bg-header">
-            <div className="container">
+            <div className="container-fluid no-mw pofol">
                 <nav className="navbar navbar-expand">
-                    <h1><a className="navbar-brand" href="#"><img src="/img/common/logo.png" alt="MyPofol"/></a></h1>
+                    <h1>
+                        <a className="navbar-brand" href="#">
+                            <span>Website Logo</span>
+                        </a>
+                    </h1>
+                    <a className="navbar-prev" href="#">
+                        <span className="nav-prev-title">Website Name</span>
+                        <span className="navbar-prev-icon"></span>
+                    </a>
                     <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav mr-auto">
-                        </ul>
-                        <div className="login_area">
-                            <a className="login" href="#"><span className="text _name">로그인이 필요합니다.</span> <img
-                                src="/img/common/login.png" alt="myPofol"/></a>
+                        <div className="title">
+                            <p>Project Name</p>
+                        </div>
+                        <div className="page-area slider">
+                            <a className="item" href="#"><i className="fal fa-times"></i></a>
                         </div>
                     </div>
                 </nav>

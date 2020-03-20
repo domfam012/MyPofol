@@ -21020,7 +21020,7 @@ footer {
       .inner .snb .contents .box::after {
         content: '';
         position: absolute;
-        background: url("../../dist/img/common/dot.png") no-repeat;
+        background: url("../img/common/dot.png") no-repeat;
         width: 100%;
         height: 2px;
         bottom: -23px;
@@ -21128,6 +21128,8 @@ footer {
     margin-bottom: 40px; }
     .p_section a.col.active .img {
       border: 4px solid #d63d45; }
+    .p_section a.col.active .title {
+      color: #d63d45; }
   .p_section.list {
     display: unset;
     align-items: unset;

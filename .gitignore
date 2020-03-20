@@ -6,6 +6,7 @@ node_modules/
 .gitattributes
 publish/node_modules/
 publish/dist/
+publish/src/css/dist/
 src/
 /.npmignore
 _next

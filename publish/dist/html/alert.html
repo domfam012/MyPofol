@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Referrer" content="origin">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-title" content="MyPofol" />
+    <meta name="robots" content="index,nofollow" />
+    <meta name="description" content="MyPofol" />
+    <meta name="keywords" content="MyPofol" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>My Pofol</title>
+    <link rel="stylesheet" href="../../dist/css/bootstrap.css">
+    <script src="../../dist/js/lib/front.lib.js"></script>
+</head>
+
+<body>
+    <!--<img class="test" src="../../dist/img/temp/UI_AD_UT_03.png" style="position: absolute; opacity: 0.5; z-index: -1"-->
+    <!--     width="1440"/>-->
+    <div class="wrap">
+        <!-- header -->
+        <div style="height: 700px; padding: 50px">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#cancelModal">취소</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="cancelModalLabel"></span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">취소하시겠습니까?</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-outline-secondary" data-dismiss="modal" style="width: 47%;">취소</button>
+                            <button type="button" class="btn btn-lg btn-primary" style="width: 47%;" data-toggle="modal" data-target="#exampleModal2">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="exampleModalLabel2">&nbsp</span>
+                        </div>
+                        <div class="modal-body text-center">취소되었습니다.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" style="width: 165px">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#necessary">저장버튼 선택시</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="necessary" tabindex="-1" role="dialog" aria-labelledby="necessaryLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="necessaryLabel">&nbsp</span>
+                        </div>
+                        <div class="modal-body text-center">저장되었습니다.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" style="width: 165px">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#save">필수항목 누락시</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="save" tabindex="-1" role="dialog" aria-labelledby="saveLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="saveLabel">&nbsp</span>
+                        </div>
+                        <div class="modal-body text-center">ooo을 입력해주세요.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" style="width: 165px">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#saveModal">저장없이 화면 이동시</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="saveModalLabel"></span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">변경된 내용이 있습니다.<br />저장하시겠습니까?</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-outline-secondary" data-dismiss="modal" style="width: 47%;">취소</button>
+                            <button type="button" class="btn btn-lg btn-primary" style="width: 47%;" data-toggle="modal" data-target="#exampleModal2">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#categoryModal">카테고리 정상 삭제시</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="categoryModalLabel"></span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">선택한 카테고리를 삭제하시겠습니까?</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-outline-secondary" data-dismiss="modal" style="width: 47%;">취소</button>
+                            <button type="button" class="btn btn-lg btn-primary" style="width: 47%;" data-toggle="modal" data-target="#exampleModal2">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#categoryConfirmModal">카테고리 전체 혹은 1개만 있는 경우 삭제시</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="categoryConfirmModal" tabindex="-1" role="dialog" aria-labelledby="categoryConfirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="modal-title" id="categoryConfirmModalLabel">&nbsp</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">최소 1개의 카테고리는 존재해야 합니다.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" style="width: 165px">확인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- footer -->
+    <footer>
+        <div class="footer">
+            <div class="copyright">Copyright © Domfam Corp. All rights reserved.</div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

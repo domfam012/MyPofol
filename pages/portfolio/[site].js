@@ -6,7 +6,61 @@ const Site = props => {
     return (
         <Layout>
             <Header/>
-            포트폴리오 - 카테고리
+            <section className="p_section">
+                <h2 className="sr-only">project</h2>
+                <div className="container-fluid">
+                    <div className="row row-cols-4">
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto2.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 1(PC)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto2.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 2(MOBILE)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto3.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 3(PC)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto4.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 4(PC)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto2.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 1(PC)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto2.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 2(MOBILE)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto3.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 3(PC)</p>
+                        </a>
+                        <a className="col" href="#">
+                            <div className="img">
+                                <img src="/img/temp/proto4.png" alt="템플릿"/>
+                            </div>
+                            <p className="title">Prototype 4(PC)</p>
+                        </a>
+                    </div>
+                </div>
+            </section>
         </Layout>
     );
 };

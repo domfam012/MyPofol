@@ -1,6 +1,6 @@
 import Head from 'next/head';
-
 import React from "react";
+import Footer from "./footer/Admin"
 
 const Layout = props => {
     const { header, footer } = props;
@@ -20,12 +20,10 @@ const Layout = props => {
 
                 <script src="/js/bundle.js"/>
             </Head>
-            <div className={"wrap"}>
-
-
-
+            {/*m-wrap 분기처리 필요, 메인화면 UI 이슈로 임시 하드 코딩*/}
+            <div className={"wrap m-wrap"}>
                 {props.children}
-
+                <Footer/>
             </div>
 
         </>

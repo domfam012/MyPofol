@@ -27557,6 +27557,9 @@ footer .footer .copyright {
   color: #fff;
   font-size: 12px;
   line-height: 60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (min-width: 1200px) {

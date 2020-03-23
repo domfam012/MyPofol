@@ -61,7 +61,7 @@
   }
 
   &.info-pf {
-    height: 920px;
+    height: auto;
     .title {
       img {
         left: 145px;
@@ -87,6 +87,7 @@
   }
 
   &.detail {
+    height: auto;
     .title {
       margin-bottom: 39px;
       letter-spacing: -.5px;
@@ -171,6 +172,7 @@
   }
 
   &.select {
+    height: auto;
     .title {
       margin-bottom: 84px;
 
@@ -213,6 +215,7 @@
   }
 
   &.complete {
+    height: auto;
     .title {
       font-weight: normal;
     }

@@ -1,44 +1,32 @@
 import React from "react";
 
-const Step1 = () => {
+const Entry = props => {
+  const { onNext, onPrev, onClose } = props;
+
   return (
-    <section className="container-fluid init info-pf">
-      <h2 className="sr-only">당신의 이름, 혹은 사이트명을 알려주세요.</h2>
-      <p className="title font-weight-normal pl mb">
-        <img src="/img/common/1.png" alt="1" />
-        당신의 <span className="font-weight-bold">이름,</span> 혹은{" "}
-        <span className="font-weight-bold">사이트명</span>을 알려주세요.
-      </p>
-      <form className="form_info mb">
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control mb-1"
-            title="사이트명"
-            placeholder="사이트명"
-            style={{"width": "400px"}}
-          />
-          <span className="desc">
-            사이트 상단에 로고와 함께 표시되며, 언제든지 변경가능합니다.{" "}
-          </span>
+    <>
+      <section className="container-fluid init add_pf">
+        <h2 className="title">MY PORTFOLIO SITE</h2>
+        <div className="sub">
+          <p>쉽고 간단하게 만드는 나만의 포트폴리오 사이트</p>
         </div>
-        <div className="form-group">
-          <span className="domain d-inline-block">http://www.mypofol.com/</span>
-          <input
-            type="text"
-            className="form-control d-inline-block ml-1"
-            title="사이트 주소*"
-            placeholder="사이트 주소*"
-            style={{"width": "200px"}}
-          />
-          <button className="btn btn-primary">사이트 중복확인</button>
+        <div className="btn-area mb">
+          <button className="btn btn-xl btn-primary" onClick={onNext}>
+            새 웹사이트 추가
+          </button>
         </div>
-      </form>
-      <div className="btn-area mb">
-        <button className="btn btn-xl btn-primary">다음</button>
+      </section>
+      <div className="main-bg">
+        <div className="bar left-bar" />
+        <div className="bar right-bar" />
+        <img
+          className="main-bg"
+          src="/img/common/logo_sm.png"
+          alt="My UI background image"
+        />
       </div>
-    </section>
+    </>
   );
 };
 
-export default Step1;
+export default Entry;

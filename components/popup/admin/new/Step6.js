@@ -1,6 +1,7 @@
 import React from "react";
 
-const Exit = () => {
+const Exit = props => {
+  const { onNext, onPrev, onClose } = props;
   return (
     <section className="container-fluid init complete">
       <h2 className="title">
@@ -10,7 +11,9 @@ const Exit = () => {
         <p>사이트 제작이 완료되었습니다.</p>
       </div>
       <div className="btn-area mb">
-        <button className="btn btn-xl btn-primary">확인</button>
+        <button className="btn btn-xl btn-primary" onClick={onClose}>
+          확인
+        </button>
       </div>
     </section>
   );

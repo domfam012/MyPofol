@@ -4,6 +4,7 @@
 .wrap {
   width: 100%;
   min-width: 1200px;
+
   &.m-wrap {
     min-width: unset;
   }
@@ -43,34 +44,42 @@ header {
             margin-left: 11px;
             vertical-align: sub;
           }
+
           .text {
             display: none;
           }
         }
       }
+
       .page-area {
         display: inline-block;
         color: $white;
         font-size: 14px;
+
         .item {
           margin-left: 40px;
           position: relative;
           display: inline-block;
+
           .page {
             color: $primary;
             font-size: 18px;
           }
+
           .pages {
             color: $white;
             font-size: 18px;
           }
+
           i {
             color: $white;
             font-size: 26px;
+
             &.fa-pause {
               display: none;
             }
           }
+
           &::before {
             content: '';
             position: absolute;
@@ -80,22 +89,26 @@ header {
             top: 3px;
             left: -23px;
           }
+
           &:first-child {
             &::before {
               content: none;
             }
           }
+
           &.active {
             i {
               &.fa-pause {
                 display: inline-block;
               }
+
               &.fa-play {
                 display: none;
               }
             }
           }
         }
+
         &.slider {
           position: absolute;
           right: 0;
@@ -108,6 +121,7 @@ header {
       max-width: unset;
     }
   }
+
   .container {
     .navbar-brand {
       img {
@@ -116,13 +130,16 @@ header {
       }
     }
   }
+
   .pofol {
     position: relative;
     z-index: 111;
     padding-top: 0 !important;
     margin-bottom: 0 !important;
+
     .navbar {
       height: 70px;
+
       .navbar-brand {
         position: absolute;
         left: 0;
@@ -138,6 +155,7 @@ header {
           color: $white;
         }
       }
+
       .navbar-prev {
         position: absolute;
         z-index: 1;
@@ -160,6 +178,7 @@ header {
           white-space: nowrap;
           padding-left: 30px;
         }
+
         .navbar-prev-icon {
           position: relative;
           display: inline-block;
@@ -168,6 +187,7 @@ header {
           background: no-repeat 50% / 100% 100%;
           top: 4px;
           left: -200px;
+
           &:after {
             content: '';
             position: absolute;
@@ -180,6 +200,7 @@ header {
           }
         }
       }
+
       .title {
         margin: 0 auto;
         color: $white;
@@ -187,13 +208,16 @@ header {
       }
     }
   }
+
   .slider {
     .navbar {
       height: 70px;
+
       .title {
         position: relative;
         font-size: 20px;
         line-height: 28px;
+
         .t-img {
           max-width: 300px;
           overflow: hidden;
@@ -210,20 +234,15 @@ header {
   footer
 */
 footer {
-  z-index: 100;
   width: 100%;
-  min-width: 1200px;
   height: 60px;
+  line-height: 60px;
   background-color: #777;
   border: solid 1px #707070;
-  &.m-footer {
-    min-width: unset;
-    color: #fff;
-    font-size: 12px;
-    line-height: 18px;
-  }
+  z-index: 3;
+
   .footer {
-    width: 1200px;
+    width: 100%;
     padding: 0 50px;
     margin: 0 auto;
     font-size: 12px;
@@ -231,19 +250,29 @@ footer {
     color: #fff;
     vertical-align: middle;
 
+    &.m-footer {
+      padding: 0 60px;
+    }
+
     .copyright {
       color: #fff;
       font-size: 12px;
+      line-height: 60px;
     }
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
+  .m-footer {
+      margin: 0 auto;
+      width: 1200px;
+    }
 }
 
 @media (min-width: 768px) {
 
 }
+
 @media (min-width: 576px) {
   header {
     .container {
@@ -253,6 +282,7 @@ footer {
           height: auto;
         }
       }
+
       .login {
         .text {
           display: inline-block !important;

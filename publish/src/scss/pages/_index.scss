@@ -994,28 +994,22 @@
       background: $white;
       .title {
         text-align: left;
-        width: 314px;
+        width: auto;
         font-size: 20px;
       }
     }
     &:hover {
       .btn-area {
         &.single {
-          left: 140px;
-          top: 84px;
+          left: 50%;
+          top: 37%;
+          transform: translate(-50%, -50%);
         }
       }
     }
   }
 }
 
-@media (min-width: 992px) {
-
-}
-
-@media (min-width: 768px) {
-
-}
 @media (min-width: 576px) {
   header {
     .container {
@@ -1032,7 +1026,17 @@
       }
     }
   }
-
+  .m-wrap {
+    .pofol {
+      .site {
+        .site-body {
+          .title {
+            width: auto;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (min-width: 1200px) {
@@ -1052,7 +1056,25 @@
         &.right-bar {
           width: calc((50% - 549px));
           min-width: calc((50% - 549px));
-          top: 99px;
+          top: 100px;
+        }
+      }
+    }
+    .pofol {
+      .site {
+        .site-body {
+          .title {
+            width: 314px;
+          }
+        }
+        &:hover {
+          .btn-area {
+            &.single {
+              left: 50%;
+              top: 37%;
+              transform: translate(-50%, -50%);
+            }
+          }
         }
       }
     }

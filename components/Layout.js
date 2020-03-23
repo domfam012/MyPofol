@@ -21,7 +21,7 @@ const Layout = props => {
                 <script src="/js/bundle.js"/>
             </Head>
             {/*m-wrap 분기처리 필요, 메인화면 UI 이슈로 임시 하드 코딩*/}
-            <div className={"wrap m-wrap"}>
+            <div className={"wrap"}>
                 {props.children}
                 <Footer/>
             </div>

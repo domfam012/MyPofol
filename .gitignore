@@ -12,3 +12,4 @@ src/
 _next
 out
 *.zip
+/public/css/fonts/fontAwesomepro.css.map

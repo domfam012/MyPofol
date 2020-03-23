@@ -1,9 +1,13 @@
 import Head from 'next/head';
 import React from "react";
 import Footer from "./footer/Admin"
+import { useRouter } from "next/router";
 
 const Layout = props => {
     const { header, footer } = props;
+    const router = useRouter();
+
+    const isMain = router.pathname === '/';
 
     return (
         <>
@@ -20,8 +24,8 @@ const Layout = props => {
 
                 <script src="/js/bundle.js"/>
             </Head>
-            {/*m-wrap 분기처리 필요, 메인화면 UI 이슈로 임시 하드 코딩*/}
-            <div className={"wrap"}>
+            {/* main page 분기 처리 */}
+            <div className={`wrap ${isMain ? "m-wrap" : ""}`}>
                 {props.children}
                 <Footer/>
             </div>

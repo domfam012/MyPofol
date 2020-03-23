@@ -9,7 +9,7 @@ import Popup from '../components/popup/admin/new/Popup';
 // 메인 페이지
 const Index = props => {
 
-  const [ modalOpen, setModalOpen ] = useState(false);
+  const [ modalOpen, setModalOpen ] = useState(true);
 
   return (
     <>

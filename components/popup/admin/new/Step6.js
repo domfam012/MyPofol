@@ -1,7 +1,10 @@
-import React from "react";
+import { useState } from "react";
 
 const Exit = props => {
   const { onNext, onPrev, onClose } = props;
+
+  const [title, setTitle] = useState("");
+
   return (
     <section className="container-fluid init complete">
       <h2 className="title">

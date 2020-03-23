@@ -1,7 +1,9 @@
-import React from "react";
+import { useState } from "react";
 
 const Step1 = props => {
   const { onNext, onPrev, onClose } = props;
+
+  const [title, setTitle] = useState("");
 
   return (
     <section className="container-fluid init info-pf">

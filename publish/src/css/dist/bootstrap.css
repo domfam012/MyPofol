@@ -27360,10 +27360,6 @@ header .container-fluid .navbar .login_area .login img, header .container-sm .na
   vertical-align: sub;
 }
 
-header .container-fluid .navbar .login_area .login .text, header .container-sm .navbar .login_area .login .text, header .container-md .navbar .login_area .login .text, header .container-lg .navbar .login_area .login .text, header .container-xl .navbar .login_area .login .text, header .container .navbar .login_area .login .text {
-  display: none;
-}
-
 header .container-fluid .navbar .page-area, header .container-sm .navbar .page-area, header .container-md .navbar .page-area, header .container-lg .navbar .page-area, header .container-xl .navbar .page-area, header .container .navbar .page-area {
   display: inline-block;
   color: #fff;

@@ -1,5 +1,6 @@
 /* 메인 페이지 */
 import React from 'react'
+import Link from 'next/link'
 import Layout from '../components/Layout'
 import Header from '../components/header/admin/Index'
 
@@ -14,11 +15,11 @@ const Index = props => {
           <p className="desc_01">멋진 포트폴리오 사이트를 무료로 만들어 보세요.</p>
           <p className="desc_02">언제 어디서나 당신의 포트폴리오를 관리 할 수 있으며,<br/>
             언제 어디서나 당신의 포트폴리오를 사람들에게 보여줄 수 있습니다.</p>
-          <div className="btn-area text-center">
-            {/*<Link href={`${link}`}>*/}
-            {/*  <button className="btn btn-xl btn-primary">시작하기</button>*/}
-            {/*</Link>*/}
-          </div>
+          <Link href={"/admin/user/social"}>
+            <div className="btn-area text-center">
+                <button className="btn btn-xl btn-primary">시작하기</button>
+            </div>
+          </Link>
         </div>
       </section>
 

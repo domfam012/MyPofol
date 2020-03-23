@@ -1,7 +1,10 @@
-import React from "react";
+import { useState } from "react";
 
 const Step2 = props => {
   const { onNext, onPrev, onClose } = props;
+
+  const [title, setTitle] = useState("");
+
   return (
     <section className="container-fluid init detail info-pf">
       <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
@@ -31,11 +34,11 @@ const Step2 = props => {
         </div>
         <div className="add_img">
           {/*
-                    <!--
-                      todo!
-                      이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
-                    -->
-                    */}
+          <!--
+            todo!
+            이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
+          -->
+          */}
           <a href="#">
             <span className="plus">
               <i className="fal fa-plus" />

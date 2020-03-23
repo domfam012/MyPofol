@@ -1,7 +1,10 @@
-import React from "react";
+import { useState } from "react";
 
 const Step4 = props => {
   const { onNext, onPrev, onClose } = props;
+
+  const [title, setTitle] = useState("");
+
   return (
     <section className="container-fluid init select">
       <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>

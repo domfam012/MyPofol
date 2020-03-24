@@ -58,25 +58,25 @@ function copyFonts() {
   return gulp.src('src/fonts/**/**')
     .pipe(gulp.dest('dist/fonts'));
 }
-
-function jsLib() {
-  let sourceLib = [
-    'src/js/src/jquery.js',
-    'src/js/src/bootstrap.min.js',
-    'src/js/src/bootstrap-datepicker.js',
-    'src/js/src/bootstrap-datepicker.ko.min.js'
-  ];
-  return gulp.src(sourceLib)
-    .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('dist/js'))
-}
-
-function jsCommon() {
-  let sourceUi = ['src/js/ui/*.js'];
-  return gulp.src(sourceUi)
-    .pipe(concat('common.js'))
-    .pipe(gulp.dest('dist/js'))
-}
+//
+// function jsLib() {
+//   let sourceLib = [
+//     'src/js/src/jquery.js',
+//     'src/js/src/bootstrap.min.js',
+//     'src/js/src/bootstrap-datepicker.js',
+//     'src/js/src/bootstrap-datepicker.ko.min.js'
+//   ];
+//   return gulp.src(sourceLib)
+//     .pipe(concat('bundle.js'))
+//     .pipe(gulp.dest('dist/js'))
+// }
+//
+// function jsCommon() {
+//   let sourceUi = ['src/js/ui/*.js'];
+//   return gulp.src(sourceUi)
+//     .pipe(concat('common.js'))
+//     .pipe(gulp.dest('dist/js'))
+// }
 
 function watchScss() {
   gulp.watch('src/scss/**/*.scss', gulp.series(scss));
@@ -90,9 +90,9 @@ function watchInclude() {
   gulp.watch('src/html/include/*.html', gulp.series(htmlInclude, htmlPage));
 }
 
-function watchJs() {
-  gulp.watch('src/js/*/*.js', gulp.series(jsLib, jsCommon));
-}
+// function watchJs() {
+//   gulp.watch('src/js/*/*.js', gulp.series(jsLib, jsCommon));
+// }
 
 function watchImg() {
   gulp.watch('src/img/**/*', gulp.series(copyImg));
@@ -128,10 +128,13 @@ function setEnvDevelope(cb) {
 
 
 //task
-gulp.task("dev", gulp.series(setEnvDevelope, delDist, scss, copyImg, copyFonts, jsLib, jsCommon, htmlPage));
-gulp.task("dist", gulp.series(setEnvProduct, delDist, copyCss, copyImg, copyFonts, jsLib, jsCommon, htmlPage, beautify));
-gulp.task("watch", gulp.parallel(watchScss, watchHtml, watchInclude, watchJs, watchImg, watchFont));
+// gulp.task("dev", gulp.series(setEnvDevelope, delDist, scss, copyImg, copyFonts, jsLib, jsCommon, htmlPage));
+// gulp.task("dist", gulp.series(setEnvProduct, delDist, copyCss, copyImg, copyFonts, jsLib, jsCommon, htmlPage, beautify));
+// gulp.task("watch", gulp.parallel(watchScss, watchHtml, watchInclude, watchJs, watchImg, watchFont));
 
+gulp.task("dev", gulp.series(setEnvDevelope, delDist, scss, copyImg, copyFonts, htmlPage));
+gulp.task("dist", gulp.series(setEnvProduct, delDist, copyCss, copyImg, copyFonts, htmlPage, beautify));
+gulp.task("watch", gulp.parallel(watchScss, watchHtml, watchInclude, watchImg, watchFont));
 
 exports.default = gulp.series("dist");
 

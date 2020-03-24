@@ -1,3 +1,19 @@
+/**
+ *  등록 팝업
+ *
+ *  import Popup from 'components/popup/admin/new/Popup';
+ *
+ *  const [ openPopup, setOpenPopup ] = useState(true);
+ *  const closePopup = () => {
+ *    setOpenPopup(!openPopup);
+ *  };
+ *
+ *  ..
+ *
+ *  <Popup closePopup={closePopup}/>
+ *
+ */
+
 import React, { useState } from "react";
 import Header from "../../../../components/header/admin/new";
 
@@ -9,23 +25,32 @@ import Step5 from "./Step5";
 import Step6 from "./Step6";
 
 const Popup = props => {
-  const [ step, setStep ] = useState(1);
+  const { closePopup } = props;
 
-  const handleNext = () => {
-    setStep(step => ++step);
-  };
+  const [step, setStep] = useState(1);
+  const [site, setSite] = useState({
+    name: '',
+    url: '',
+    tel: '',
+    email: '',
+    category: ['', ''],
+    template: 1
+  });
 
-  const handlePrev = () => {
-    setStep(step => --step);
-  };
+  const handleNext = () => setStep(step => ++step);
+  const handlePrev = () => setStep(step => --step);
+  // const handleClose = () => closePopup;
 
-  const handleClose = () => {
-
-  };
+  const handleNameChange = val => setSite({ ...site, name: val });
+  const handleUrlChange = val => setSite({ ...site, url: val });
+  const handleTelChange = val => setSite({ ...site, tel: val });
+  const handleEmailChange = val => setSite({ ...site, email: val });
+  const handleCategoryChange = val => setSite({ ...site, category: val });
+  const handleTemplateChange = val => setSite({ ...site, template: val });
 
   return (
     <div className="wrap">
-      <Header onClose={handleClose} />
+      <Header onClose={closePopup} />
       {(() => {
         switch (step) {
           case 1:
@@ -33,7 +58,7 @@ const Popup = props => {
               <Step1
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
               />
             );
           case 2:
@@ -41,7 +66,9 @@ const Popup = props => {
               <Step2
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
+                handleNameChange={handleNameChange}
+                handleUrlChange={handleUrlChange}
               />
             );
           case 3:
@@ -49,7 +76,9 @@ const Popup = props => {
               <Step3
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
+                handleTelChange={handleTelChange}
+                handleEmailChange={handleEmailChange}
               />
             );
           case 4:
@@ -57,7 +86,8 @@ const Popup = props => {
               <Step4
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
+                handleCategoryChange={handleCategoryChange}
               />
             );
           case 5:
@@ -65,7 +95,8 @@ const Popup = props => {
               <Step5
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
+                handleTemplateChange={handleTemplateChange}
               />
             );
           case 6:
@@ -73,7 +104,7 @@ const Popup = props => {
               <Step6
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                onClose={closePopup}
               />
             );
           default:
@@ -81,7 +112,7 @@ const Popup = props => {
               <Step1
                 onNext={handleNext}
                 onPrev={handlePrev}
-                onClose={handleClose}
+                site={site}
               />
             );
         }

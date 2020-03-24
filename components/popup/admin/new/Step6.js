@@ -1,9 +1,7 @@
 import { useState } from "react";
 
 const Exit = props => {
-  const { onNext, onPrev, onClose } = props;
-
-  const [title, setTitle] = useState("");
+  const { onClose } = props;
 
   return (
     <section className="container-fluid init complete">

@@ -1,9 +1,20 @@
 import { useState } from "react";
 
 const Step2 = props => {
-  const { onNext, onPrev, onClose } = props;
+  const { onNext, onPrev } = props;
+  const { handleTelChange, handleEmailChange } = props;
+  const { site } = props;
+  const [tel, setTel] = useState(site.tel);
+  const [email, setEmail] = useState(site.email);
 
-  const [title, setTitle] = useState("");
+  const onTelChange = e => {
+    setTel(e.target.value);
+    handleTelChange(e.target.value);
+  };
+  const onEmailChange = e => {
+    setEmail(e.target.value);
+    handleEmailChange(e.target.value);
+  };
 
   return (
     <section className="container-fluid init detail info-pf">
@@ -16,6 +27,10 @@ const Step2 = props => {
         <div className="site_name _sName">Domfam</div>
         <div className="form-group">
           <input
+            id={"tel"}
+            name={"tel"}
+            value={tel}
+            onChange={onTelChange}
             type="tel"
             className="form-control mb-1"
             title="연락처"
@@ -25,6 +40,10 @@ const Step2 = props => {
         </div>
         <div className="form-group">
           <input
+            id={"email"}
+            name={"email"}
+            value={email}
+            onChange={onEmailChange}
             type="email"
             className="form-control d-inline-block"
             title="이메일"
@@ -34,20 +53,15 @@ const Step2 = props => {
         </div>
         <div className="add_img">
           {/*
-          <!--
             todo!
             이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
-          -->
           */}
           <a href="#">
             <span className="plus">
               <i className="fal fa-plus" />
             </span>
             <span className="txt">로고이미지 추가</span>
-            <img
-              src="//dist/img/temp/UI_AD_AA_02_03S.png"
-              alt="로고이미지 추가"
-            />
+            <img src="/img/temp/UI_AD_AA_02_03S.png" alt="로고이미지 추가" />
           </a>
         </div>
       </form>

@@ -2,8 +2,14 @@ import { useState } from "react";
 
 const Step4 = props => {
   const { onNext, onPrev, onClose } = props;
+  const { handleTemplateChange } = props;
+  const { site } = props;
+  const [template, setTemplate] = useState(site.template);
 
-  const [title, setTitle] = useState("");
+  const onTemplateChange = e => {
+    setTemplate(e.target.value);
+    handleTemplateChange(e.target.value);
+  };
 
   return (
     <section className="container-fluid init select">
@@ -34,7 +40,7 @@ const Step4 = props => {
           <div className="card">
             <div className="img">
               <p>
-                <i className="far fa-image"></i>
+                <i className="far fa-image"/>
               </p>
             </div>
             <div className="card-body">

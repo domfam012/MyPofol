@@ -9,13 +9,16 @@ import Popup from '../components/popup/admin/new/Popup';
 // 메인 페이지
 const Index = props => {
 
-  const [ modalOpen, setModalOpen ] = useState(true);
+  const [ openPopup, setOpenPopup ] = useState(true);
+  const closePopup = () => {
+    setOpenPopup(!openPopup);
+  };
 
   return (
     <>
       {
-        modalOpen
-            ? <Popup/>
+        openPopup
+            ? <Popup closePopup={closePopup}/>
             : (
               <Layout page={"index"}>
 

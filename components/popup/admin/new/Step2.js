@@ -1,9 +1,20 @@
 import { useState } from "react";
 
 const Step1 = props => {
-  const { onNext, onPrev, onClose } = props;
+  const { onNext } = props;
+  const { handleNameChange, handleUrlChange } = props;
+  const { site } = props;
+  const [name, setName] = useState(site.name);
+  const [url, setUrl] = useState(site.url);
 
-  const [title, setTitle] = useState("");
+  const onNameChange = e => {
+    setName(e.target.value);
+    handleNameChange(e.target.value);
+  };
+  const onUrlChange = e => {
+    setUrl(e.target.value);
+    handleUrlChange(e.target.value);
+  };
 
   return (
     <section className="container-fluid init info-pf">
@@ -16,6 +27,10 @@ const Step1 = props => {
       <form className="form_info mb">
         <div className="form-group">
           <input
+            id={"name"}
+            name={"name"}
+            value={name}
+            onChange={onNameChange}
             type="text"
             className="form-control mb-1"
             title="사이트명"
@@ -29,6 +44,10 @@ const Step1 = props => {
         <div className="form-group">
           <span className="domain d-inline-block">http://www.mypofol.com/</span>
           <input
+            id={"site"}
+            name={"site"}
+            value={url}
+            onChange={onUrlChange}
             type="text"
             className="form-control d-inline-block ml-1"
             title="사이트 주소*"

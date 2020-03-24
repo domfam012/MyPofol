@@ -1,9 +1,5 @@
-import { useState } from "react";
-
 const Entry = props => {
-  const { onNext, onPrev, onClose } = props;
-
-  const [title, setTitle] = useState("");
+  const { onNext } = props;
 
   return (
     <>

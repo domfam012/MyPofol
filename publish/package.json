@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "dev": "npm-run-all develope watch",
-    "dist": "npm-run-all css js && gulp",
+    "dist": "npm-run-all css && gulp",
     "---------------------------- gulp task ": "",
     "watch": "gulp watch",
     "develope": "gulp dev",

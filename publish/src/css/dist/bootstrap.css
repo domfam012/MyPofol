@@ -27360,10 +27360,6 @@ header .container-fluid .navbar .login_area .login img, header .container-sm .na
   vertical-align: sub;
 }
 
-header .container-fluid .navbar .login_area .login .text, header .container-sm .navbar .login_area .login .text, header .container-md .navbar .login_area .login .text, header .container-lg .navbar .login_area .login .text, header .container-xl .navbar .login_area .login .text, header .container .navbar .login_area .login .text {
-  display: none;
-}
-
 header .container-fluid .navbar .page-area, header .container-sm .navbar .page-area, header .container-md .navbar .page-area, header .container-lg .navbar .page-area, header .container-xl .navbar .page-area, header .container .navbar .page-area {
   display: inline-block;
   color: #fff;
@@ -27534,23 +27530,23 @@ footer {
   width: 100%;
   height: 60px;
   line-height: 60px;
-  background-color: #777;
-  border: solid 1px #707070;
-  z-index: 3;
 }
 
 footer .footer {
   width: 100%;
+  min-width: 1200px;
   padding: 0 50px;
   margin: 0 auto;
   font-size: 12px;
   line-height: 60px;
   color: #fff;
   vertical-align: middle;
+  background-color: #777;
 }
 
 footer .footer.m-footer {
   padding: 0 60px;
+  min-width: auto;
 }
 
 footer .footer .copyright {
@@ -27637,7 +27633,7 @@ footer .footer .copyright {
 }
 
 .init.info-pf {
-  height: 920px;
+  height: auto;
 }
 
 .init.info-pf .title img {
@@ -27657,6 +27653,10 @@ footer .footer .copyright {
 
 .init .btn-area .btn.mr {
   margin-right: 117px;
+}
+
+.init.detail {
+  height: auto;
 }
 
 .init.detail .title {
@@ -27733,6 +27733,10 @@ footer .footer .copyright {
   margin-right: 7px;
 }
 
+.init.select {
+  height: auto;
+}
+
 .init.select .title {
   margin-bottom: 84px;
 }
@@ -27773,6 +27777,10 @@ footer .footer .copyright {
   position: absolute;
   top: 48px;
   left: 30px;
+}
+
+.init.complete {
+  height: auto;
 }
 
 .init.complete .title {
@@ -28469,6 +28477,11 @@ footer .footer .copyright {
 .m-wrap .pofol .desc_01 {
   margin-top: 37px;
   margin-bottom: 165px;
+}
+
+.m-wrap .pofol .row {
+  justify-content: center;
+  justify-items: center;
 }
 
 .m-wrap .main-bg {

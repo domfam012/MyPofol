@@ -27442,17 +27442,15 @@ header .pofol .navbar {
 header .pofol .navbar .navbar-brand {
   position: absolute;
   left: 0;
-  top: 10px;
+  top: 14px;
   width: 160px;
+  height: 40px;
+  padding: 0;
 }
 
-header .pofol .navbar .navbar-brand span {
-  display: block;
-  text-align: center;
-  line-height: 40px;
-  border: 1px solid white;
-  font-size: 20px;
-  color: #fff;
+header .pofol .navbar .navbar-brand img {
+  width: 100%;
+  height: 100%;
 }
 
 header .pofol .navbar .navbar-prev {

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import React from "react";
 import Layout from "../../components/Layout";
 import Header from "../../components/header/portfolio/Site"
@@ -23,49 +22,49 @@ const Site = props => {
                             <div className="img">
                                 <img src="/img/temp/proto2.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 1(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 1(PC)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto2.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 2(<span className={"category"}>MOBILE</span>)</p>
+                            <p className="title">Prototype 2(MOBILE)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto3.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 3(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 3(PC)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto4.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 4(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 4(PC)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto2.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 1(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 1(PC)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto2.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 2(<span className={"category"}>MOBILE</span>)</p>
+                            <p className="title">Prototype 2(MOBILE)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto3.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 3(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 3(PC)</p>
                         </a>
                         <a className="col" href="#">
                             <div className="img">
                                 <img src="/img/temp/proto4.png" alt="템플릿"/>
                             </div>
-                            <p className="title">Prototype 4(<span className={"category"}>PC</span>)</p>
+                            <p className="title">Prototype 4(PC)</p>
                         </a>
                     </div>
                 </div>

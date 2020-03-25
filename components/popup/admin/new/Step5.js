@@ -1,7 +1,16 @@
-import React from "react";
+import { useState } from "react";
 
 const Step4 = props => {
   const { onNext, onPrev, onClose } = props;
+  const { handleTemplateChange } = props;
+  const { site } = props;
+  const [template, setTemplate] = useState(site.template);
+
+  const onTemplateChange = e => {
+    setTemplate(e.target.value);
+    handleTemplateChange(e.target.value);
+  };
+
   return (
     <section className="container-fluid init select">
       <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
@@ -31,7 +40,7 @@ const Step4 = props => {
           <div className="card">
             <div className="img">
               <p>
-                <i className="far fa-image"></i>
+                <i className="far fa-image"/>
               </p>
             </div>
             <div className="card-body">

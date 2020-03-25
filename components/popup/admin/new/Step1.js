@@ -1,7 +1,5 @@
-import React from "react";
-
 const Entry = props => {
-  const { onNext, onPrev, onClose } = props;
+  const { onNext } = props;
 
   return (
     <>

@@ -1,7 +1,6 @@
-import React from "react";
-
 const Exit = props => {
-  const { onNext, onPrev, onClose } = props;
+  const { onClose } = props;
+
   return (
     <section className="container-fluid init complete">
       <h2 className="title">

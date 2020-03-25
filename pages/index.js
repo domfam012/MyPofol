@@ -1,4 +1,5 @@
 /* 메인 페이지 */
+import Head from 'next/head'
 import React from "react";
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
@@ -21,7 +22,14 @@ const Index = props => {
             ? <Popup closePopup={closePopup}/>
             : (
               <Layout page={"index"}>
-
+                <Head>
+                  <title>나만의 포트폴리오를 만들어보세요. - My Portfolio</title>
+                  <meta name="apple-mobile-web-app-title" content="MyPofol" />
+                  <meta name="description" content="나만의 포트폴리오를 만들어보세요. - My Pofol"/>
+                  <meta name="keywords" content="portfolio, 포트폴리오, pofol, mypofol" />
+                  <meta property="og:title" content="나만의 포트폴리오를 만들어보세요. - My Pofol" />
+                  <meta property="og:description" content="나만의 포트폴리오를 만들어보세요. - My Pofol" />
+                </Head>
                   <Header />
                   <section className="introduction">
                     <div className="container">

@@ -273,7 +273,6 @@
       margin-bottom: 100px;
       .site {
         width: 232px;
-        height: 184px;
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         margin-right: 40px;
         margin-bottom: 0;
@@ -321,7 +320,6 @@
   position: relative;
   display: block;
   width: 250px;
-  height: 234px;
   border: 1px solid #e0e0e0;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -338,18 +336,17 @@
   .site-body {
     display: block;
     border-top: 1px solid #e0e0e0;
-    padding: 17px 20px;
+    padding: 0 20px;
 
     .title {
       display: block;
       font-size: 18px;
       font-weight: bold;
-      line-height: 27px;
+      line-height: 50px;
       width: 210px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      margin-bottom: 4px;
     }
 
     .address {
@@ -361,6 +358,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      margin-top: -2px;
+      margin-bottom: 17px;
     }
   }
 
@@ -415,6 +414,9 @@
         left: 84px;
       }
     }
+  }
+  &.add {
+    height: 227px;
   }
 }
 
@@ -554,25 +556,11 @@
       .contents {
         .inner {
           .site {
-            height: 200px;
-
-            .site-body {
-              padding: 0 20px;
-
-              .title {
-                line-height: 50px;
-                margin-bottom: 0;
-
+            &.add {
+              height: 195px;
+              .plus {
+                margin-top: 79px;
               }
-            }
-
-            .plus {
-              display: block;
-              margin-top: 77px;
-            }
-
-            .txt {
-              display: block;
             }
           }
         }

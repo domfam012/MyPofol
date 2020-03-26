@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import React , { useCallback } from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"

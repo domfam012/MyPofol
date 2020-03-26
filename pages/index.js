@@ -6,10 +6,12 @@ import Header from "../components/header/admin/Index";
 import { useState } from 'react';
 import Popup from '../components/popup/admin/new/Popup';
 import {useSelector} from "react-redux";
+import { useRouter } from "next/router";
 
 // 메인 페이지
 const Index = props => {
-    const { isLoggedIn  } = useSelector(state => state.user);
+  const router = useRouter();
+  const { isLoggedIn  } = useSelector(state => state.user);
   const [ openPopup, setOpenPopup ] = useState(false);
   const closePopup = () => {
     setOpenPopup(!openPopup);

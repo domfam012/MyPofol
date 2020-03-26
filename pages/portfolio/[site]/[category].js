@@ -20,7 +20,7 @@ const Category = props => {
     };
     const current = categoryInfo.viewList[index];
     return (
-        portfolioPopup
+           portfolioPopup
             ? <ImageNavigator
                 site={siteInfo}
                 image={categoryInfo.view}

@@ -1,42 +1,3 @@
-const User = {
-    google_token1 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://steemitimages.com/DQmTYEViN4zYwmdkjBtZrngoUEHsFShhAZeMAdPcfGcYmpq/image.png'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '구글사용자',
-        email : 'dummyGoogleUser.gmail.com',
-        phone : '010-1234-5678',
-        socialName : 'google',
-        siteList : ['portfolioTest1' , 'portfolioTest6']
-    },
-    naver_token2 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://img.postshare.co.kr/images/2018/12/20181220_112910.png'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '네이버사용자',
-        email : 'dummyNaverUser.gmail.com',
-        phone : '010-1248-5628',
-        socialName : 'naver',
-        siteList : ['portfolioTest2' , 'portfolioTest3' , 'portfolioTest5']
-    },
-    kakao_token3 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://pbs.twimg.com/profile_images/1173873201039806464/R1lWiNES_400x400.jpg'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '카카오사용자',
-        email : 'dummyKakaoUser.gmail.com',
-        phone : '010-1144-5668',
-        socialName : 'kakao',
-        siteList : ['portfolioTest4']
-    }
-};
-
 const Site = {
     portfolioTest1 :{
         url : 'portfolioTest1',
@@ -877,6 +838,45 @@ const Site = {
             }
         },
         categoryList : ['IceCream1', 'beverage1', 'iceCreamCake1']
+    }
+};
+
+const User = {
+    google_token1 : {
+        img : {
+            saveName : 'random00',
+            path : 'https://steemitimages.com/DQmTYEViN4zYwmdkjBtZrngoUEHsFShhAZeMAdPcfGcYmpq/image.png'
+        },
+        created : '2020-03-23T11:08:00+09:00',
+        name : '구글사용자',
+        email : 'dummyGoogleUser.gmail.com',
+        phone : '010-1234-5678',
+        socialName : 'google',
+        siteList : ['portfolioTest1' , 'portfolioTest6']
+    },
+    naver_token2 : {
+        img : {
+            saveName : 'random00',
+            path : 'https://img.postshare.co.kr/images/2018/12/20181220_112910.png'
+        },
+        created : '2020-03-23T11:08:00+09:00',
+        name : '네이버사용자',
+        email : 'dummyNaverUser.gmail.com',
+        phone : '010-1248-5628',
+        socialName : 'naver',
+        siteList : ['portfolioTest2' , 'portfolioTest3' , 'portfolioTest5']
+    },
+    kakao_token3 : {
+        img : {
+            saveName : 'random00',
+            path : 'https://pbs.twimg.com/profile_images/1173873201039806464/R1lWiNES_400x400.jpg'
+        },
+        created : '2020-03-23T11:08:00+09:00',
+        name : '카카오사용자',
+        email : 'dummyKakaoUser.gmail.com',
+        phone : '010-1144-5668',
+        socialName : 'kakao',
+        siteList : ['portfolioTest4']
     }
 };
 

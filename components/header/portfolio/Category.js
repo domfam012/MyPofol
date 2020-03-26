@@ -1,16 +1,30 @@
 // Header
+import React, { useCallback } from "react";
+import { useDispatch } from 'react-redux';
+import { CONTROL_AUTO_PLAY , CONTROL_POPUP } from '../../../redux/reducers/user';
+
 const Header = props => {
+    const dispatch = useDispatch();
+
+    const onControlAutoPlay = useCallback(() => {
+        dispatch({type : CONTROL_AUTO_PLAY});
+    }, []);
+
+    const  onControlPopup = useCallback(() => {
+        dispatch({type : CONTROL_POPUP});
+    }, []);
+
     return (
         <header className="bg-header">
             <div className="container-fluid no-mw pofol slider">
                 <nav className="navbar navbar-expand">
                     <h1>
                         <a className="navbar-brand" href="#">
-                            <span>Website Logo</span>
+                            <span><img src={props.site.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
                         </a>
                     </h1>
                     <a className="navbar-prev" href="#">
-                        <span className="nav-prev-title">Website Name</span>
+                        <span className="nav-prev-title">{props.site.name}</span>
                         <span className="navbar-prev-icon"></span>
                     </a>
                     <div className="collapse navbar-collapse">
@@ -25,13 +39,13 @@ const Header = props => {
                                 <span className="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span className="sr-only">Next</span>
                             </a>
-                            <p className="t-img">Image Name</p>
+                            <p className="t-img">{props.image}</p>
                         </div>
                         <div className="page-area slider">
-                            <a className="item" href="#"><span className="page">1</span><span
-                                className="pages">/50</span></a>
-                            <a className="item _play" href="#"><i className="fal fa-play"></i><i className="fal fa-pause"></i></a>
-                            <a className="item" href="#"><i className="fal fa-bars"></i></a>
+                            <a className="item" href="#"><span className="page">{props.currentIdx}</span><span
+                                className="pages">/{props.imageLength}</span></a>
+                            <a onClick={onControlAutoPlay} className={props.autoPlay ? 'item active' : 'item'} href="#"><i className="fal fa-play"></i><i className="fal fa-pause"></i></a>
+                            <a onClick={onControlPopup} className="item" href="#"><i className="fal fa-bars"></i></a>
                         </div>
                     </div>
                 </nav>

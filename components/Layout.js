@@ -22,7 +22,6 @@ const Layout = props => {
                 {/* app 파비콘 설정 */}
                 {/*<link rel="shortcut icon" type="image/x-icon" href="/img/common/favicon.ico"/>*/}
 
-                <script src="/js/bundle.js"/>
             </Head>
             {/* main page 분기 처리 */}
             <div className={`wrap ${isMain ? "m-wrap" : ""}`}>

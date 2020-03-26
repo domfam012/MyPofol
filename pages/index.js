@@ -2,17 +2,19 @@
 import React from "react";
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
-
 import { useState } from 'react';
 import Popup from '../components/popup/admin/new/Popup';
+import {useSelector} from "react-redux";
 
 // 메인 페이지
 const Index = props => {
-
-  const [ openPopup, setOpenPopup ] = useState(true);
+    const { isLoggedIn  } = useSelector(state => state.user);
+  const [ openPopup, setOpenPopup ] = useState(false);
   const closePopup = () => {
     setOpenPopup(!openPopup);
   };
+
+  if(isLoggedIn) {router.push(`/admin/edit`);}
 
   return (
     <>

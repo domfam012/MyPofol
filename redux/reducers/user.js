@@ -934,7 +934,7 @@ export default (state = initialState , action) => {
         case CONTROL_POPUP : {
             return {
                 ...state,
-                portfolioPopup : !state.portfolioPopup
+                portfolioPopup : action.data
             };
         }
         default: {

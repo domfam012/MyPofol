@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import Header from "../../components/header/portfolio/Site"
 import Link from "next/link";
 import { useSelector} from 'react-redux';
-import { PORTFOLIO_SITE_INFO } from '../../redux/reducers/user';
+import {CONTROL_POPUP, PORTFOLIO_SITE_INFO} from '../../redux/reducers/user';
 
 const CategoryList = props => {
     return(
@@ -52,6 +52,7 @@ Site.getInitialProps = async function(ctx) {
         type : PORTFOLIO_SITE_INFO,
         data : ctx.query.site
     });
+    ctx.store.dispatch({type : CONTROL_POPUP, data : false});
     return ({site : site})
 };
 

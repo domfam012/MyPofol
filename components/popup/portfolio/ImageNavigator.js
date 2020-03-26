@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from 'react-redux';
 import { CONTROL_POPUP } from '../../../redux/reducers/user';
+import Link from "next/link";
 
 const ImageList = props => {
     return (
@@ -16,7 +17,7 @@ const ImageList = props => {
 const ImageNavigator = props => {
     const dispatch = useDispatch();
     const onControlPopup = useCallback(() => {
-        dispatch({type : CONTROL_POPUP});
+        dispatch({type : CONTROL_POPUP, data : false});
     }, []);
     return (
         <>
@@ -24,14 +25,18 @@ const ImageNavigator = props => {
                 <div className="container-fluid no-mw pofol">
                     <nav className="navbar navbar-expand">
                         <h1>
-                            <a className="navbar-brand" href="#">
-                                <span><img src={props.site.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
-                            </a>
+                            <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
+                                <a className="navbar-brand" href="#">
+                                    <span><img src={props.siteInfo.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
+                                </a>
+                            </Link>
                         </h1>
-                        <a className="navbar-prev" href="#">
-                            <span className="nav-prev-title">{props.site.name}</span>
-                            <span className="navbar-prev-icon"></span>
-                        </a>
+                        <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
+                            <a className="navbar-prev" href="#">
+                                <span className="nav-prev-title">{props.siteInfo.name}</span>
+                                <span className="navbar-prev-icon"></span>
+                            </a>
+                        </Link>
                         <div className="collapse navbar-collapse">
                             <div className="title">
                                 <p>{props.image[props.imageList[props.currentIdx]].originName}</p>
@@ -47,7 +52,9 @@ const ImageNavigator = props => {
                 <h2 className="sr-only">project</h2>
                 <div className="container-fluid">
                     <div className="go_back">
-                        <a href="#" className="prev"><i className="far fa-chevron-double-left"></i>맨처음으로 가기</a>
+                        <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
+                            <a href="#" className="prev"><i className="far fa-chevron-double-left"></i>맨처음으로 가기</a>
+                        </Link>
                     </div>
                     <div className="title_area">
                         <h2 className="title">&nbsp;</h2>

@@ -27828,7 +27828,6 @@ footer .footer .copyright {
 
 .init.select_template .d-center .site {
   width: 232px;
-  height: 184px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   margin-right: 40px;
   margin-bottom: 0;
@@ -27884,19 +27883,18 @@ footer .footer .copyright {
 .site .site-body {
   display: block;
   border-top: 1px solid #e0e0e0;
-  padding: 17px 20px;
+  padding: 0 20px;
 }
 
 .site .site-body .title {
   display: block;
   font-size: 18px;
   font-weight: bold;
-  line-height: 27px;
+  line-height: 50px;
   width: 210px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 4px;
 }
 
 .site .site-body .address {
@@ -27908,6 +27906,8 @@ footer .footer .copyright {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-top: -2px;
+  margin-bottom: 17px;
 }
 
 .site .btn-area {
@@ -27959,6 +27959,10 @@ footer .footer .copyright {
 
 .site:hover .btn-area.single {
   left: 84px;
+}
+
+.site.add {
+  height: 227px;
 }
 
 .main-bg {
@@ -28087,26 +28091,12 @@ footer .footer .copyright {
   padding-top: 45px;
 }
 
-.inner .section-container.edit .contents .inner .site {
-  height: 200px;
+.inner .section-container.edit .contents .inner .site.add {
+  height: 195px;
 }
 
-.inner .section-container.edit .contents .inner .site .site-body {
-  padding: 0 20px;
-}
-
-.inner .section-container.edit .contents .inner .site .site-body .title {
-  line-height: 50px;
-  margin-bottom: 0;
-}
-
-.inner .section-container.edit .contents .inner .site .plus {
-  display: block;
-  margin-top: 77px;
-}
-
-.inner .section-container.edit .contents .inner .site .txt {
-  display: block;
+.inner .section-container.edit .contents .inner .site.add .plus {
+  margin-top: 79px;
 }
 
 .inner .section-container.edit .snb .box.add_logo {
@@ -28295,6 +28285,12 @@ footer .footer .copyright {
   font-size: 29px;
   color: #999999;
   padding-top: 16px;
+}
+
+.mypage .list li .profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .mypage .list li .top {

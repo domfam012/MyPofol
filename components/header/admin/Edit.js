@@ -1,34 +1,56 @@
 // Header
+import React , { useCallback } from "react";
+import { useRouter } from "next/router";
+import {useDispatch, useSelector} from 'react-redux';
 import Link from 'next/link'
+import {LOG_OUT} from "../../../redux/reducers/user";
 
 const Header = props => {
-  return (
-    <header className="bg-header">
-      <div className="container-fluid no-mw">
-        <nav className="navbar navbar-expand">
-          <h1>
-            <Link href={'/'}>
-              <a className="navbar-brand">
-                <img src="/img/common/logo.png" alt="MyPofol"/>
-              </a>
-            </Link>
-          </h1>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-            </ul>
-            <div className="login_area">
-              <Link href={'/admin/user/social'}>
-                <a className="login">
-                  <span className="text _name">로그인이 필요합니다.</span>
-                  <img src="/img/common/login.png" alt="myPofol"/>
-                </a>
-              </Link>
+    const { userInfo , isLoggedIn } = useSelector(state => state.user);
+    const router = useRouter();
+    const dispatch = useDispatch();
+
+    const onLogOut = useCallback(() => {
+        dispatch({type :LOG_OUT});
+        router.push(`/`);
+    }, []);
+
+
+    return (
+        <header className="bg-header">
+            <div className="container-fluid no-mw">
+                <nav className="navbar navbar-expand">
+                    <h1>
+                        <Link href={'/'}>
+                            <a className="navbar-brand">
+                                <img src="/img/common/logo.png" alt="MyPofol"/>
+                            </a>
+                        </Link>
+                    </h1>
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav mr-auto">
+                        </ul>
+                        <div className="login_area">
+                            {
+                                isLoggedIn
+                                    ? <Link href={'/admin/user/mypage'}>
+                                        <a className="login" href="#"><span className="_name">{userInfo.name}</span>님</a>
+                                    </Link>
+                                    : <Link href={'/admin/user/social'}>
+                                        <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                                    </Link>
+                            }
+                            {
+                                isLoggedIn
+                                    ? <a onClick={onLogOut}  className="login" href="#"><i className="far fa-sign-out"></i></a> : ''
+                            }
+                        </div>
+                    </div>
+                </nav>
             </div>
-          </div>
-        </nav>
-      </div>
-    </header>
-  )
+        </header>
+    )
+
 }
 
 export default Header

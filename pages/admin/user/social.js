@@ -1,9 +1,21 @@
-import Head from 'next/head'
-import React from "react";
+import React , { useCallback } from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
+import { useRouter } from "next/router";
+import {useDispatch, useSelector} from "react-redux";
+import {LOG_IN} from "../../../redux/reducers/user";
 
 const Social = props => {
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { isLoggedIn  } = useSelector(state => state.user);
+
+    const onLogIn = useCallback(() => {
+        dispatch({type :LOG_IN, data : 'google_token1'});
+    }, []);
+
+    if(isLoggedIn) {router.push(`/admin/edit`);}
+
     return (
         <Layout>
             <Head>
@@ -31,6 +43,7 @@ const Social = props => {
                         src="/img/common/facebook.png" alt="페이스북"/></button>
                     <button type="button" className="btn btn-block btn-link">회원가입하기</button>
                 </div>
+                <button onClick={onLogIn}  type="button" className="btn btn-xl btn-block btn-outline-secondary"> 임시 로그인 버튼 </button>
             </section>
         </Layout>
     );

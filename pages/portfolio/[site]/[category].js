@@ -22,14 +22,16 @@ const Category = props => {
     return (
            portfolioPopup
             ? <ImageNavigator
-                site={siteInfo}
+                site={props.site}
+                siteInfo={siteInfo}
                 image={categoryInfo.view}
                 imageList={categoryInfo.viewList}
                 currentIdx={index}
               />
             : <Layout>
                 <Header
-                    site={siteInfo}
+                    site={props.site}
+                    siteInfo={siteInfo}
                     image={categoryInfo.view[current].originName}
                     imageLength={categoryInfo.viewList.length}
                     autoPlay={portfolioAutoPlay}

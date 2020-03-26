@@ -2,6 +2,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from 'react-redux';
 import { CONTROL_AUTO_PLAY , CONTROL_POPUP } from '../../../redux/reducers/user';
+import Link from "next/link";
 
 const Header = props => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Header = props => {
     }, []);
 
     const  onControlPopup = useCallback(() => {
-        dispatch({type : CONTROL_POPUP});
+        dispatch({type : CONTROL_POPUP, data : true});
     }, []);
 
     return (
@@ -19,14 +20,18 @@ const Header = props => {
             <div className="container-fluid no-mw pofol slider">
                 <nav className="navbar navbar-expand">
                     <h1>
-                        <a className="navbar-brand" href="#">
-                            <span><img src={props.site.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
-                        </a>
+                        <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
+                            <a className="navbar-brand" href="#">
+                                <span><img src={props.siteInfo.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
+                            </a>
+                        </Link>
                     </h1>
-                    <a className="navbar-prev" href="#">
-                        <span className="nav-prev-title">{props.site.name}</span>
-                        <span className="navbar-prev-icon"></span>
-                    </a>
+                    <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
+                        <a className="navbar-prev" href="#">
+                            <span className="nav-prev-title">{props.siteInfo.name}</span>
+                            <span className="navbar-prev-icon"></span>
+                        </a>
+                    </Link>
                     <div className="collapse navbar-collapse">
                         <div className="title">
                             <a className="carousel-control-prev" href="#carouselProject" role="button"

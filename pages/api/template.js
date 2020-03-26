@@ -16,13 +16,13 @@ export default async (req, res) => {
 
     ref.forEach(doc => {
       data.push({ id: doc.id, ...doc.data() });
+
       const getSub = async () => {
         const subCollection = await db.collection(`Template/${doc.id}/img`);
         const subRef = await subCollection.get();
         subRef.forEach(subDoc => {
           data[data.length-1] = { ...data[data.length-1], img: { ...subDoc.data() } };
         });
-
         const resData = JSON.stringify({
           status: 200,
           msg: "success",
@@ -31,6 +31,7 @@ export default async (req, res) => {
         res.status(200).send(resData);
       };
       getSub();
+
     });
 
   } else {

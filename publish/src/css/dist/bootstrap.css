@@ -27350,7 +27350,7 @@ header .container-fluid .navbar .login_area .btn-close, header .container-sm .na
 }
 
 header .container-fluid .navbar .login_area .login, header .container-sm .navbar .login_area .login, header .container-md .navbar .login_area .login, header .container-lg .navbar .login_area .login, header .container-xl .navbar .login_area .login, header .container .navbar .login_area .login {
-  display: block;
+  display: inline-block;
   color: #fff;
   font-size: 14px;
 }
@@ -27358,6 +27358,12 @@ header .container-fluid .navbar .login_area .login, header .container-sm .navbar
 header .container-fluid .navbar .login_area .login img, header .container-sm .navbar .login_area .login img, header .container-md .navbar .login_area .login img, header .container-lg .navbar .login_area .login img, header .container-xl .navbar .login_area .login img, header .container .navbar .login_area .login img {
   margin-left: 11px;
   vertical-align: sub;
+}
+
+header .container-fluid .navbar .login_area .login .logout, header .container-sm .navbar .login_area .login .logout, header .container-md .navbar .login_area .login .logout, header .container-lg .navbar .login_area .login .logout, header .container-xl .navbar .login_area .login .logout, header .container .navbar .login_area .login .logout {
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
 }
 
 header .container-fluid .navbar .page-area, header .container-sm .navbar .page-area, header .container-md .navbar .page-area, header .container-lg .navbar .page-area, header .container-xl .navbar .page-area, header .container .navbar .page-area {

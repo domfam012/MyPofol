@@ -26,9 +26,14 @@ header {
         color: $white;
         font-size: 14px;
 
-        i {
-          margin-left: 11px;
+        .logout {
+          display: inline-block;
           font-size: 14px;
+          i {
+            color: $white;
+            margin-left: 11px;
+            font-size: 14px;
+          }
         }
 
         .btn-close {
@@ -36,7 +41,7 @@ header {
         }
 
         .login {
-          display: block;
+          display: inline-block;
           color: $white;
           font-size: 14px;
 
@@ -44,6 +49,8 @@ header {
             margin-left: 11px;
             vertical-align: sub;
           }
+
+
 
           //.text {
           //  display: none;

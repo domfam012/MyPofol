@@ -33,7 +33,7 @@ export default async (req, res) => {
             resData.status = 200;
             resData.msg = "success";
 
-            res.status(200).send(resData);
+            return res.status(200).send(resData);
 
     }
 

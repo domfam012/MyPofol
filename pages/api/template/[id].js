@@ -8,15 +8,15 @@ export default async (req, res) => {
 
   const db = await loadDB();
   const {
-    query: { url }
+    query: { id }
   } = req;
 
   let doc;
   let resData;
   switch (req.method) {
-      //  템플릿 조회
+    //  템플릿 조회
     case "GET":
-      doc = await db.collection("Site").doc(url);
+      doc = await db.collection("Template").doc(id);
       const data = [];
       const ref = await doc.get();
 

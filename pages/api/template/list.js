@@ -1,4 +1,4 @@
-import { loadDB } from "../../public/js/db";
+import { loadDB } from "../../../public/js/db";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -19,7 +19,7 @@ export default async (req, res) => {
 
       const getSub = async () => {
         const subCollection = await db.collection(`Template/${doc.id}/img`);
-        const subRef = await subCollection.get();
+        const subRef = await subCollection.orderBy("created", "desc").get();
         subRef.forEach(subDoc => {
           data[data.length-1] = { ...data[data.length-1], img: { ...subDoc.data() } };
         });

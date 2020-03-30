@@ -1,8 +1,13 @@
+/**
+ *  템플릿 목록 (GET)
+ *  /api/template/list
+ */
+
 import { loadDB } from "../../../public/js/db";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Content-Type", "application/json");
 
@@ -14,28 +19,23 @@ export default async (req, res) => {
     const ref = await collection.get();
     const data = [];
 
-    ref.forEach(doc => {
+    ref.forEach(doc => { // 템플릿
       data.push({ id: doc.id, ...doc.data() });
-
-      const getSub = async () => {
-        const subCollection = await db.collection(`Template/${doc.id}/img`);
-        const subRef = await subCollection.orderBy("created", "desc").get();
-        subRef.forEach(subDoc => {
-          data[data.length-1] = { ...data[data.length-1], img: { ...subDoc.data() } };
-        });
-        const resData = JSON.stringify({
-          status: 200,
-          msg: "success",
-          data: data
-        });
-        res.status(200).send(resData);
-      };
-      getSub();
-
     });
 
-  } else {
+    const resData = JSON.stringify({
+      status: 200,
+      msg: "success",
+      data: data
+    });
 
-    // res.json({ status: 405, msg: "" });
+    return res.status(200).send(resData);
+
+  } else { // GET 이외의 요청
+    const resData = JSON.stringify({
+      status: 405,
+      msg: "not allowed method"
+    });
+    return res.status(405).send(resData);
   }
 };

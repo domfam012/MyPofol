@@ -1,9 +1,14 @@
+/**
+ *  카테고리 (GET | POST | PATCH | DELETE)
+ *  /api/site/[url]/category/[name]
+ */
+
 import { loadDB } from "../../../../../public/js/db";
 import moment from "moment";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Content-Type", "application/json");
 
@@ -14,25 +19,25 @@ export default async (req, res) => {
 
   const collection = db.collection(`Site/${url}/category`);
 
-  let doc;
+  let doc = await collection.doc(name);
   let resData;
   let data = {};
-  let type, img, view, viewList;
-
 
   switch (req.method) {
     // 카테고리 조회
     case "GET":
-      doc = await collection.doc(name);
       const ref = await doc.get();
       data = [];
 
+      // 조회 결과 없음
       if (ref._document === null) {
         resData = JSON.stringify({
           status: 404,
           msg: "not found"
         });
         return res.status(404).send(resData);
+
+        // 정상 조회
       } else {
         data.push({ ...ref.data() });
 
@@ -44,37 +49,21 @@ export default async (req, res) => {
         return res.status(200).send(resData);
       }
 
-
-
-
     // 카테고리 등록
     case "POST":
       // 받아온 값 타입 && null 체크
-      type = req.body.type || 1;
-      img = req.body.img || { saveName: "", path: "" };
-      view = {};
-      viewList = [];
-      /**
-       * view = {
-       *   saveName1: {},
-       *   saveName2: {},
-       *   ...
-       * }
-       */
-
       data = {
-        type,
-        viewList,
-        img,
-        view,
+        type: req.body.type || 1,
+        img: req.body.img || { saveName: "", path: "" },
+        view: {},
+        viewList: [],
         created: moment()
           .locale("ko")
           .format()
       };
 
-
-      await collection
-        .doc(name)
+      // 카테고리 등록
+      await doc
         .set(data)
         .then()
         .catch(function(error) {
@@ -83,37 +72,27 @@ export default async (req, res) => {
 
       return res.status(200).end();
 
-
-
-
+    // 카테고리 수정
     case "PATCH":
-      doc = await collection.doc(name);
-
       // Update
-      type = req.body.category.type;
-      view = req.body.category.view;
-      viewList = req.body.category.viewList;
-
+      // 데이터 체크
       data = {
-        type,
-        viewList,
-        view
+        type: req.body.category.type,
+        view: req.body.category.view,
+        viewList: req.body.category.viewList
       };
 
-      if(req.body.img) {
+      if (req.body.img) {
         data.img = req.body.img;
       }
 
+      // 카테고리 수정
       await doc.update(data);
 
       return res.status(200).end();
 
-
-
-
     // 카테고리 삭제
     case "DELETE":
-      doc = await collection.doc(name);
       doc.delete();
 
       resData = JSON.stringify({

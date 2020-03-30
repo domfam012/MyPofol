@@ -1,9 +1,14 @@
+/**
+ *  사이트 (GET | POST | PATCH | DELETE )
+ *  /api/site/[url]
+ */
+
 import { loadDB } from "../../../public/js/db";
 import moment from "moment";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Content-Type", "application/json");
 
@@ -13,32 +18,27 @@ export default async (req, res) => {
   } = req;
   const data = { categoryList: [], category: [] };
 
-  let site = {
-    url: "",
-    created: "",
-    name: "",
-    email: "",
-    phone: "",
-    logo: { saveName: "", path: "" },
-    thumbnail: { saveName: "", path: "" },
-    intro: "",
-    template: 1,
-    categoryList: []
-  };
+  // let site = {
+  //   url: "",
+  //   created: "",
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   logo: { saveName: "", path: "" },
+  //   thumbnail: { saveName: "", path: "" },
+  //   intro: "",
+  //   template: 1,
+  //   categoryList: []
+  // };
+  // let category = {
+  //   type: 1,
+  //   created: "",
+  //   img: { saveName: "", path: "" },
+  //   view: {intro: "", created: "", originName: "", img: { saveName: "", path: "" }},
+  //   viewList: []
+  // };
 
-  let category = {
-    type: 1,
-    created: "",
-    img: { saveName: "", path: "" },
-    view: {
-      intro: "",
-      created: "",
-      originName: "",
-      img: { saveName: "", path: "" }
-    },
-    viewList: []
-  };
-
+  let site, category;
   let resData, ref, doc;
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
@@ -62,11 +62,12 @@ export default async (req, res) => {
       };
       getSub();
 
+    // 사이트 등록
     case "POST":
       doc = await db.collection("Site").doc(url);
 
+      // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
-
       site = {
         url: url,
         created: moment()
@@ -88,8 +89,10 @@ export default async (req, res) => {
         categoryList: req.body.site.categoryList || []
       };
 
+      // 사이트 등록
       await doc.set(site);
 
+      // 카테고리 등록
       const promises = [];
       for (let categoryName of site.categoryList) {
         promises.push(
@@ -99,7 +102,6 @@ export default async (req, res) => {
             .set(category)
         );
       }
-
       Promise.all(promises)
         .then(function() {
           console.log("All subcollections were added!");
@@ -110,11 +112,13 @@ export default async (req, res) => {
           return res.status(500).end();
         });
 
+    // 사이트 수정
     case "PATCH":
       doc = await db.collection("Site").doc(url);
 
       // Update
-      // logo, thumbnail..?
+      // 데이터 체크
+      // ...site ...category 통째로 받아서 확인후 직접 집어넣기
       site = {
         name: req.body.site.name,
         email: req.body.site.email,
@@ -132,14 +136,17 @@ export default async (req, res) => {
         categoryList: req.body.categoryList
       };
 
+      // 사이트 업데이트
       await doc.update(site);
 
       return res.status(200).end();
 
+    // 사이트 삭제
     case "DELETE":
       doc = await db.collection("Site").doc(url);
 
-      const querySnapshot = await doc
+      // 사이트 하위 카테고리 컬렉션 삭제
+      await doc
         .collection("category")
         .get()
         .then(querySnapshot => {
@@ -148,6 +155,7 @@ export default async (req, res) => {
           });
         });
 
+      // 사이트 삭제
       await doc.delete();
 
       resData = JSON.stringify({

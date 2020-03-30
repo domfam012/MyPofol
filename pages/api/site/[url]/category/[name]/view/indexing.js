@@ -1,8 +1,13 @@
+/**
+ *  뷰 - 순서 변경 (PATCH)
+ *  /api/site/[url]/category/[name]/view/indexing
+ */
+
 import { loadDB } from "../../../../../../../public/js/db";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "PATCH");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Content-Type", "application/json");
 
@@ -12,7 +17,7 @@ export default async (req, res) => {
 
   let resData;
   switch (req.method) {
-      // 글 업데이트
+    // 글 업데이트
     case "PATCH":
       // load firestore database
       const db = await loadDB();
@@ -28,6 +33,5 @@ export default async (req, res) => {
       await doc.update(newData);
 
       return res.status(200).end();
-
   }
 };

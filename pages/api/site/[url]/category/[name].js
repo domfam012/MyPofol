@@ -21,7 +21,7 @@ export default async (req, res) => {
 
 
   switch (req.method) {
-    //  카테고리 조회
+    // 카테고리 조회
     case "GET":
       doc = await collection.doc(name);
       const ref = await doc.get();
@@ -90,9 +90,9 @@ export default async (req, res) => {
       doc = await collection.doc(name);
 
       // Update
-      type = req.body.type;
-      view = req.body.view;
-      viewList = req.body.viewList;
+      type = req.body.category.type;
+      view = req.body.category.view;
+      viewList = req.body.category.viewList;
 
       data = {
         type,

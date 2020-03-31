@@ -28014,6 +28014,15 @@ footer .footer .copyright {
 
 .inner .section-container .title_area .title {
   display: inline-block;
+  line-height: 41px;
+  height: 41px;
+}
+
+.inner .section-container .title_area .title i {
+  font-size: 28px;
+  vertical-align: middle;
+  padding-bottom: 4px;
+  margin-right: 10px;
 }
 
 .inner .section-container .title_area .btn-area {

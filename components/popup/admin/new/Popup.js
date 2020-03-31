@@ -15,7 +15,7 @@
  */
 
 import React, { useState } from "react";
-import Header from "../../../../components/header/admin/new";
+import Header from "../../../../components/header/admin/New";
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";

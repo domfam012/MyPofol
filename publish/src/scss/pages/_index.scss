@@ -462,6 +462,14 @@
 
       .title {
         display: inline-block;
+        line-height: 41px;
+        height: 41px;
+        i {
+          font-size: 28px;
+          vertical-align: middle;
+          padding-bottom: 4px;
+          margin-right: 10px;
+        }
       }
 
       .btn-area {

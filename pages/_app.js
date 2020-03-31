@@ -24,6 +24,15 @@ function MyApp({ Component, pageProps, store }) {
     );
 }
 
+MyApp.getInitialProps = async (context) => {
+    const { ctx, Component } = context;
+    let pageProps = {};
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+    return { pageProps };
+};
+
 export default withRedux((initialState, options) => {
     const middlewares = [];
     const enhancer = compose(

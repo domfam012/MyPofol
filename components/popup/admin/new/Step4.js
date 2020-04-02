@@ -1,43 +1,42 @@
 import { useState, useEffect } from "react";
 
-const Step3 = props => {
+const Step4 = props => {
   const { onNext, onPrev } = props;
   const { handleCategoryChange } = props;
   const { site } = props;
-  const [ category, setCategory ] = useState(site.category);
+  const [ categoryList, setCategoryList ] = useState(site.categoryList);
   const [ itGo, setItGo ] = useState(false);
 
   // 카테고리 리스트 추가
   const handleCatListChange = e => {
     e.preventDefault();
-    setCategory(category => [...category, ""]);
+    setCategoryList(categoryList => [...categoryList, ""]);
   };
 
   // 카테고리 항목 내용 변경
   const handleCatItemChange = (val, idx) => {
-    const newCategory = category.map((cat, i) => {
+    const newCategory = categoryList.map((cat, i) => {
       return idx === i ? val : cat;
     });
-    setCategory(newCategory);
+    setCategoryList(newCategory);
   };
 
   const handleNext = () => {
-    const newCategory = category.filter(item => item !== '');
-    setCategory(newCategory);
-    setItGo(true);
+    const newCategory = categoryList.filter(item => item !== '');
+    if(!newCategory.length) alert('category!');
+    else {
+      setCategoryList(newCategory);
+      setItGo(true);
+    }
   };
 
   useEffect(() => {
-    handleCategoryChange(category);
-  }, [category]);
+    handleCategoryChange(categoryList);
+  }, [categoryList]);
 
   useEffect(() => {
     if(itGo) {
-      if(!category.length) {
-        alert('check');
-        setItGo(false);
-      }
-      else onNext();
+      onNext();
     }
   }, [itGo]);
 
@@ -55,12 +54,12 @@ const Step3 = props => {
 
       <form className="form_info detail">
         <CategoryInput
-          key={"category"}
-          category={category}
+          key={"categoryList"}
+          categoryList={categoryList}
           handleCatItemChange={handleCatItemChange}
         />
 
-        {category.length < 8 ? (
+        {categoryList.length < 8 ? (
           <div className="d-inline-block">
             <button
               className="btn btn-lg btn-primary"
@@ -90,11 +89,11 @@ const Step3 = props => {
 };
 
 const CategoryInput = props => {
-  const { category, handleCatItemChange } = props;
+  const { categoryList, handleCatItemChange } = props;
 
-  return category.map((cat, idx) => {
+  return categoryList.map((cat, idx) => {
     // 추가 버튼 들어가는 경우 체크
-    const isLast = idx === category.length - 1 && idx !== 7;
+    const isLast = idx === categoryList.length - 1 && idx !== 7;
     return (
       <div
         key={`cat_${idx}`}
@@ -102,7 +101,7 @@ const CategoryInput = props => {
       >
         <input
           id={`cat_${idx}`}
-          value={category[idx]}
+          value={categoryList[idx]}
           onChange={e => handleCatItemChange(e.target.value, idx)}
           name={"name"}
           type="text"
@@ -116,4 +115,4 @@ const CategoryInput = props => {
   });
 };
 
-export default Step3;
+export default Step4;

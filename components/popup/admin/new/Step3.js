@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Step2 = props => {
+const Step3 = props => {
   const { onNext, onPrev } = props;
   const { handleTelChange, handleEmailChange } = props;
   const { site } = props;
@@ -17,7 +17,8 @@ const Step2 = props => {
   };
 
   const handleNext = () => {
-    if(!tel || !email) alert('check');
+    if(!tel) alert('tel!');
+    else if(!email) alert('email!');
     else onNext();
   };
 
@@ -62,11 +63,11 @@ const Step2 = props => {
             이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
           */}
           <a href="#">
-            <span className="plus">
-              <i className="fal fa-plus" />
-            </span>
-            <span className="txt">로고이미지 추가</span>
-            <img src="/img/temp/UI_AD_AA_02_03S.png" alt="로고이미지 추가" />
+            {/*<span className="plus">*/}
+            {/*  <i className="fal fa-plus" />*/}
+            {/*</span>*/}
+            {/*<span className="txt">로고이미지 추가</span>*/}
+            <img src="/img/temp/UI_AA_01.png" alt="로고이미지 추가" />
           </a>
         </div>
       </form>
@@ -85,4 +86,4 @@ const Step2 = props => {
   );
 };
 
-export default Step2;
+export default Step3;

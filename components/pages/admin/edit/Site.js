@@ -48,7 +48,7 @@ const Site = () => {
                       <button className="btn btn-primary">상세</button>
                     </span>
                   </div>
-                  <a className="site" href="#" onClick={handlePopup}>
+                  <a className="site add" href="#" onClick={handlePopup}>
                     <p className="plus">
                       <i className="fal fa-plus" />
                     </p>

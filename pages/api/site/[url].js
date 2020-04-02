@@ -43,11 +43,10 @@ export default async (req, res) => {
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
     case "GET":
-      console.log('areyouhere')
       doc = await db.collection("Site").doc(url);
       ref = await doc.get();
 
-      if(!ref.data()) {
+      if (!ref.data()) {
         return res.status(404).end();
       }
       data.categoryList = ref.data().categoryList;
@@ -66,6 +65,7 @@ export default async (req, res) => {
         return res.status(200).send(resData);
       };
       getSub();
+      break;
 
     // 사이트 등록
     case "POST":
@@ -73,29 +73,44 @@ export default async (req, res) => {
 
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
+      const current = moment()
+        .locale("ko")
+        .format();
+
       site = {
         url: url,
-        created: moment()
-          .locale("ko")
-          .format(),
-        name: req.body.site.name || "",
-        email: req.body.site.email || "",
-        phone: req.body.site.phone || "",
+        created: current,
+        name: req.body.name || "",
+        email: req.body.email || "",
+        phone: req.body.phone || "",
         logo: {
-          saveName: req.body.site.logo.saveName || "",
-          path: req.body.site.logo.path || ""
+          saveName: req.body.logo ? req.body.logo.saveName : "",
+          path: req.body.logo ? req.body.logo.path : ""
         },
         thumbnail: {
-          saveName: req.body.site.thumbnail.saveName || "",
-          path: req.body.site.thumbnail.saveName || ""
+          saveName: req.body.thumbnail ? req.body.thumbnail.saveName : "",
+          path: req.body.thumbnail ? req.body.thumbnail.path : ""
         },
-        intro: req.body.site.intro || "",
-        template: req.body.site.template || 1,
-        categoryList: req.body.site.categoryList || []
+        intro: req.body.intro || "",
+        template: req.body.template || 1,
+        categoryList: req.body.categoryList || []
       };
 
       // 사이트 등록
       await doc.set(site);
+
+      category = {
+        type: 1,
+        created: current,
+        img: { saveName: "", path: "" },
+        view: {
+          intro: "",
+          created: "",
+          originName: "",
+          img: { saveName: "", path: "" }
+        },
+        viewList: []
+      };
 
       // 카테고리 등록
       const promises = [];
@@ -116,6 +131,7 @@ export default async (req, res) => {
           console.log("Error adding subcollections to Firestore: " + error);
           return res.status(500).end();
         });
+      break;
 
     // 사이트 수정
     case "PATCH":
@@ -145,6 +161,7 @@ export default async (req, res) => {
       await doc.update(site);
 
       return res.status(200).end();
+      break;
 
     // 사이트 삭제
     case "DELETE":
@@ -169,5 +186,6 @@ export default async (req, res) => {
       });
 
       return res.status(200).json(resData);
+      break;
   }
 };

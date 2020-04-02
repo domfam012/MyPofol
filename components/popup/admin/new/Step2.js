@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Step1 = props => {
+const Step2 = props => {
   const { onNext } = props;
   const { handleNameChange, handleUrlChange } = props;
   const { site } = props;
@@ -13,6 +13,7 @@ const Step1 = props => {
     setName(e.target.value);
     handleNameChange(e.target.value);
   };
+
   const onUrlChange = e => {
     setUrl(e.target.value);
     setUrlChecked(false);
@@ -20,7 +21,9 @@ const Step1 = props => {
   };
 
   const handleNext = () => {
-    if(!name || !url || !urlChecked) alert('check');
+    if(!name) alert('name!');
+    else if(!url) alert('url!');
+    else if(!urlChecked) alert('urlChecked!');
     else onNext();
   };
 
@@ -82,4 +85,4 @@ const Step1 = props => {
   );
 };
 
-export default Step1;
+export default Step2;

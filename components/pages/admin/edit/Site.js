@@ -1,4 +1,7 @@
+import Link from "next/link";
 const Site = () => {
+  const site = 'portfolioTest1'
+
   return (
     <div className="inner clearfix">
       <div className="section-container">
@@ -20,16 +23,20 @@ const Site = () => {
                   />
                 </span>
                 <p className="site-body">
-                  <span className="title">POTENS</span>
-                  <a className="address" href="#">
-                    http://www.mypofol.com/domfam
-                  </a>
+                  <span className="title">베스킨라빈스</span>
+                  <Link href="/portfolio/[site]" as={`/portfolio/${site}`}>
+                    <a className="address" href="#">
+                      http://www.mypofol.com/portfolioTest1
+                    </a>
+                  </Link>
                 </p>
                 <span className="btn-area">
                   <button className="btn btn-outline-secondary mr-1">
                     선택
                   </button>
-                  <button className="btn btn-primary">상세</button>
+                  <Link href={`/admin/edit?site=${site}`} as={`/admin/edit?site=${site}`}>
+                    <button className="btn btn-primary">상세</button>
+                  </Link>
                 </span>
               </div>
               <a className="site" href="#">
@@ -51,10 +58,10 @@ const Site = () => {
                   type="text"
                   className="form-control"
                   title="사이트명"
-                  placeholder="POTENS"
+                  placeholder="베스킨라빈스"
                 />
                 <span className="site_title">
-                  http://www.mypofol.com/domfam
+                  http://www.mypofol.com/portfolioTest1
                 </span>
               </div>
             </form>

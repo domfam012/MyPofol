@@ -14,7 +14,7 @@ const closePopup = () => {
 
  */
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../../../components/header/admin/New";
 import axios from "axios";
 
@@ -36,8 +36,8 @@ const Popup = props => {
     url: '',
     tel: '',
     email: '',
-    category: ['', ''],
-    template: 1
+    categoryList: ['', ''],
+    template: 0
   });
 
   const handleNext = () => setStep(step => ++step);
@@ -48,8 +48,17 @@ const Popup = props => {
   const handleUrlChange = val => setSite({ ...site, url: val });
   const handleTelChange = val => setSite({ ...site, tel: val });
   const handleEmailChange = val => setSite({ ...site, email: val });
-  const handleCategoryChange = val => setSite({ ...site, category: val });
+  const handleCategoryChange = val => setSite({ ...site, categoryList: val });
   const handleTemplateChange = val => setSite({ ...site, template: val });
+
+  const [templateList, setTemplateList] = useState([]);
+  useEffect(() => {
+    const fetchTemplate = async () => {
+      const res = await axios.get(`http://localhost/api/template/list`);
+      setTemplateList(res.data.data);
+    };
+    fetchTemplate();
+  }, []);
 
   return (
     <div className="wrap">
@@ -99,6 +108,7 @@ const Popup = props => {
                 onNext={handleNext}
                 onPrev={handlePrev}
                 site={site}
+                templateList={templateList}
                 handleTemplateChange={handleTemplateChange}
               />
             );

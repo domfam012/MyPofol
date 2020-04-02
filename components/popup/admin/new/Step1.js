@@ -1,4 +1,4 @@
-const Entry = props => {
+const Step1 = props => {
   const { onNext } = props;
 
   const handleNext = () => onNext();
@@ -29,4 +29,4 @@ const Entry = props => {
   );
 };
 
-export default Entry;
+export default Step1;

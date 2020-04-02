@@ -1,30 +1,52 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Step4 = props => {
+const Step5 = props => {
   const { onNext, onPrev, onClose } = props;
   const { handleTemplateChange } = props;
+  const { templateList } = props;
   const { site } = props;
-  const [template, setTemplate] = useState({});
+  const [template, setTemplate] = useState(site.template);
 
-  const onTemplateChange = e => {
-    setTemplate(e.target.value);
-    handleTemplateChange(e.target.value);
+  const handleTemplateSelect = idx => {
+    setTemplate(idx);
+    handleTemplateChange(idx);
   };
 
   const handleNext = () => {
     // template 선택 확인
     // site 에서 전체 확인
 
-    // name: "a"
-    // url: "b"
-    // tel: "c"
-    // email: "d"
-    // category: (2) ["e", "f"]
-    // template: 1
+    if(!template) return alert('template!');
 
-    console.log(site);
-    onNext();
+    const isValidate = () => {
+      if(!site.name) return false;
+      else if(!site.url) return false;
+      else if(!site.tel) return false;
+      else if(!site.email) return false;
+      else if(!site.categoryList) return false;
+      else return site.template;
+    };
+
+    if(isValidate()) {
+      console.log('site insert');
+      console.log(site);
+
+      const register = async () => {
+        const url = site.url;
+        const res = await axios.post(`http://localhost/api/site/${url}`, site);
+        console.log(res);
+        if(res.status === 200) onNext();
+        else {
+          alert('error occured');
+          onClose();
+        }
+      };
+
+      register();
+    } else {
+      alert('happy hacking');
+    }
 
     // if(!template) alert('check');
     // else onNext();
@@ -39,7 +61,11 @@ const Step4 = props => {
         하세요.
       </p>
 
-      <TemplateList />
+      <TemplateList
+        key={"pofolTemplates"}
+        templateList={templateList}
+        onTemplateSelect={handleTemplateSelect}
+      />
 
       <div className="btn-area mb mb-5">
         <button
@@ -56,40 +82,37 @@ const Step4 = props => {
   );
 };
 
-const TemplateList = () => {
-  const [templateList, setTemplateList] = useState([]);
-
-  useEffect(() => {
-    const fetchTemplate = async () => {
-      const res = await axios.get(`http://localhost/api/template/list`);
-      setTemplateList(res.data.data);
-    };
-    fetchTemplate();
-  }, []);
+const TemplateList = props => {
+  const { templateList } = props;
+  const { onTemplateSelect } = props;
 
   return (
     <div className="card-box">
       {templateList.map((template, idx) => (
-          <div className="d-inline-block">
-            <div className={`card ${idx%3 === 2 ? 'mr-0' : ''}`}>
-              <div className="img">
-                <p>
-                  <i className="far fa-image" />
-                </p>
-              </div>
-              <div className="card-body">
-                <h3 className="card-title">{template.title}</h3>
-              </div>
-              <div className="btn-area">
-
-                <button className="btn btn-outline-secondary mr-1">선택</button>
-                <button className="btn btn-primary">미리보기</button>
-              </div>
+        <div className="d-inline-block" key={template.index}>
+          <div className={`card ${idx % 3 === 2 ? "mr-0" : ""}`}>
+            <div className="img">
+              <p>
+                <i className="far fa-image" />
+              </p>
+            </div>
+            <div className="card-body">
+              <h3 className="card-title">{template.title}</h3>
+            </div>
+            <div className="btn-area">
+              <button
+                className="btn btn-outline-secondary mr-1"
+                onClick={() => onTemplateSelect(template.index)}
+              >
+                선택
+              </button>
+              <button className="btn btn-primary">미리보기</button>
             </div>
           </div>
+        </div>
       ))}
     </div>
   );
 };
 
-export default Step4;
+export default Step5;

@@ -353,7 +353,7 @@
 
   .site-body {
     display: block;
-    border-top: 1px solid #e0e0e0;
+    //border-top: 1px solid #e0e0e0;
     padding: 0 20px;
 
     .title {
@@ -959,7 +959,6 @@
 .m-wrap {
   .introduction {
     padding-top: 119px;
-    margin-bottom: 67px;
 
     .title {
       font-size: 48px;
@@ -989,8 +988,9 @@
   }
 
   .pofol {
+    background: #f9f9f9;
     padding-top: 131px;
-    margin-bottom: 67px;
+    padding-bottom: 155px;
 
     .title {
       font-size: 48px;
@@ -1019,6 +1019,10 @@
         flex-basis: auto;
         flex-grow: initial;
       }
+    }
+    .site {
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      border: 0;
     }
   }
 
@@ -1061,7 +1065,7 @@
     }
 
     .site-body {
-      padding: 12px 20px;
+      padding: 15px 20px;
       background: $white;
 
       .title {

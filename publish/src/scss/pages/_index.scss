@@ -62,13 +62,16 @@
 
   &.info-pf {
     height: auto;
+
     .title {
       img {
         left: 145px;
       }
     }
+
     .form-group {
       position: relative;
+
       .btn {
         position: absolute;
         width: 140px;
@@ -88,9 +91,11 @@
 
   &.detail {
     height: auto;
+
     .title {
       margin-bottom: 39px;
       letter-spacing: -.5px;
+
       img {
         left: 245px;
       }
@@ -173,6 +178,7 @@
 
   &.select {
     height: auto;
+
     .title {
       margin-bottom: 84px;
 
@@ -188,12 +194,15 @@
 
     .card {
       margin-right: 36px;
+
       .btn-area {
         display: none;
       }
+
       &:hover {
         .img {
           position: relative;
+
           &::after {
             content: '';
             width: 100%;
@@ -204,6 +213,7 @@
             top: 0;
           }
         }
+
         .btn-area {
           display: inline-block;
           position: absolute;
@@ -216,6 +226,7 @@
 
   &.complete {
     height: auto;
+
     .title {
       font-weight: normal;
     }
@@ -258,12 +269,14 @@
         padding-top: 111px;
         margin-bottom: 17px;
       }
+
       .sub {
         p {
           margin-bottom: 105px;
         }
       }
     }
+
     .d-center {
       display: flex;
       justify-content: center;
@@ -271,6 +284,7 @@
       align-items: center;
       flex-wrap: wrap;
       margin-bottom: 100px;
+
       .site {
         width: 232px;
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -286,6 +300,7 @@
         .site-body {
           padding: 0 10px;
           background: $white;
+
           .title {
             padding: 0;
             text-align: left;
@@ -294,9 +309,11 @@
             font-size: 20px;
           }
         }
+
         .btn-area {
           left: 29px;
         }
+
         &.active {
           .site-body {
             .title {
@@ -306,10 +323,11 @@
         }
       }
     }
+
     .btn-area {
       .btn {
         &.mr {
-         margin-right: 37px;
+          margin-right: 37px;
         }
       }
     }
@@ -415,6 +433,7 @@
       }
     }
   }
+
   &.add {
     height: 227px;
   }
@@ -464,6 +483,7 @@
         display: inline-block;
         line-height: 41px;
         height: 41px;
+
         i {
           font-size: 28px;
           vertical-align: middle;
@@ -535,6 +555,7 @@
 
       }
     }
+
     &.edit {
       .title_area {
         &.manage {
@@ -566,6 +587,7 @@
           .site {
             &.add {
               height: 195px;
+
               .plus {
                 margin-top: 79px;
               }
@@ -645,6 +667,7 @@
           .img {
             width: 260px;
             height: 147px;
+
             img {
               width: 100%;
               height: 100%;
@@ -854,62 +877,76 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .img {
     display: block;
     width: 100%;
     height: auto;
+
     img {
       width: 100%;
       height: auto;
     }
   }
+
   .title {
     display: block;
     text-align: center;
     margin-top: 10px;
   }
+
   .title_area {
     padding-bottom: 33px;
     border-bottom: 2px solid #909090;
     margin-bottom: 40px;
+
     .title {
       text-align: center;
     }
   }
+
   a.col {
     margin-bottom: 40px;
+
     &.active {
       .img {
-        border : 4px solid #d63d45;
+        border: 4px solid #d63d45;
       }
+
       .title {
         color: #d63d45;
       }
     }
   }
+
   &.list {
     display: unset;
     align-items: unset;
     justify-content: unset;
+
     .go_back {
       position: absolute;
       top: 115px;
+
       .prev {
         font-family: 'NotoSansCJKkr-Medium';
         font-size: 18px;
         letter-spacing: -.72px;
+
         i {
           margin-right: 10px;
           font-size: 18px;
         }
       }
     }
+
     .title_area {
       .title {
         margin-top: 28px;
       }
     }
   }
+
   &.slider {
     height: auto;
     padding: 50px 0;
@@ -921,66 +958,87 @@
 */
 .m-wrap {
   .introduction {
-     padding-top: 119px;
-     margin-bottom: 67px;
-     .title {
-       font-size: 48px;
-       font-weight: bold;
-       text-align: center;
-     }
-     .desc_01,.desc_02 {
-       font-size: 20px;
-       line-height: 32px;
-       text-align: center;
-       letter-spacing: -0.1px;
-     }
-     .desc_01 {
-       margin-top: 37px;
-       margin-bottom: 32px;
-     }
-     .desc_02 {
-       margin-bottom: 98px;
-     }
-     .btn-area {
-       padding-bottom: 32px;
-     }
-   }
-  .pofol {
-    padding-top: 131px;
+    padding-top: 119px;
     margin-bottom: 67px;
+
     .title {
       font-size: 48px;
       font-weight: bold;
       text-align: center;
     }
-    .desc_01,.desc_02 {
+
+    .desc_01, .desc_02 {
       font-size: 20px;
       line-height: 32px;
       text-align: center;
       letter-spacing: -0.1px;
     }
+
+    .desc_01 {
+      margin-top: 37px;
+      margin-bottom: 32px;
+    }
+
+    .desc_02 {
+      margin-bottom: 98px;
+    }
+
+    .btn-area {
+      padding-bottom: 32px;
+    }
+  }
+
+  .pofol {
+    padding-top: 131px;
+    margin-bottom: 67px;
+
+    .title {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .desc_01, .desc_02 {
+      font-size: 20px;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: -0.1px;
+    }
+
     .desc_01 {
       margin-top: 37px;
       margin-bottom: 165px;
     }
+
     .row {
       justify-content: center;
       justify-items: center;
+
+      .col {
+        width: 100%;
+        flex-basis: auto;
+        flex-grow: initial;
+      }
     }
   }
+
   .main-bg {
     margin-bottom: 84px;
+
     img {
       width: 300px;
       margin-left: calc((50% - 134px));
     }
+
     .bar {
       height: 14px;
+
       &.left-bar {
         width: calc((50% - 133px));
         min-width: calc((50% - 133px));
         top: 41px;
       }
+
       &.right-bar {
         width: calc((50% - 549px));
         min-width: calc((50% - 166px));
@@ -988,25 +1046,31 @@
       }
     }
   }
+
   .site {
     width: 100%;
     height: 280px;
+
     .site-img {
       height: 198px;
+
       img {
         width: 100%;
         height: 100%;
       }
     }
+
     .site-body {
       padding: 12px 20px;
       background: $white;
+
       .title {
         text-align: left;
         width: auto;
         font-size: 20px;
       }
     }
+
     &:hover {
       .btn-area {
         &.single {
@@ -1028,6 +1092,7 @@
           height: auto;
         }
       }
+
       .login {
         .text {
           display: inline-block !important;
@@ -1044,6 +1109,11 @@
           }
         }
       }
+      .row {
+        .col {
+          width: 50%;
+        }
+      }
     }
   }
 }
@@ -1055,13 +1125,16 @@
         width: auto;
         margin-left: calc((50% - 134px));
       }
+
       .bar {
         height: 28px;
+
         &.left-bar {
           width: calc((50% - 133px));
           min-width: calc((50% - 133px));
           top: 99px;
         }
+
         &.right-bar {
           width: calc((50% - 549px));
           min-width: calc((50% - 549px));
@@ -1069,6 +1142,7 @@
         }
       }
     }
+
     .pofol {
       .site {
         .site-body {
@@ -1076,6 +1150,7 @@
             width: 314px;
           }
         }
+
         &:hover {
           .btn-area {
             &.single {
@@ -1084,6 +1159,11 @@
               transform: translate(-50%, -50%);
             }
           }
+        }
+      }
+      .row {
+        .col {
+          width: 33.3333%;
         }
       }
     }

@@ -1,21 +1,24 @@
 /**
  *  등록 팝업
- *
- *  import Popup from 'components/popup/admin/new/Popup';
- *
- *  const [ openPopup, setOpenPopup ] = useState(true);
- *  const closePopup = () => {
- *    setOpenPopup(!openPopup);
- *  };
- *
- *  ..
- *
- *  <Popup closePopup={closePopup}/>
- *
+
+import Popup from 'components/popup/admin/new/Popup';
+
+const [ openPopup, setOpenPopup ] = useState(true);
+const closePopup = () => {
+  setOpenPopup(!openPopup);
+};
+
+..
+
+<Popup closePopup={closePopup}/>
+
  */
 
 import React, { useState } from "react";
 import Header from "../../../../components/header/admin/New";
+import axios from "axios";
+
+// import { composeWithDevTools } from 'redux-devtools-extension';
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -120,5 +123,9 @@ const Popup = props => {
     </div>
   );
 };
+
+// Popup.getInitialProps = async () => {
+//
+// };
 
 export default Popup;

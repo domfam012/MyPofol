@@ -1,6 +1,8 @@
 const Entry = props => {
   const { onNext } = props;
 
+  const handleNext = () => onNext();
+
   return (
     <>
       <section className="container-fluid init add_pf">
@@ -9,7 +11,7 @@ const Entry = props => {
           <p>쉽고 간단하게 만드는 나만의 포트폴리오 사이트</p>
         </div>
         <div className="btn-area mb">
-          <button className="btn btn-xl btn-primary" onClick={onNext}>
+          <button className="btn btn-xl btn-primary" onClick={handleNext}>
             새 웹사이트 추가
           </button>
         </div>

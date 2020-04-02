@@ -141,7 +141,7 @@ Index.getInitialProps = async function(ctx) {
   //   `${process.env.ASSET_PREFIX}/api/template/[id]`
   // );
   const res = await axios.get(
-    `http://localhost/api/template/list`
+    `http://localhost:8080/api/template/list`
   );
   return {
     data: res.data.data

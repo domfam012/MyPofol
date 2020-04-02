@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { loadStorage } from "../../../../public/js/db";
+import shortid from "shortid";
 
 const Step5 = props => {
   const { onNext, onPrev, onClose } = props;
-  const { handleTemplateChange } = props;
+  const { handleTemplateChange, handleImgChange } = props;
   const { templateList } = props;
-  const { site } = props;
+  const { site, logoImg } = props;
   const [template, setTemplate] = useState(site.template);
 
   const handleTemplateSelect = idx => {
@@ -17,40 +19,76 @@ const Step5 = props => {
     // template 선택 확인
     // site 에서 전체 확인
 
-    if(!template) return alert('template!');
+    if (!template) return alert("template!");
 
     const isValidate = () => {
-      if(!site.name) return false;
-      else if(!site.url) return false;
-      else if(!site.tel) return false;
-      else if(!site.email) return false;
-      else if(!site.categoryList) return false;
+      if (!site.name) return false;
+      else if (!site.url) return false;
+      else if (!site.tel) return false;
+      else if (!site.email) return false;
+      else if (!site.categoryList) return false;
       else return site.template;
     };
 
-    if(isValidate()) {
-      console.log('site insert');
-      console.log(site);
+    if (isValidate()) {
+      console.log(`site: ${JSON.stringify(site)}`);
 
-      const register = async () => {
-        const url = site.url;
-        const res = await axios.post(`http://localhost/api/site/${url}`, site);
-        console.log(res);
-        if(res.status === 200) onNext();
-        else {
-          alert('error occured');
-          onClose();
-        }
+      const storageUpload = async () => {
+        const storage = await loadStorage();
+        const saveName = shortid.generate();
+        const storageRef = storage.ref(`site/${site.url}/${saveName}`);
+        const uploadTask = storageRef.put(logoImg);
+
+        uploadTask.on(
+          "state_changed",
+          () => {},
+          err => storageErrHandler(err),
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(url => {
+              handleImgChange(saveName, url);
+            });
+          }
+        );
+
+        const storageErrHandler = err => {
+          switch(err.code) {
+            case "storage/unauthorized":
+              return alert("User doesn't have permission to access the object");
+            case "storage/canceled":
+              return alert("User canceled the upload");
+            case "storage/unknown":
+              return alert("Unknown error occurred, inspect error.serverResponse");
+          }
+        };
+
       };
 
-      register();
+      storageUpload();
+
     } else {
-      alert('happy hacking');
+      alert("happy hacking");
     }
 
     // if(!template) alert('check');
     // else onNext();
   };
+
+  useEffect(() => {
+    const dbUpload = async () => {
+      const url = site.url;
+      const res = await axios.post(
+          `http://localhost:8080/api/site/${url}`,
+          site
+      );
+      console.log(res);
+      if (res.status === 200) onNext();
+      else {
+        alert("error occured");
+        onClose();
+      }
+    };
+    if(site.logo.saveName && site.logo.path)  dbUpload();
+  }, [site.logo]);
 
   return (
     <section className="container-fluid init select">

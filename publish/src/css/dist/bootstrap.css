@@ -27366,6 +27366,10 @@ header .container-fluid .navbar .login_area .login img, header .container-sm .na
   vertical-align: sub;
 }
 
+header .container-fluid .navbar .login_area .login .text, header .container-sm .navbar .login_area .login .text, header .container-md .navbar .login_area .login .text, header .container-lg .navbar .login_area .login .text, header .container-xl .navbar .login_area .login .text, header .container .navbar .login_area .login .text {
+  display: none;
+}
+
 header .container-fluid .navbar .page-area, header .container-sm .navbar .page-area, header .container-md .navbar .page-area, header .container-lg .navbar .page-area, header .container-xl .navbar .page-area, header .container .navbar .page-area {
   display: inline-block;
   color: #fff;
@@ -27888,7 +27892,6 @@ footer .footer .copyright {
 
 .site .site-body {
   display: block;
-  border-top: 1px solid #e0e0e0;
   padding: 0 20px;
 }
 
@@ -28435,7 +28438,6 @@ footer .footer .copyright {
 */
 .m-wrap .introduction {
   padding-top: 119px;
-  margin-bottom: 67px;
 }
 
 .m-wrap .introduction .title {
@@ -28465,8 +28467,9 @@ footer .footer .copyright {
 }
 
 .m-wrap .pofol {
+  background: #f9f9f9;
   padding-top: 131px;
-  margin-bottom: 67px;
+  padding-bottom: 155px;
 }
 
 .m-wrap .pofol .title {
@@ -28490,6 +28493,17 @@ footer .footer .copyright {
 .m-wrap .pofol .row {
   justify-content: center;
   justify-items: center;
+}
+
+.m-wrap .pofol .row .col {
+  width: 100%;
+  flex-basis: auto;
+  flex-grow: initial;
+}
+
+.m-wrap .pofol .site {
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border: 0;
 }
 
 .m-wrap .main-bg {
@@ -28532,7 +28546,7 @@ footer .footer .copyright {
 }
 
 .m-wrap .site .site-body {
-  padding: 24px 20px;
+  padding: 15px 20px;
   background: #fff;
 }
 
@@ -28558,6 +28572,9 @@ footer .footer .copyright {
   }
   .m-wrap .pofol .site .site-body .title {
     width: auto;
+  }
+  .m-wrap .pofol .row .col {
+    width: 50%;
   }
 }
 
@@ -28586,6 +28603,9 @@ footer .footer .copyright {
     left: 50%;
     top: 37%;
     transform: translate(-50%, -50%);
+  }
+  .m-wrap .pofol .row .col {
+    width: 33.3333%;
   }
 }
 

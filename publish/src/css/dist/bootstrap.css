@@ -27330,44 +27330,44 @@ readers do not read off random characters that represent icons */
 /*
   header
 */
-header .container-fluid .navbar h1, header .container-sm .navbar h1, header .container-md .navbar h1, header .container-lg .navbar h1, header .container-xl .navbar h1, header .container .navbar h1 {
-  font-size: inherit;
-}
-
-header .container-fluid .navbar .login_area, header .container-sm .navbar .login_area, header .container-md .navbar .login_area, header .container-lg .navbar .login_area, header .container-xl .navbar .login_area, header .container .navbar .login_area {
+header .login_area {
   display: inline-block;
   color: #fff;
   font-size: 14px;
 }
 
-header .container-fluid .navbar .login_area .logout, header .container-sm .navbar .login_area .logout, header .container-md .navbar .login_area .logout, header .container-lg .navbar .login_area .logout, header .container-xl .navbar .login_area .logout, header .container .navbar .login_area .logout {
+header .login_area .logout {
   display: inline-block;
   font-size: 14px;
 }
 
-header .container-fluid .navbar .login_area .logout i, header .container-sm .navbar .login_area .logout i, header .container-md .navbar .login_area .logout i, header .container-lg .navbar .login_area .logout i, header .container-xl .navbar .login_area .logout i, header .container .navbar .login_area .logout i {
+header .login_area .logout i {
   color: #fff;
   margin-left: 11px;
   font-size: 14px;
 }
 
-header .container-fluid .navbar .login_area .btn-close, header .container-sm .navbar .login_area .btn-close, header .container-md .navbar .login_area .btn-close, header .container-lg .navbar .login_area .btn-close, header .container-xl .navbar .login_area .btn-close, header .container .navbar .login_area .btn-close {
+header .login_area .btn-close {
   padding: 7px 0px 7px 7px;
 }
 
-header .container-fluid .navbar .login_area .login, header .container-sm .navbar .login_area .login, header .container-md .navbar .login_area .login, header .container-lg .navbar .login_area .login, header .container-xl .navbar .login_area .login, header .container .navbar .login_area .login {
+header .login_area .login {
   display: inline-block;
   color: #fff;
   font-size: 14px;
 }
 
-header .container-fluid .navbar .login_area .login img, header .container-sm .navbar .login_area .login img, header .container-md .navbar .login_area .login img, header .container-lg .navbar .login_area .login img, header .container-xl .navbar .login_area .login img, header .container .navbar .login_area .login img {
+header .login_area .login img {
   margin-left: 11px;
   vertical-align: sub;
 }
 
-header .container-fluid .navbar .login_area .login .text, header .container-sm .navbar .login_area .login .text, header .container-md .navbar .login_area .login .text, header .container-lg .navbar .login_area .login .text, header .container-xl .navbar .login_area .login .text, header .container .navbar .login_area .login .text {
+header .login_area .login .text {
   display: none;
+}
+
+header .container-fluid .navbar h1, header .container-sm .navbar h1, header .container-md .navbar h1, header .container-lg .navbar h1, header .container-xl .navbar h1, header .container .navbar h1 {
+  font-size: inherit;
 }
 
 header .container-fluid .navbar .page-area, header .container-sm .navbar .page-area, header .container-md .navbar .page-area, header .container-lg .navbar .page-area, header .container-xl .navbar .page-area, header .container .navbar .page-area {

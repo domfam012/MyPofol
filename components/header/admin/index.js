@@ -39,10 +39,10 @@ const Header = props => {
                   {
                       isLoggedIn
                           ? <Link href={'/admin/user/mypage'}>
-                              <a className="login" href="#"><span className="_name">{window.sessionStorage.name}</span>님</a>
+                              <a className="login" href="#"><span className="text">{window.sessionStorage.name}&nbsp;님</span></a>
                           </Link>
                           : <Link href={'/admin/user/social'}>
-                              <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                              <a className="login" href="#"><span className="text">로그인이 필요합니다.</span><img src="/img/common/login.png" alt=""/></a>
                           </Link>
                   }
                   {
@@ -52,7 +52,7 @@ const Header = props => {
                               buttonText="Logout"
                               onLogoutSuccess={logout}
                               render={renderProps => (
-                                  <a className="login" href="#" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="far fa-sign-out"></i></a>
+                                  <a className="logout" href="#" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="far fa-sign-out"></i></a>
                               )}
                           />  : ''
                   }

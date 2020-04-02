@@ -4,13 +4,13 @@ const Step3 = props => {
   const { onNext, onPrev } = props;
   const { handleCategoryChange } = props;
   const { site } = props;
-  const [category, setCategory] = useState(site.category);
+  const [ category, setCategory ] = useState(site.category);
+  const [ itGo, setItGo ] = useState(false);
 
   // 카테고리 리스트 추가
   const handleCatListChange = e => {
     e.preventDefault();
     setCategory(category => [...category, ""]);
-    handleCategoryChange(category);
   };
 
   // 카테고리 항목 내용 변경
@@ -19,8 +19,27 @@ const Step3 = props => {
       return idx === i ? val : cat;
     });
     setCategory(newCategory);
-    handleCategoryChange(newCategory);
   };
+
+  const handleNext = () => {
+    const newCategory = category.filter(item => item !== '');
+    setCategory(newCategory);
+    setItGo(true);
+  };
+
+  useEffect(() => {
+    handleCategoryChange(category);
+  }, [category]);
+
+  useEffect(() => {
+    if(itGo) {
+      if(!category.length) {
+        alert('check');
+        setItGo(false);
+      }
+      else onNext();
+    }
+  }, [itGo]);
 
   return (
     <section className="container-fluid init detail category">
@@ -62,7 +81,7 @@ const Step3 = props => {
         >
           이전
         </button>
-        <button className="btn btn-xl btn-primary" onClick={onNext}>
+        <button className="btn btn-xl btn-primary" onClick={handleNext}>
           다음
         </button>
       </div>

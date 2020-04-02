@@ -841,45 +841,6 @@ const Site = {
     }
 };
 
-const User = {
-    google_token1 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://steemitimages.com/DQmTYEViN4zYwmdkjBtZrngoUEHsFShhAZeMAdPcfGcYmpq/image.png'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '구글사용자',
-        email : 'dummyGoogleUser.gmail.com',
-        phone : '010-1234-5678',
-        socialName : 'google',
-        siteList : ['portfolioTest1' , 'portfolioTest6']
-    },
-    naver_token2 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://img.postshare.co.kr/images/2018/12/20181220_112910.png'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '네이버사용자',
-        email : 'dummyNaverUser.gmail.com',
-        phone : '010-1248-5628',
-        socialName : 'naver',
-        siteList : ['portfolioTest2' , 'portfolioTest3' , 'portfolioTest5']
-    },
-    kakao_token3 : {
-        img : {
-            saveName : 'random00',
-            path : 'https://pbs.twimg.com/profile_images/1173873201039806464/R1lWiNES_400x400.jpg'
-        },
-        created : '2020-03-23T11:08:00+09:00',
-        name : '카카오사용자',
-        email : 'dummyKakaoUser.gmail.com',
-        phone : '010-1144-5668',
-        socialName : 'kakao',
-        siteList : ['portfolioTest4']
-    }
-};
-
 export const initialState = {
     isLoggedIn : false,
     userInfo : {},
@@ -893,17 +854,24 @@ export const PORTFOLIO_SITE_INFO = ' PORTFOLIO_SITE_INFO';
 export const PORTFOLIO_CATEGORY_INFO = ' PORTFOLIO_CATEGORY_INFO';
 export const CONTROL_AUTO_PLAY = 'CONTROL_AUTO_PLAY';
 export const CONTROL_POPUP = 'CONTROL_POPUP';
+export const LOG_ING = 'LOG_ING';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
 
 export default (state = initialState , action) => {
     switch (action.type) {
+        case  LOG_ING : {
+            return {
+                ...state,
+                isLoggedIn : true,
+            };
+        }
         case  LOG_IN : {
             return {
                 ...state,
                 isLoggedIn : true,
-                userInfo : User[action.data]
+                userInfo : action.data,
             };
         }
         case  LOG_OUT : {

@@ -1,13 +1,13 @@
 /* 메인 페이지 */
 import Head from 'next/head'
+import Link from 'next/link'
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
 import React, { useState , useEffect} from 'react';
 import Popup from '../components/popup/admin/new/Popup';
 import {useRouter} from "next/router";
-import {LOG_ING} from "../redux/reducers/user";
+import { LOG_ING} from "../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import Link from 'next/link'
 
 import axios from "axios";
 

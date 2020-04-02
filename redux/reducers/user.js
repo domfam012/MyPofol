@@ -857,6 +857,7 @@ export const CONTROL_POPUP = 'CONTROL_POPUP';
 export const LOG_ING = 'LOG_ING';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
+export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
 
 export default (state = initialState , action) => {
     switch (action.type) {
@@ -904,6 +905,11 @@ export default (state = initialState , action) => {
                 ...state,
                 portfolioPopup : action.data
             };
+        }
+        case CONTROL_REGISTER_POPUP : {
+            return {
+                ...state
+            }
         }
         default: {
             return {

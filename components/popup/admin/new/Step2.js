@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 const Step1 = props => {
   const { onNext } = props;
@@ -6,6 +7,7 @@ const Step1 = props => {
   const { site } = props;
   const [name, setName] = useState(site.name);
   const [url, setUrl] = useState(site.url);
+  const [urlChecked, setUrlChecked] = useState(false);
 
   const onNameChange = e => {
     setName(e.target.value);
@@ -13,7 +15,21 @@ const Step1 = props => {
   };
   const onUrlChange = e => {
     setUrl(e.target.value);
+    setUrlChecked(false);
     handleUrlChange(e.target.value);
+  };
+
+  const handleNext = () => {
+    if(!name || !url || !urlChecked) alert('check');
+    else onNext();
+  };
+
+  const checkUrl = async e => {
+    e.preventDefault();
+    if(!url) return alert('check');
+    const res = await axios.get(`http://localhost/api/site/${url}/check`);
+    if(!res.data.urlChecked) alert('already in use');
+    setUrlChecked(res.data.urlChecked);
   };
 
   return (
@@ -54,11 +70,11 @@ const Step1 = props => {
             placeholder="사이트 주소*"
             style={{ width: "200px" }}
           />
-          <button className="btn btn-primary">사이트 중복확인</button>
+          <button className="btn btn-primary" onClick={checkUrl}>사이트 중복확인</button>
         </div>
       </form>
       <div className="btn-area mb">
-        <button className="btn btn-xl btn-primary" onClick={onNext}>
+        <button className="btn btn-xl btn-primary" onClick={handleNext}>
           다음
         </button>
       </div>

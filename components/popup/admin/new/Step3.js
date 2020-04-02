@@ -16,6 +16,11 @@ const Step2 = props => {
     handleEmailChange(e.target.value);
   };
 
+  const handleNext = () => {
+    if(!tel || !email) alert('check');
+    else onNext();
+  };
+
   return (
     <section className="container-fluid init detail info-pf">
       <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
@@ -72,7 +77,7 @@ const Step2 = props => {
         >
           이전
         </button>
-        <button className="btn btn-xl btn-primary" onClick={onNext}>
+        <button className="btn btn-xl btn-primary" onClick={handleNext}>
           다음
         </button>
       </div>

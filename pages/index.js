@@ -1,5 +1,6 @@
 /* 메인 페이지 */
 import Head from 'next/head'
+import Link from 'next/link'
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
 import React, { useState , useEffect} from 'react';
@@ -7,10 +8,32 @@ import Popup from '../components/popup/admin/new/Popup';
 import {useRouter} from "next/router";
 import { LOG_ING} from "../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import Link from 'next/link'
+
+import axios from "axios";
+
+const TemplateList = props => {
+  const { imgPath, title } = props;
+  return(
+    <div className="col">
+      <div className="site">
+        <div className="site-img">
+          <img src={imgPath} alt={title} />
+        </div>
+        <div className="site-body">
+          <div className="title">{title}</div>
+        </div>
+        <div className="btn-area single">
+          <button className="btn btn-primary">미리보기</button>
+        </div>
+      </div>
+    </div>
+  )
+};
+
 
 // 메인 페이지
 const Index = props => {
+
   const router = useRouter();
   const [ openPopup, setOpenPopup ] = useState(false);
   const { isLoggedIn } = useSelector(state => state.user);
@@ -24,6 +47,9 @@ const Index = props => {
   useEffect(() => {
     if (window.sessionStorage.id){dispatch({type :LOG_ING});}
    }, []);
+
+  const templateList = props.data;
+
 
   return (
     <>
@@ -88,86 +114,12 @@ const Index = props => {
                         완성됩니다.
                       </p>
                       <div className="row">
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template A</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template B</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template C</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template D</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template E</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template F</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
+                        { templateList.map(item => (
+                          <TemplateList key={item.index}
+                            imgPath={item.img.path}
+                            title={item.title}
+                          />
+                        ))}
                       </div>
                     </div>
                   </section>
@@ -176,6 +128,19 @@ const Index = props => {
       }
     </>
   );
+};
+
+Index.getInitialProps = async function(ctx) {
+  const page = ctx.query.page || "1"; // default page index
+  // const res = await fetch(
+  //   `${process.env.ASSET_PREFIX}/api/template/[id]`
+  // );
+  const res = await axios.get(
+    `http://localhost/api/template/list`
+  );
+  return {
+    data: res.data.data
+  };
 };
 
 export default Index;

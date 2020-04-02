@@ -10,15 +10,15 @@ const option = {
         measurementId: "G-QTQG95R5H6"
     },
     assetPrefix: {
-        dev: "http://localhost",
+        dev: "http://localhost:8080",
         aws: "http://mypofol.co.kr"
     },
     ip: {
-        dev: "127.0.0.1",
+        dev: "localhost",
         production: "15.165.83.168"
     },
     port: {
-        dev: 80,
+        dev: 8080,
         production: 80
     },
     GA_TRACKING_ID: "UA-158587547-1"

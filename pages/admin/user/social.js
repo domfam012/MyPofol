@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import React from "react";
+import React ,{useEffect}from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
 import { useRouter } from "next/router";
 import {useDispatch, useSelector} from "react-redux";
-import {LOG_IN} from "../../../redux/reducers/user";
+import {LOG_IN, LOG_ING} from "../../../redux/reducers/user";
 import {GoogleLogin} from 'react-google-login';
 import shortid from 'shortid';
 import moment from "moment";
@@ -12,6 +12,10 @@ import moment from "moment";
 const Social =props => {
     const router = useRouter();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (window.sessionStorage.id){dispatch({type :LOG_ING});}
+    }, []);
 
     const responseGoogle = (res) => {
         let userInfo = {};
@@ -36,7 +40,7 @@ const Social =props => {
     };
 
     const responseFail= (err) => {
-        console.log(`구글 연동 실패 ${err}`);
+        console.log(err);
     };
 
 

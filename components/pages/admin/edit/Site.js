@@ -1,6 +1,7 @@
 import Link from "next/link";
 const Site = () => {
-  const site = 'portfolioTest1'
+  const site = 'portfolioTest1';
+  const name = '베스킨라빈스';
 
   return (
     <div className="inner clearfix">
@@ -34,7 +35,7 @@ const Site = () => {
                   <button className="btn btn-outline-secondary mr-1">
                     선택
                   </button>
-                  <Link href={`/admin/edit?site=${site}`} as={`/admin/edit?site=${site}`}>
+                  <Link href={`/admin/edit?site=${site}&name=${name}`} as={`/admin/edit?site=${site}`}>
                     <button className="btn btn-primary">상세</button>
                   </Link>
                 </span>

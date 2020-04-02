@@ -1,5 +1,6 @@
 /* 메인 페이지 */
 import Head from 'next/head'
+import Link from 'next/link'
 import React from "react";
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
@@ -8,8 +9,31 @@ import Popup from '../components/popup/admin/new/Popup';
 import {useSelector} from "react-redux";
 import { useRouter } from "next/router";
 
+import axios from "axios";
+
+const TemplateList = props => {
+  const { imgPath, title } = props;
+  return(
+    <div className="col">
+      <div className="site">
+        <div className="site-img">
+          <img src={imgPath} alt={title} />
+        </div>
+        <div className="site-body">
+          <div className="title">{title}</div>
+        </div>
+        <div className="btn-area single">
+          <button className="btn btn-primary">미리보기</button>
+        </div>
+      </div>
+    </div>
+  )
+};
+
+
 // 메인 페이지
 const Index = props => {
+
   const router = useRouter();
   const { isLoggedIn  } = useSelector(state => state.user);
   const [ openPopup, setOpenPopup ] = useState(false);
@@ -18,6 +42,9 @@ const Index = props => {
   };
 
   if(isLoggedIn) {router.push(`/admin/edit`);}
+
+  const templateList = props.data;
+
 
   return (
     <>
@@ -47,7 +74,7 @@ const Index = props => {
                         언제 어디서나 당신의 포트폴리오를 사람들에게 보여줄 수 있습니다.
                       </p>
                       <div className="btn-area text-center">
-                        <button className="btn btn-xl btn-primary _download">
+                        <button className="btn btn-xl btn-primary">
                           시작하기
                         </button>
                       </div>
@@ -71,87 +98,13 @@ const Index = props => {
                         마이포폴에서 제공하는 템플릿으로 당신만의 특별한 사이트가
                         완성됩니다.
                       </p>
-                      <div className="row">
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template A</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template B</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template C</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template D</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template E</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-4">
-                          <div className="site">
-                            <div className="site-img">
-                              <img src="/img/temp/potens.png" alt="potens" />
-                            </div>
-                            <div className="site-body">
-                              <div className="title">Template F</div>
-                            </div>
-                            <div className="btn-area single">
-                              <button className="btn btn-primary">미리보기</button>
-                            </div>
-                          </div>
-                        </div>
+                      <div className="row row-cols-3">
+                        { templateList.map(item => (
+                          <TemplateList
+                            imgPath={item.img.path}
+                            title={item.originName}
+                          />
+                        ))}
                       </div>
                     </div>
                   </section>
@@ -160,6 +113,19 @@ const Index = props => {
       }
     </>
   );
+};
+
+Index.getInitialProps = async function(ctx) {
+  const page = ctx.query.page || "1"; // default page index
+  // const res = await fetch(
+  //   `${process.env.ASSET_PREFIX}/api/template/[id]`
+  // );
+  const res = await axios.get(
+    `http://localhost/api/template/list`
+  );
+  return {
+    data: res.data.data
+  };
 };
 
 export default Index;

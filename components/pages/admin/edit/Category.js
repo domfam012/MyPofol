@@ -1,11 +1,23 @@
 import {PORTFOLIO_SITE_INFO} from "../../../../redux/reducers/user";
 import {useSelector} from "react-redux";
 
+const CategoryList = props => {
+    return(
+        <div  className="site">
+            <span className="site-img"><img src={props.imgPath} alt="thumbnail"/></span>
+            <span className="site-body"><span className="title">{props.title}</span></span>
+            <span className="btn-area">
+            <button className="btn btn-outline-secondary mr-1">선택</button>
+            <button className="btn btn-primary">상세</button></span>
+        </div>
+    )
+};
+
 const Category = props => {
 
     const { siteInfo  } = useSelector(state => state.user);
     console.log(siteInfo);
-
+    console.log(props);
   return (
       <div className="inner no-mw clearfix">
           <div className="section-container edit">
@@ -19,46 +31,13 @@ const Category = props => {
                   </div>
                   <div className="contents">
                       <div className="inner">
-                          <div className="site active">
-                              <span className="site-img"><img src="/img/common/default_thumbnail.png" alt="thumbnail"/></span>
-                              <span className="site-body">
-                <span className="title">Categoly 1</span>
-              </span>
-                              <span className="btn-area">
-                <button className="btn btn-outline-secondary mr-1">선택</button>
-                <button className="btn btn-primary">상세</button>
-              </span>
-                          </div>
-                          <div className="site hover">
-                              <span className="site-img"><img src="/img/common/default_thumbnail.png" alt="thumbnail"/></span>
-                              <span className="site-body">
-                <span className="title">Categoly 2</span>
-              </span>
-                              <span className="btn-area">
-                <button className="btn btn-outline-secondary mr-1">선택</button>
-                <button className="btn btn-primary">상세</button>
-              </span>
-                          </div>
-                          <div className="site">
-                              <span className="site-img"><img src="/img/common/default_thumbnail.png" alt="thumbnail"/></span>
-                              <span className="site-body">
-                <span className="title">Categoly 3</span>
-              </span>
-                              <span className="btn-area">
-                <button className="btn btn-outline-secondary mr-1">선택</button>
-                <button className="btn btn-primary">상세</button>
-              </span>
-                          </div>
-                          <div className="site">
-                              <span className="site-img"><img src="/img/common/default_thumbnail.png" alt="thumbnail"/></span>
-                              <span className="site-body">
-                <span className="title">Categoly 4</span>
-              </span>
-                              <span className="btn-area">
-                <button className="btn btn-outline-secondary mr-1">선택</button>
-                <button className="btn btn-primary">상세</button>
-              </span>
-                          </div>
+                          {siteInfo.categoryList.map((item , index) => (
+                              <CategoryList
+                                  key={index}
+                                  imgPath={siteInfo.category[item].img.path}
+                                  title={item}
+                              />
+                          ))}
                           <a className="site add" href="#">
                               <p className="plus"><i className="fal fa-plus"></i></p>
                               <p className="txt">새 웹사이트 추가</p>

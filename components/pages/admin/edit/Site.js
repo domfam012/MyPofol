@@ -35,7 +35,7 @@ const Site = () => {
                   <button className="btn btn-outline-secondary mr-1">
                     선택
                   </button>
-                  <Link href={`/admin/edit?site=${site}?name=${name}`} as={`/admin/edit?site=${site}`}>
+                  <Link href={`/admin/edit?site=${site}&name=${name}`} as={`/admin/edit?site=${site}`}>
                     <button className="btn btn-primary">상세</button>
                   </Link>
                 </span>

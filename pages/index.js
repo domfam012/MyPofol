@@ -1,13 +1,13 @@
 /* 메인 페이지 */
 import Head from 'next/head'
 import Link from 'next/link'
-import React from "react";
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
-import { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Popup from '../components/popup/admin/new/Popup';
-import {useSelector} from "react-redux";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
+import { LOG_ING} from "../redux/reducers/user";
+import {useDispatch, useSelector} from "react-redux";
 
 import axios from "axios";
 
@@ -34,13 +34,18 @@ const TemplateList = props => {
 const Index = props => {
 
   const router = useRouter();
-  const { isLoggedIn  } = useSelector(state => state.user);
   const [ openPopup, setOpenPopup ] = useState(false);
+  const { isLoggedIn } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
   const closePopup = () => {
     setOpenPopup(!openPopup);
   };
 
-  if(isLoggedIn) {router.push(`/admin/edit`);}
+  useEffect(() => {
+    if (window.sessionStorage.id){dispatch({type :LOG_ING});}
+   }, []);
 
   const templateList = props.data;
 
@@ -73,9 +78,19 @@ const Index = props => {
                         언제 어디서나 당신의 포트폴리오를 사람들에게 보여줄 수 있습니다.
                       </p>
                       <div className="btn-area text-center">
-                        <button className="btn btn-xl btn-primary">
-                          시작하기
-                        </button>
+                          {isLoggedIn ?
+                              <Link href={'/admin/edit'}>
+                                  <button className="btn btn-xl btn-primary _download">
+                                      시작하기
+                                  </button>
+                              </Link> :
+                              <Link href={'/admin/user/social'}>
+                                  <button className="btn btn-xl btn-primary _download">
+                                      시작하기
+                                  </button>
+                              </Link>
+                          }
+
                       </div>
                     </div>
                   </section>
@@ -97,11 +112,11 @@ const Index = props => {
                         마이포폴에서 제공하는 템플릿으로 당신만의 특별한 사이트가
                         완성됩니다.
                       </p>
-                      <div className="row row-cols-3">
+                      <div className="row">
                         { templateList.map(item => (
-                          <TemplateList
+                          <TemplateList key={item.index}
                             imgPath={item.img.path}
-                            title={item.originName}
+                            title={item.title}
                           />
                         ))}
                       </div>
@@ -120,7 +135,7 @@ Index.getInitialProps = async function(ctx) {
   //   `${process.env.ASSET_PREFIX}/api/template/[id]`
   // );
   const res = await axios.get(
-    `http://localhost/api/template/list`
+    `http://localhost:8080/api/template/list`
   );
   return {
     data: res.data.data

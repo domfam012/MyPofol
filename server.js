@@ -10,8 +10,8 @@ const express = require("express")();
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 
-const port = 80;
-const ip = '127.0.0.1';
+const port = 8080;
+const ip = 'localhost';
 
 app.prepare().then(() => {
   createServer((req, res) => {

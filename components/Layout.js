@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import React from 'react'
-import Footer from './footer/Admin'
 import { useRouter } from 'next/router'
 
 const Layout = props => {
@@ -34,7 +33,11 @@ const Layout = props => {
       {/* main page 분기 처리 */}
       <div className={`wrap ${isMain ? 'm-wrap' : ''}`}>
         {props.children}
-        <Footer/>
+        <footer>
+          <div className={`wrap ${isMain ? 'footer m-footer' : 'footer'}`}>
+            <div className="copyright">Copyright © Domfam Corp. All rights reserved.</div>
+          </div>
+        </footer>
       </div>
     </>
   )

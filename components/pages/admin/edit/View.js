@@ -1,15 +1,16 @@
+import axios from 'axios'
+import Link from 'next/link'
+import Index from '../../../../pages'
+
 const View = () => {
   return (
     <div className="inner no-mw clearfix">
       <div className="section-container edit">
         <section>
-          <div className="title_area manage">
-            <h2 className="title">
-              <span>DOMFAM&nbsp;&nbsp;</span>
-              <i className="fal fa-chevron-right" />
-              <span>&nbsp;&nbsp;POTENS</span>
-            </h2>
-            <div className="project">회원가입</div>
+          <div className="title_area">
+            <Link href={'http://localhost/admin/edit?site=ab&category=cd'}>
+              <a href="#"><h2 className="title"><i className="far fa-chevron-left"></i>카테고리 명</h2></a>
+            </Link>
             <div className="btn-area mb">
               <button className="btn btn-outline-secondary">삭제</button>
               <button className="btn btn-primary">새 이미지 추가</button>
@@ -30,7 +31,7 @@ const View = () => {
                   </button>
                 </span>
               </a>
-              <a className="site hover" href="#">
+              <a className="site" href="#">
                 <span className="site-img">
                   <img src="/img/temp/potens.png" alt="potens" />
                 </span>
@@ -43,7 +44,7 @@ const View = () => {
                   </button>
                 </span>
               </a>
-              <a className="site " href="#">
+              <a className="site" href="#">
                 <span className="site-img">
                   <img src="/img/temp/potens.png" alt="potens" />
                 </span>
@@ -56,7 +57,7 @@ const View = () => {
                   </button>
                 </span>
               </a>
-              <a className="site " href="#">
+              <a className="site" href="#">
                 <span className="site-img">
                   <img src="/img/temp/potens.png" alt="potens" />
                 </span>
@@ -69,11 +70,9 @@ const View = () => {
                   </button>
                 </span>
               </a>
-              <a className="site" href="#">
-                <span className="plus">
-                  <i className="fal fa-plus" />
-                </span>
-                <span className="txt">새 이미지 추가</span>
+              <a className="site add" href="#">
+                <p className="plus"><i className="fal fa-plus"></i></p>
+                <p className="txt">새 웹사이트 추가</p>
               </a>
             </div>
           </div>
@@ -134,6 +133,19 @@ const View = () => {
       </div>
     </div>
   );
+};
+
+Index.getInitialProps = async function(ctx) {
+  const page = ctx.query.page || "1"; // default page index
+  // const res = await fetch(
+  //   `${process.env.ASSET_PREFIX}/api/template/[id]`
+  // );
+  const res = await axios.get(
+    `http://localhost/api/template/list`
+  );
+  return {
+    data: res.data.data
+  };
 };
 
 export default View;

@@ -34,15 +34,15 @@ const Header = props => {
                             {
                                 isLoggedIn
                                     ? <Link href={'/admin/user/mypage'}>
-                                        <a className="login" href="#"><span className="_name">{userInfo.name}</span>님</a>
+                                        <a className="login" href="#"><span>{userInfo.name}</span>님</a>
                                     </Link>
                                     : <Link href={'/admin/user/social'}>
-                                        <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                                        <a className="login" href="#"><span>로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
                                     </Link>
                             }
                             {
                                 isLoggedIn
-                                    ? <a onClick={onLogOut}  className="login" href="#"><i className="far fa-sign-out"></i></a> : ''
+                                    ? <a onClick={onLogOut}  className="logout" href="#"><i className="far fa-sign-out"></i></a> : ''
                             }
                         </div>
                     </div>

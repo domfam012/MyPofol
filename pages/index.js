@@ -98,11 +98,11 @@ const Index = props => {
                         마이포폴에서 제공하는 템플릿으로 당신만의 특별한 사이트가
                         완성됩니다.
                       </p>
-                      <div className="row row-cols-3">
+                      <div className="row">
                         { templateList.map(item => (
-                          <TemplateList
+                          <TemplateList key={item.index}
                             imgPath={item.img.path}
-                            title={item.originName}
+                            title={item.title}
                           />
                         ))}
                       </div>

@@ -32,7 +32,7 @@ const Site = () => {
                   <button className="btn btn-primary">상세</button>
                 </span>
               </div>
-              <a className="site" href="#">
+              <a className="site add" href="#">
                 <p className="plus">
                   <i className="fal fa-plus" />
                 </p>

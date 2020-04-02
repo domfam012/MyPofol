@@ -19,7 +19,7 @@ const Header = props => {
             <div className="login_area">
               <Link href={'/admin/user/social'}>
                 <a className="login">
-                  <span className="text _name">로그인이 필요합니다.</span>
+                  <span className="text">로그인이 필요합니다.</span>
                   <img src="/img/common/login.png" alt="myPofol"/>
                 </a>
               </Link>

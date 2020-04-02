@@ -1,23 +1,29 @@
 /* 메인 페이지 */
 import Head from 'next/head'
-import React from "react";
 import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
-import { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Popup from '../components/popup/admin/new/Popup';
-import {useSelector} from "react-redux";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
+import { LOG_ING} from "../redux/reducers/user";
+import {useDispatch, useSelector} from "react-redux";
+import Link from 'next/link'
 
 // 메인 페이지
 const Index = props => {
   const router = useRouter();
-  const { isLoggedIn  } = useSelector(state => state.user);
   const [ openPopup, setOpenPopup ] = useState(false);
+  const { isLoggedIn } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
   const closePopup = () => {
     setOpenPopup(!openPopup);
   };
 
-  if(isLoggedIn) {router.push(`/admin/edit`);}
+  useEffect(() => {
+    if (window.sessionStorage.id){dispatch({type :LOG_ING});}
+   }, []);
 
   return (
     <>
@@ -47,9 +53,19 @@ const Index = props => {
                         언제 어디서나 당신의 포트폴리오를 사람들에게 보여줄 수 있습니다.
                       </p>
                       <div className="btn-area text-center">
-                        <button className="btn btn-xl btn-primary _download">
-                          시작하기
-                        </button>
+                          {isLoggedIn ?
+                              <Link href={'/admin/edit'}>
+                                  <button className="btn btn-xl btn-primary _download">
+                                      시작하기
+                                  </button>
+                              </Link> :
+                              <Link href={'/admin/user/social'}>
+                                  <button className="btn btn-xl btn-primary _download">
+                                      시작하기
+                                  </button>
+                              </Link>
+                          }
+
                       </div>
                     </div>
                   </section>

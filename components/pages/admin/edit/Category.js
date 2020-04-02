@@ -1,4 +1,11 @@
+import {PORTFOLIO_SITE_INFO} from "../../../../redux/reducers/user";
+import {useSelector} from "react-redux";
+
 const Category = () => {
+
+    const { siteInfo  } = useSelector(state => state.user);
+    console.log(siteInfo);
+
   return (
     <div className="inner no-mw clearfix">
       <div className="section-container edit">
@@ -123,7 +130,6 @@ const Category = () => {
                 id="mobile"
                 name="category"
                 className="custom-control-input"
-                checked
               />
               <label className="custom-control-label" htmlFor="mobile">
                 MOBILE
@@ -151,6 +157,16 @@ const Category = () => {
       </div>
     </div>
   );
+};
+
+Category.getInitialProps = async function(ctx) {
+  console.log(ctx);
+    const site = ctx.query.site;
+    ctx.store.dispatch({
+        type : PORTFOLIO_SITE_INFO,
+        data : ctx.query.site
+    });
+    return ({site : site})
 };
 
 export default Category;

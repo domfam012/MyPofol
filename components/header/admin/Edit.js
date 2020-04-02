@@ -15,7 +15,7 @@ const Header = props => {
         dispatch({type :LOG_OUT});
 
         const auth2 = window.gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() =>{console.log('구글 로그아웃')});
+        auth2.signOut().then(() =>{console.log('구글 로그아웃.')});
 
         window.sessionStorage.clear();
         router.push(`/`);

@@ -52,7 +52,7 @@ const Header = props => {
                                         buttonText="Logout"
                                         onLogoutSuccess={logout}
                                         render={renderProps => (
-                                            <a className="login" href="#" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="far fa-sign-out"></i></a>
+                                            <a className="logout" href="#" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="far fa-sign-out"></i></a>
                                         )}
                                     /> : ''
                             }

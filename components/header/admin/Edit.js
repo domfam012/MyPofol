@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import {useDispatch, useSelector} from 'react-redux';
 import Link from 'next/link'
 import {LOG_OUT} from "../../../redux/reducers/user";
+import { GoogleLogout } from 'react-google-login';
 
 const Header = props => {
     const{isLoggedIn } = useSelector(state => state.user);
@@ -19,7 +20,6 @@ const Header = props => {
         window.sessionStorage.clear();
         router.push(`/`);
     };
-
 
     return (
         <header className="bg-header">
@@ -42,7 +42,7 @@ const Header = props => {
                                         <a className="login" href="#"><span className="_name">{window.sessionStorage.name}</span>님</a>
                                     </Link>
                                     : <Link href={'/admin/user/social'}>
-                                        <a className="login" href="#"><span>로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                                        <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
                                     </Link>
                             }
                             {

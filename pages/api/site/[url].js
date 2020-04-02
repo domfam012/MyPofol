@@ -43,8 +43,13 @@ export default async (req, res) => {
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
     case "GET":
+      console.log('areyouhere')
       doc = await db.collection("Site").doc(url);
       ref = await doc.get();
+
+      if(!ref.data()) {
+        return res.status(404).end();
+      }
       data.categoryList = ref.data().categoryList;
 
       const getSub = async () => {

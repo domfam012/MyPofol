@@ -4,22 +4,17 @@ import { useRouter } from "next/router";
 import {useDispatch, useSelector} from 'react-redux';
 import Link from 'next/link'
 import {LOG_OUT} from "../../../redux/reducers/user";
-import { GoogleLogout } from 'react-google-login';
 
 const Header = props => {
-    const{isLoggedIn } = useSelector(state => state.user);
+    const { userInfo , isLoggedIn } = useSelector(state => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const logout = () => {
+    const onLogOut = useCallback(() => {
         dispatch({type :LOG_OUT});
-
-        const auth2 = window.gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() =>{console.log('구글 로그아웃')});
-
-        window.sessionStorage.clear();
         router.push(`/`);
-    };
+    }, []);
+
 
     return (
         <header className="bg-header">
@@ -39,22 +34,15 @@ const Header = props => {
                             {
                                 isLoggedIn
                                     ? <Link href={'/admin/user/mypage'}>
-                                        <a className="login" href="#"><span className="_name">{window.sessionStorage.name}</span>님</a>
+                                        <a className="login" href="#"><span>{userInfo.name}</span>님</a>
                                     </Link>
                                     : <Link href={'/admin/user/social'}>
-                                        <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                                        <a className="login" href="#"><span>로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
                                     </Link>
                             }
                             {
                                 isLoggedIn
-                                    ?<GoogleLogout
-                                        clientId="715542130806-oe0pdnl5jtlov6suh1787c2fofk6ahos.apps.googleusercontent.com"
-                                        buttonText="Logout"
-                                        onLogoutSuccess={logout}
-                                        render={renderProps => (
-                                            <a className="login" href="#" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="far fa-sign-out"></i></a>
-                                        )}
-                                    /> : ''
+                                    ? <a onClick={onLogOut}  className="logout" href="#"><i className="far fa-sign-out"></i></a> : ''
                             }
                         </div>
                     </div>

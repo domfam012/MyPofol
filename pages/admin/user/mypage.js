@@ -2,14 +2,11 @@ import Head from 'next/head'
 import React ,{useEffect} from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
-import {LOG_ING} from "../../../redux/reducers/user";
+
 import {useDispatch} from "react-redux";
 
 const Mypage = props => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        if (window.sessionStorage.id){dispatch({type :LOG_ING});}
-    }, []);
+
 
     return (
         <Layout>

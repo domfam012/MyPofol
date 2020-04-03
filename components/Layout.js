@@ -1,12 +1,32 @@
 import Head from 'next/head'
-import React from 'react'
+import React ,{useEffect} from 'react'
 import { useRouter } from 'next/router'
+import {useDispatch} from "react-redux";
+import axios from "axios/index";
+import {LOG_ING, LOG_IN} from "../redux/reducers/user";
 
 const Layout = props => {
-  const { header, footer } = props
-  const router = useRouter()
+  const { header, footer } = props;
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const isMain = router.pathname === '/'
+
+    useEffect(() => {
+        if (window.sessionStorage.id){
+          getUserInfo();
+          dispatch({type :LOG_ING});
+        }
+    }, []);
+
+    const getUserInfo = async() => {
+        axios.get(`http://localhost:8080/api/user/${window.sessionStorage.id}`)
+            .then( userRes => {
+                const userInfo = {};
+                userInfo[userRes.googleId] = userRes.data.data[0];
+                dispatch({type :LOG_IN, data : Object.values(userInfo)[0] });
+            });
+    };
 
   return (
     <>

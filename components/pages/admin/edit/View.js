@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import {CATEGORY_STATE} from "../../../../redux/reducers/user";
+import {VIEW_STATE, CATEGORY_STATE} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 import React ,{useEffect}from "react";
 
 const ViewList = props => {
+
   const dispatch = useDispatch();
   const setState = e => {
-    dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e }});
+    dispatch({type : VIEW_STATE, data : { state : 'selected', value : e }});
   };
 
   return(
@@ -18,7 +19,7 @@ const ViewList = props => {
         <span className="title">{props.title}</span>
       </span>
       <span className="btn-area single">
-        <button onClick={(e) => setState(props.title)} className="btn btn-outline-secondary mr-1">선택</button>
+        <button onClick={(e) => setState(props.id)} className="btn btn-outline-secondary mr-1">선택</button>
       </span>
     </a>
   )
@@ -76,6 +77,7 @@ const Selected = props => {
               rows="7"
               placeholder="이미지 소개글을 입력하세요"
               style={{ "resize": "none" }}
+              value={props.intro}
             />
           </div>
         </form>
@@ -94,13 +96,47 @@ const Selected = props => {
   )
 };
 
-const View = () => {
+const View = props => {
 
   const dispatch = useDispatch();
-  const { siteInfo , categoryState  , categoryValue} = useSelector(state => state.user);
+
+  const { siteInfo , viewState, viewValue } = useSelector(state => state.user);
+
+
+    console.log(siteInfo);
+    console.log(props.category);
+    console.log(viewState);
+    console.log(viewValue);
+
+
+  const view = siteInfo.category[props.category].view;
+  const viewList = siteInfo.category[props.category].viewList;
+
+    console.log(view);
+    console.log(viewList);
+
+    //                   0      1
+    // categoryList = [ 테1 , 테2 ]
+    // category = [
+    // {} , // 무조건 테1 해당하는 정보 : 0
+    // {}  // 무조건 테2 해당하는 정보 : 1
+    // ]
+    // props.category = 테2
+
+
+    // indexOf 란 >  배열에서 'value' 값의 인덱스 정보를 반환
+    // indexOf 사용 방법>  array.indexOf('value') = index
+    // indexOf 시용 방법 예시> siteInfo.categoryList.indexOf('테2') = 1
+
+    // siteInfo.category[siteInfo.categoryList.indexOf(props.category)] = category[1]
+
+
+
+
   useEffect(() => {
-    siteInfo.category.view.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
+      viewList.length === 0 ? dispatch({type : VIEW_STATE, data : { state : 'none'} }) : dispatch({type : VIEW_STATE, data : { state : 'unselected'} });
   }, []);
+
 
   return (
     <div className="inner no-mw clearfix">
@@ -108,7 +144,7 @@ const View = () => {
         <section>
           <div className="title_area">
             <Link href={'http://localhost/admin/edit?site=ab&category=cd'}>
-              <a href="#"><h2 className="title"><i className="far fa-chevron-left"></i>카테고리 명</h2></a>
+              <a href="#"><h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.category[props.category].name}</h2></a>
             </Link>
             <div className="btn-area mb">
               <button className="btn btn-outline-secondary">삭제</button>
@@ -117,12 +153,12 @@ const View = () => {
           </div>
           <div className="contents">
             <div className="inner scroll">
-              {siteInfo.categoryList.map((item , index) => (
+              {viewList.map((item , index) => (
                 <ViewList
                   key={index}
-                  imgPath={siteInfo.category[item].img.path}
-                  title={item}
-                  activeTarget={categoryValue !== '' ? categoryValue : ''}
+                  imgPath={view[item].img.path}
+                  title={view[item].originName}
+                  id={view[item].id}
                 />
               ))}
               <a className="site add" href="#">
@@ -135,13 +171,13 @@ const View = () => {
       </div>
       <div className="snb">
         {
-          categoryState === 'none'
+          viewState === 'none'
             ? <None/> :
-            categoryState === 'selected'
+              viewState === 'selected'
               ? <Selected
-                title = {categoryValue !== '' ? categoryValue : ''}
-                type = {siteInfo.category[categoryValue].type}
-                imgPath={siteInfo.category[categoryValue].img.path}
+                  title = {viewValue !== '' ? view[viewValue].originName : ''}
+                  imgPath = {view[viewValue].img.path}
+                  intro = {view[viewValue].intro}
               />:
                 <Unselected/>
         }

@@ -28153,6 +28153,7 @@ footer .footer .copyright {
   height: 100vh;
   background-color: #f5f5f5;
   padding: 0 20px;
+  min-height: 800px;
 }
 
 .inner .snb .select .title {

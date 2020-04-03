@@ -18,79 +18,58 @@ const Social =props => {
         if (window.sessionStorage.id){dispatch({type :LOG_ING});}
     }, []);
 
-    const responseGoogle = async(res) => {
-        axios.get(`http://localhost:8080/api/user/google_${res.googleId}`)
-            .then( userRef => {
-                if (userRef.data.data === 404) {
+    const responseGoogle = async(googleRes) => {
+        axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
+            .then( userRes => {
+                if (userRes.data.data === 404) {
                     console.log('회원가입 진행');
                     const user= {
-                        img : {
-                            saveName : shortid.generate(),
-                            path : res.profileObj.imageUrl ? res.profileObj.imageUrl : ''
-                        },
+                        img : {saveName : shortid.generate(), path : googleRes.profileObj.imageUrl ? googleRes.profileObj.imageUrl : ''},
                         created : moment().format(),
-                        name : res.profileObj.name,
-                        email : res.profileObj.email,
+                        name : googleRes.profileObj.name,
+                        email : googleRes.profileObj.email,
                         phone : '',
                         socialName : 'google',
                         siteList : []
                     };
                     axios.post(
-                        `http://localhost:8080/api/user/google_${res.googleId}`,
-                        user
-                    ).then( userRef => {
-                        if (userRef.data.data === 404) {
-                            console.log('회원가입 실패');
-                        }else{
+                        `http://localhost:8080/api/user/google_${googleRes.googleId}`, user
+                    ).then( userRes => {
+                        if (userRes.data.data === 404) console.log('회원가입 실패');
+                        else{
                             console.log('회원가입 완료');
-                            axios.get(`http://localhost:8080/api/user/google_${res.googleId}`)
-                                .then( userRef => {
-                                    if (userRef.data.data === 404) {
-                                        console.log('로그인 실패');
-                                    }else{
-                                        console.log('로그인 성공');
-                                        const userInfo = {};
-                                        userInfo[`google_${res.googleId}`] = userRef.data.data[0];
-                                        dispatch({type :LOG_IN, data : Object.values(userInfo)[0]  });
-
-                                        window.sessionStorage.setItem('id', res.profileObj.googleId);
-                                        window.sessionStorage.setItem('name', res.profileObj.name);
-                                        window.sessionStorage.setItem('email', res.profileObj.email);
-                                        window.sessionStorage.setItem('path', res.profileObj.imageUrl ? res.profileObj.imageUrl : '');
-                                        history.back();
-                                    }
+                            axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
+                                .then( userRes => {
+                                    if (userRes.data.data === 404) console.log('로그인 실패');
+                                    else login(googleRes, userRes);
                                 })
                         }
                     })
                 } else {
-                    console.log('로그인 성공');
-                    const userInfo = {};
-                    userInfo[`google_${res.googleId}`] = userRef.data.data[0];
-                    dispatch({type :LOG_IN, data : Object.values(userInfo)[0]  });
-
-                    window.sessionStorage.setItem('id', res.googleId);
-                    window.sessionStorage.setItem('name', res.profileObj.name);
-                    window.sessionStorage.setItem('email', res.profileObj.email);
-                    window.sessionStorage.setItem('path', res.profileObj.imageUrl ? res.profileObj.imageUrl : '');
-                    history.back();
+                    login(googleRes, userRes);
                 }
             });
     };
 
+    const login = (googleRes, userRes) => {
+        const userInfo = {};
+        userInfo[`google_${googleRes.googleId}`] = userRes.data.data[0];
+        dispatch({type :LOG_IN, data : Object.values(userInfo)[0]  });
 
+        console.log('로그인 성공');
 
-    const userDispatch= async (res) => {
-        const useRef = await axios.get(`http://localhost:8080/api/user/google_${res.tokenId}`);
-        if (useRef.status === 200) history.back();
-        else {
+        window.sessionStorage.setItem('id', googleRes.profileObj.googleId);
+        window.sessionStorage.setItem('name', googleRes.profileObj.name);
+        window.sessionStorage.setItem('email', googleRes.profileObj.email);
+        window.sessionStorage.setItem('path', googleRes.profileObj.imageUrl ? googleRes.profileObj.imageUrl : '');
 
-        }
-
+        history.back();
     };
 
     const responseFail= (err) => {
         console.log(err);
     };
+
     return (
         <Layout>
             <Head>

@@ -43,10 +43,6 @@ const Index = props => {
     setOpenPopup(!openPopup);
   };
 
-  useEffect(() => {
-    if (window.sessionStorage.id){dispatch({type :LOG_ING});}
-   }, []);
-
   const templateList = props.data;
 
   return (

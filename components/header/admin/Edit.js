@@ -7,7 +7,7 @@ import {LOG_OUT} from "../../../redux/reducers/user";
 import { GoogleLogout } from 'react-google-login';
 
 const Header = props => {
-    const{isLoggedIn } = useSelector(state => state.user);
+    const{isLoggedIn , userInfo} = useSelector(state => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const Header = props => {
                             {
                                 isLoggedIn
                                     ? <Link href={'/admin/user/mypage'}>
-                                        <a className="login" href="#"><span className="_name">{window.sessionStorage.name}</span>님</a>
+                                        <a className="login" href="#"><span className="_name">{userInfo.name}</span>님</a>
                                     </Link>
                                     : <Link href={'/admin/user/social'}>
                                         <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>

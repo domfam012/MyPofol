@@ -51,15 +51,13 @@ export default async (req, res) => {
         return res.status(404).end();
       }
       data[url] = ref.data();
-        data[url].category = [];
 
       const getSub = async () => {
         const subCollection = await db.collection(`Site/${url}/category`);
         const subRef = await subCollection.get();
         subRef.forEach(subDoc => {
-
-          const index = data[url].categoryList.indexOf(subDoc.id);
-          data[url].category[index] = { ...subDoc.data() };
+          data[url].category = {};
+          data[url].category[subDoc.id] = { id:subDoc.id, ...subDoc.data() };
         });
         const resData = JSON.stringify({
           status: 200,

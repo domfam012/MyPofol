@@ -1,4 +1,4 @@
-const Exit = props => {
+const Step6 = props => {
   const { onClose } = props;
 
   return (
@@ -18,4 +18,4 @@ const Exit = props => {
   );
 };
 
-export default Exit;
+export default Step6;

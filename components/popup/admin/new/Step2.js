@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Step1 = props => {
+const Step2 = props => {
   const { onNext } = props;
   const { handleNameChange, handleUrlChange } = props;
   const { site } = props;
@@ -9,10 +9,13 @@ const Step1 = props => {
   const [url, setUrl] = useState(site.url);
   const [urlChecked, setUrlChecked] = useState(false);
 
+  let isChecking = false;
+
   const onNameChange = e => {
     setName(e.target.value);
     handleNameChange(e.target.value);
   };
+
   const onUrlChange = e => {
     setUrl(e.target.value);
     setUrlChecked(false);
@@ -20,16 +23,25 @@ const Step1 = props => {
   };
 
   const handleNext = () => {
-    if(!name || !url || !urlChecked) alert('check');
+    if(isChecking) return alert('checking url..');
+
+    if(!name) alert('name!');
+    else if(!url) alert('url!');
+    else if(!urlChecked) alert('urlChecked!');
     else onNext();
   };
 
   const checkUrl = async e => {
     e.preventDefault();
+    isChecking = true;
+
     if(!url) return alert('check');
-    const res = await axios.get(`http://localhost/api/site/${url}/check`);
+    const res = await axios.get(`http://localhost:8080/api/site/${url}/check`);
     if(!res.data.urlChecked) alert('already in use');
     setUrlChecked(res.data.urlChecked);
+    alert('url checked!');
+
+    isChecking = false;
   };
 
   return (
@@ -82,4 +94,4 @@ const Step1 = props => {
   );
 };
 
-export default Step1;
+export default Step2;

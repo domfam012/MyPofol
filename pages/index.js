@@ -30,7 +30,6 @@ const TemplateList = props => {
   )
 };
 
-
 // 메인 페이지
 const Index = props => {
 

@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-const Step2 = props => {
+const Step3 = props => {
   const { onNext, onPrev } = props;
-  const { handleTelChange, handleEmailChange } = props;
+  const { handleTelChange, handleEmailChange, handleImgFile } = props;
   const { site } = props;
   const [tel, setTel] = useState(site.tel);
   const [email, setEmail] = useState(site.email);
+
+  const [img, setImg] = useState("");
+
+  const inputImgEl = useRef(null);
 
   const onTelChange = e => {
     setTel(e.target.value);
@@ -16,8 +20,18 @@ const Step2 = props => {
     handleEmailChange(e.target.value);
   };
 
+  // 이미지 업로드
+  const onImgUpload = e => {
+    const preview = URL.createObjectURL(e.target.files[0]);
+    setImg(preview);
+    handleImgFile(e.target.files[0]);
+    inputImgEl.current.focus();
+  };
+
   const handleNext = () => {
-    if(!tel || !email) alert('check');
+    if(!tel) alert('tel!');
+    else if(!email) alert('email!');
+    else if(!img) alert('img!');
     else onNext();
   };
 
@@ -62,11 +76,31 @@ const Step2 = props => {
             이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
           */}
           <a href="#">
-            <span className="plus">
-              <i className="fal fa-plus" />
-            </span>
-            <span className="txt">로고이미지 추가</span>
-            <img src="/img/temp/UI_AD_AA_02_03S.png" alt="로고이미지 추가" />
+            {img === "" ?
+                (
+                    <label
+                        style={{"cursor":"pointer"}}
+                        htmlFor={"imgUploader"}
+                    >
+                      <span className="plus">
+                        <i className="fal fa-plus" />
+                      </span>
+                      <span className="txt">로고이미지 추가</span>
+                    </label>
+                )
+                : (
+                    <img src={img} alt="로고이미지 추가" />
+                )
+            }
+            <input
+                style={{"display":"none"}}
+                type="file"
+                id="imgUploader"
+                name={"img"}
+                className="form-control-file"
+                ref={inputImgEl}
+                onChange={onImgUpload}
+            />
           </a>
         </div>
       </form>
@@ -85,4 +119,4 @@ const Step2 = props => {
   );
 };
 
-export default Step2;
+export default Step3;

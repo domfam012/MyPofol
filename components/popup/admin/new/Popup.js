@@ -14,7 +14,7 @@ const closePopup = () => {
 
  */
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../../../components/header/admin/New";
 import axios from "axios";
 
@@ -36,9 +36,15 @@ const Popup = props => {
     url: '',
     tel: '',
     email: '',
-    category: ['', ''],
-    template: 1
+    logo: {
+      saveName: '',
+      path: ''
+    },
+    categoryList: ['', ''],
+    template: 0
   });
+
+  const [logoImg, setLogoImg] = useState();
 
   const handleNext = () => setStep(step => ++step);
   const handlePrev = () => setStep(step => --step);
@@ -48,8 +54,19 @@ const Popup = props => {
   const handleUrlChange = val => setSite({ ...site, url: val });
   const handleTelChange = val => setSite({ ...site, tel: val });
   const handleEmailChange = val => setSite({ ...site, email: val });
-  const handleCategoryChange = val => setSite({ ...site, category: val });
+  const handleImgChange = (saveName, path) => setSite({ ...site, logo: { saveName: saveName, path: path } });
+  const handleImgFile = val => setLogoImg(val);
+  const handleCategoryChange = val => setSite({ ...site, categoryList: val });
   const handleTemplateChange = val => setSite({ ...site, template: val });
+
+  const [templateList, setTemplateList] = useState([]);
+  useEffect(() => {
+    const fetchTemplate = async () => {
+      const res = await axios.get(`http://localhost:8080/api/template/list`);
+      setTemplateList(res.data.data);
+    };
+    fetchTemplate();
+  }, []);
 
   return (
     <div className="wrap">
@@ -82,6 +99,7 @@ const Popup = props => {
                 site={site}
                 handleTelChange={handleTelChange}
                 handleEmailChange={handleEmailChange}
+                handleImgFile={handleImgFile}
               />
             );
           case 4:
@@ -99,7 +117,10 @@ const Popup = props => {
                 onNext={handleNext}
                 onPrev={handlePrev}
                 site={site}
+                templateList={templateList}
                 handleTemplateChange={handleTemplateChange}
+                handleImgChange={handleImgChange}
+                logoImg={logoImg}
               />
             );
           case 6:

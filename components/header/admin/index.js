@@ -15,7 +15,7 @@ const Header = props => {
         dispatch({type :LOG_OUT});
 
         const auth2 = window.gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() =>{console.log('구글 로그아웃')});
+        auth2.signOut().then(() =>{console.log('로그아웃')});
 
         window.sessionStorage.clear();
         router.push(`/`);
@@ -39,10 +39,10 @@ const Header = props => {
                   {
                       isLoggedIn
                           ? <Link href={'/admin/user/mypage'}>
-                              <a className="login" href="#"><span className="_name">{window.sessionStorage.name}</span>님</a>
+                              <a className="login" href="#"><span className="text">{window.sessionStorage.name}&nbsp;님</span></a>
                           </Link>
                           : <Link href={'/admin/user/social'}>
-                              <a className="login" href="#"><span className="_name">로그인이 필요합니다. <img src="/img/common/login.png" alt=""/></span></a>
+                              <a className="login" href="#"><span className="text">로그인이 필요합니다.</span><img src="/img/common/login.png" alt=""/></a>
                           </Link>
                   }
                   {

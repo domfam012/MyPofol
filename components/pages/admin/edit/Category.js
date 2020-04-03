@@ -81,10 +81,10 @@ const Selected = props => {
 const Category = props => {
     const dispatch = useDispatch();
 
-    const { siteInfo , categoryState  , categoryValue} = useSelector(state => state.user);
+    const { categoryState  , categoryValue} = useSelector(state => state.user);
 
     useEffect(() => {
-        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
+        props.siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
     }, []);
 
   return (
@@ -100,10 +100,10 @@ const Category = props => {
                   </div>
                   <div className="contents">
                       <div className="inner">
-                          {siteInfo.categoryList.map((item , index) => (
+                          {props.siteInfo.categoryList.map((item , index) => (
                               <CategoryList
                                   key={index}
-                                  imgPath={siteInfo.category[item].img.path}
+                                  imgPath={props.siteInfo.category[index].img.path}
                                   title={item}
                                   activeTarget={categoryValue !== '' ? categoryValue : ''}
                               />
@@ -123,8 +123,8 @@ const Category = props => {
                       categoryState === 'selected'
                       ? <Selected
                          title = {categoryValue !== '' ? categoryValue : ''}
-                         type = {siteInfo.category[categoryValue].type}
-                         imgPath={siteInfo.category[categoryValue].img.path}
+                         type = {props.siteInfo.category[categoryValue].type}
+                         imgPath={props.siteInfo.category[categoryValue].img.path}
                       />:
                           <Unselected/>
               }

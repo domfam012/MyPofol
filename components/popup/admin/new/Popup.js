@@ -69,7 +69,7 @@ const Popup = props => {
   }, []);
 
   return (
-    <div className="wrap">
+    <div className="wrap popup-wrap">
       <Header onClose={closePopup} />
       {(() => {
         switch (step) {
@@ -141,6 +141,20 @@ const Popup = props => {
             );
         }
       })()}
+
+      <style jsx>{`
+        .popup-wrap {
+          z-index: 1000;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: #fff;
+        }
+      `}</style>
+
     </div>
   );
 };

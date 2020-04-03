@@ -49,7 +49,6 @@ const Index = props => {
 
   const templateList = props.data;
 
-
   return (
     <>
       {
@@ -66,6 +65,7 @@ const Index = props => {
                   <meta property="og:description" content="나만의 포트폴리오를 만들어보세요. - My Pofol" />
                 </Head>
                   <Header />
+
                   <section className="introduction">
                     <div className="container">
                       <h2 className="title">MY POFOL</h2>

@@ -27802,7 +27802,11 @@ footer .footer .copyright {
   display: inline-block;
   position: absolute;
   top: 48px;
-  left: 30px;
+  left: 31px;
+}
+
+.init.select .card.active {
+  border: 4px solid #d63d45;
 }
 
 .init.complete {

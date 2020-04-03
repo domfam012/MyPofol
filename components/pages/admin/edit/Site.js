@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {useDispatch} from "react-redux";
+import { SITE_STATE } from "../../../../redux/reducers/user"
 import Popup from "../../../../components/popup/admin/new/Popup";
 
 const Site = () => {
@@ -27,7 +29,7 @@ const Site = () => {
                 </div>
               </div>
               <div className="contents">
-                <div className="inner">
+                <div className="inner scroll-lg">
                   <div className="site active">
                     <span className="site-img">
                       <img
@@ -58,7 +60,7 @@ const Site = () => {
               </div>
             </section>
           </div>
-          <div className="snb">
+          <div className="snb h-auto">
             <div className="contents">
               <div className="box">
                 <form className="form_site">

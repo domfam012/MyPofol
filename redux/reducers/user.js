@@ -845,6 +845,8 @@ export const initialState = {
     isLoggedIn : false,
     userInfo : {},
     siteInfo : {},
+    siteState : 'unselected', // 'unselected' : 사이트 선택 안됨 'selected' : 사이트 선택 됨 'none' : 사이트 없음
+    siteValue : '',
     categoryInfo : {},
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
     categoryValue : '',

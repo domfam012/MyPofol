@@ -119,6 +119,7 @@
 .carousel-control-next {
   position: absolute;
   right: 0;
+  margin-right: 20px;
   @if $enable-gradients {
     background-image: linear-gradient(270deg, rgba($black, .25), rgba($black, .001));
   }
@@ -134,32 +135,34 @@
 }
 .carousel-control-prev-icon {
   position: relative;
-  top: 5px;
-  left: -39px;
+  color: $primary;
   &:after {
     content: '';
     position: absolute;
-    width: 13px;
-    height: 13px;
-    border: 2px solid;
+    width: 77px;
+    height: 77px;
+    border: 5px solid;
     transform: rotate(225deg);
     border-bottom: 0;
     border-left: 0;
+    left: -20px;
+    top: -45px;
   }
 }
 .carousel-control-next-icon {
   position: relative;
-  top: 4px;
-  right: -28px;
+  color: $primary;
   &:after {
     content: '';
     position: absolute;
-    width: 13px;
-    height: 13px;
-    border: 2px solid;
+    width: 77px;
+    height: 77px;
+    border: 5px solid;
     transform: rotate(45deg);
     border-bottom: 0;
     border-left: 0;
+    right: -30px;
+    top: -45px;
   }
 }
 

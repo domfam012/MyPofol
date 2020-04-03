@@ -28,10 +28,11 @@ export default async (req, res) => {
 
       if (ref._document === null) { // 조회 결과 없음
         resData = JSON.stringify({
-          status: 404,
-          msg: "not found"
+          status: 200,
+          msg: "not found",
+          data : 404
         });
-        return res.status(404).send(resData);
+        return res.status(200).send(resData);
 
       } else { // 정상 조회
         data.push({ ...ref.data() });

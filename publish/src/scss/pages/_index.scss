@@ -474,7 +474,7 @@
   .section-container {
     float: left;
     width: calc(100% - 300px);
-    padding: 25px 40px;
+    padding: 25px 40px 0;
 
     .title_area {
       margin-bottom: 23px;
@@ -616,7 +616,7 @@
   .snb {
     float: right;
     width: 300px;
-    height: 1040px;
+    height: 100vh;
     background-color: #f5f5f5;
     padding: 0 20px;
 
@@ -636,6 +636,7 @@
 
     .contents {
       padding-top: 50px;
+      padding-bottom: 20px;
 
       .box {
         margin-bottom: 43px;
@@ -1174,6 +1175,14 @@
   }
 }
 
+.scroll {
+  overflow: auto;
+  max-height: 800px;
+}
+.scroll-xl {
+  overflow: auto;
+  max-height: 1200px;
+}
 @media (max-width: 1200px) {
   .main-bg {
     .bar {
@@ -1191,3 +1200,4 @@
     }
   }
 }
+

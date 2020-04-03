@@ -1,4 +1,4 @@
-import React ,{useEffect} from "react";
+import React  from "react";
 import Layout from "../../components/Layout";
 import Header from "../../components/header/admin/Edit";
 
@@ -14,19 +14,12 @@ import axios from "axios";
 
 const Edit = props => {
   const router = useRouter();
-  const dispatch = useDispatch();
 
   const site = router.query.site;
   const category = router.query.category;
   const { siteInfo } = useSelector(state => state.user);
 
-    console.log('#2');
-    console.log(siteInfo);
 
-
-    useEffect(() => {
-        if (window.sessionStorage.id){dispatch({type :LOG_ING});}
-    }, []);
 
   let render;
   if (!site && !category) {
@@ -43,7 +36,7 @@ const Edit = props => {
     // http://localhost/admin/edit?site=ab
     // http://localhost/admin/edit?site=ab&category=
     // -> Category 가서 Site 조회 후 없으면 404
-    render = <Category data={siteInfo} />;
+    render = <Category />;
   } else {
     // http://localhost/admin/edit?category=cd
     render = (<div>404</div>);
@@ -61,15 +54,11 @@ const Edit = props => {
 Edit.getInitialProps = async function(ctx) {
     const site = ctx.query.site;
     if(site){
-        axios.get(`http://localhost:8080/api/site/${site}`)
-            .then( siteRes => {
-                ctx.store.dispatch({
-                    type : PORTFOLIO_SITE_INFO,
-                    data : siteRes.data.data[site]
-                })
-            });
-
-        console.log('#1')
+        const res = await axios.get(`http://localhost:8080/api/site/${site}`);
+        ctx.store.dispatch({
+            type : PORTFOLIO_SITE_INFO,
+            data : res.data.data[site]
+        });
     }
 };
 

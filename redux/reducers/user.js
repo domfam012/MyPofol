@@ -1,4 +1,3 @@
-
 export const initialState = {
     isLoggedIn : false,
     userInfo : {},
@@ -7,7 +6,7 @@ export const initialState = {
     siteValue : '',
     categoryInfo : {},
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
-    categoryValue : '',
+    categoryIdx : 0 ,
     portfolioAutoPlay : false, // 자동 슬라이드
     portfolioPopup : false // 이미지 이동 팝업 노출
 };
@@ -78,7 +77,7 @@ export default (state = initialState , action) => {
             return {
                 ...state,
                 categoryState: action.data.state,
-                categoryValue: action.data.value ? action.data.value : ''
+                categoryIdx: action.data.index
             }
         }
         default: {

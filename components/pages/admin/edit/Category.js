@@ -5,15 +5,14 @@ import React ,{useEffect}from "react";
 const CategoryList = props => {
     const dispatch = useDispatch();
     const setState = e => {
-        dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e }});
+        dispatch({type : CATEGORY_STATE, data : { state : 'selected', index : e }});
     };
-
     return(
-        <div className={props.activeTarget === props.title ? 'site active' : 'site'}>
+        <div className={props.activeTargetIdx === props.categoryList.indexOf(props.title) && props.categoryState === "selected"? 'site active' : 'site'}>
             <span className="site-img"><img src={props.imgPath} alt="thumbnail"/></span>
             <span className="site-body"><span className="title">{props.title}</span></span>
             <span className="btn-area">
-            <button onClick={(e) => setState(props.title)}  className="btn btn-outline-secondary mr-1">선택</button>
+            <button onClick={(e) => setState(props.categoryIdx)}  className="btn btn-outline-secondary mr-1">선택</button>
             <button className="btn btn-primary">상세</button></span>
         </div>
     )
@@ -49,11 +48,11 @@ const Selected = props => {
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" className="custom-control-input" checked={props.type === '1'}/>
+                    <input type="radio" id="pc" name="category" className="custom-control-input" checked={props.type === 1}/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" className="custom-control-input" checked={props.type === '2'}/>
+                    <input type="radio" id="mobile" name="category" className="custom-control-input" checked={props.type === 2}/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -81,10 +80,10 @@ const Selected = props => {
 const Category = props => {
     const dispatch = useDispatch();
 
-    const { siteInfo , categoryState  , categoryValue} = useSelector(state => state.user);
+    const { siteInfo , categoryState  , categoryIdx} = useSelector(state => state.user);
 
     useEffect(() => {
-        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
+        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none', index : 0} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected', index : 0} });
     }, []);
 
   return (
@@ -103,9 +102,13 @@ const Category = props => {
                           {siteInfo.categoryList.map((item , index) => (
                               <CategoryList
                                   key={index}
-                                  imgPath={siteInfo.category[item].img.path}
+                                  imgPath={siteInfo.category[index].img.path}
                                   title={item}
-                                  activeTarget={categoryValue !== '' ? categoryValue : ''}
+                                  categoryIdx={index}
+                                  categoryList={siteInfo.categoryList}
+                                  activeTargetIdx={categoryIdx}
+                                  categoryState={categoryState}
+
                               />
                           ))}
                           <a className="site add" href="#">
@@ -122,9 +125,9 @@ const Category = props => {
                   ? <None/> :
                       categoryState === 'selected'
                       ? <Selected
-                         title = {categoryValue !== '' ? categoryValue : ''}
-                         type = {siteInfo.category[categoryValue].type}
-                         imgPath={siteInfo.category[categoryValue].img.path}
+                         title = {siteInfo.categoryList[categoryIdx]}
+                         type = {siteInfo.category[categoryIdx].type}
+                         imgPath={siteInfo.category[categoryIdx].img.path}
                       />:
                           <Unselected/>
               }

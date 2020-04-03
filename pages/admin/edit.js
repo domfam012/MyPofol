@@ -1,4 +1,4 @@
-import React ,{useEffect} from "react";
+import React  from "react";
 import Layout from "../../components/Layout";
 import Header from "../../components/header/admin/Edit";
 
@@ -10,17 +10,16 @@ import Category from "../../components/pages/admin/edit/Category";
 import View from "../../components/pages/admin/edit/View";
 import {LOG_ING, PORTFOLIO_SITE_INFO} from "../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
 
 const Edit = props => {
   const router = useRouter();
+
   const site = router.query.site;
   const category = router.query.category;
-  const dispatch = useDispatch();
   const { siteInfo } = useSelector(state => state.user);
 
-    useEffect(() => {
-        if (window.sessionStorage.id){dispatch({type :LOG_ING});}
-    }, []);
+
 
   let render;
   if (!site && !category) {
@@ -37,7 +36,7 @@ const Edit = props => {
     // http://localhost/admin/edit?site=ab
     // http://localhost/admin/edit?site=ab&category=
     // -> Category 가서 Site 조회 후 없으면 404
-    render = <Category siteName={siteInfo.name}/>;
+    render = <Category />;
   } else {
     // http://localhost/admin/edit?category=cd
     render = (<div>404</div>);
@@ -55,10 +54,11 @@ const Edit = props => {
 Edit.getInitialProps = async function(ctx) {
     const site = ctx.query.site;
     if(site){
+        const res = await axios.get(`http://localhost:8080/api/site/${site}`);
         ctx.store.dispatch({
             type : PORTFOLIO_SITE_INFO,
-            data : ctx.query.site
-        })
+            data : res.data.data[site]
+        });
     }
 };
 

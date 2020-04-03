@@ -11,8 +11,6 @@ import {useDispatch, useSelector} from "react-redux";
 
 import axios from "axios";
 
-import Alert from '../components/popup/Alert';
-
 const TemplateList = props => {
   const { imgPath, title } = props;
   return(
@@ -50,11 +48,6 @@ const Index = props => {
    }, []);
 
   const templateList = props.data;
-
-  const [ openAlert, setOpenAlert ] = useState(true);
-  const closeAlert = () => {
-    setOpenAlert(!openAlert);
-  };
 
   return (
     <>
@@ -111,15 +104,6 @@ const Index = props => {
                         alt="My UI background image"
                     />
                   </div>
-
-                {openAlert
-                    ? (
-                        <Alert closeAlert={closeAlert}/>
-                    )
-                    : (
-                        <></>
-                    )
-                }
 
                   <section className="pofol">
                     <div className="container-fluid">

@@ -34,16 +34,6 @@ const Header = props => {
                     </Link>
                     <div className="collapse navbar-collapse">
                         <div className="title">
-                            <a className="carousel-control-prev" href="#carouselProject" role="button"
-                               data-slide="prev">
-                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span className="sr-only">Previous</span>
-                            </a>
-                            <a className="carousel-control-next" href="#carouselProject" role="button"
-                               data-slide="next">
-                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span className="sr-only">Next</span>
-                            </a>
                             <p className="t-img">{props.image}</p>
                         </div>
                         <div className="page-area slider">

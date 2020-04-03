@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Popup from "../../../../components/popup/admin/new/Popup";
+import Link from 'next/link'
 
 const Site = () => {
   const [openPopup, setOpenPopup] = useState(false);
@@ -11,6 +12,7 @@ const Site = () => {
     setOpenPopup(true);
   };
 
+    const site = 'test';
   return (
     <>
       {openPopup ? (
@@ -48,6 +50,30 @@ const Site = () => {
                       <button className="btn btn-primary">상세</button>
                     </span>
                   </div>
+                    <div className="site active">
+                    <span className="site-img">
+                      <img
+                          src="/img/common/default_thumbnail.png"
+                          alt="thumbnail"
+                      />
+                    </span>
+                        <p className="site-body">
+                            <span className="title">베스킨라빈스</span>
+                            <Link href="/portfolio/[site]" as={`/portfolio/${site}`}>
+                                <a className="address" href="#">
+                                    http://www.mypofol.com/test
+                                </a>
+                            </Link>
+                        </p>
+                        <span className="btn-area">
+                      <button className="btn btn-outline-secondary mr-1">
+                        선택
+                      </button>
+                      <Link href={`/admin/edit?site=${site}`} as={`/admin/edit?site=${site}`}>
+                    <button className="btn btn-primary">상세</button>
+                  </Link>
+                    </span>
+                    </div>
                   <a className="site add" href="#" onClick={handlePopup}>
                     <p className="plus">
                       <i className="fal fa-plus" />

@@ -16,7 +16,6 @@ export default async (req, res) => {
   const {
     query: { url }
   } = req;
-  const data = { categoryList: [], category: [] };
 
   // let site = {
   //   url: "",
@@ -38,6 +37,8 @@ export default async (req, res) => {
   //   viewList: []
   // };
 
+    const data = { };
+    data[url] = {};
   let site, category;
   let resData, ref, doc;
   switch (req.method) {
@@ -49,13 +50,16 @@ export default async (req, res) => {
       if (!ref.data()) {
         return res.status(404).end();
       }
-      data.categoryList = ref.data().categoryList;
+      data[url] = ref.data();
+        data[url].category = [];
 
       const getSub = async () => {
         const subCollection = await db.collection(`Site/${url}/category`);
         const subRef = await subCollection.get();
         subRef.forEach(subDoc => {
-          data.category.push({ ...subDoc.data() });
+
+          const index = data[url].categoryList.indexOf(subDoc.id);
+          data[url].category[index] = { ...subDoc.data() };
         });
         const resData = JSON.stringify({
           status: 200,
@@ -102,7 +106,7 @@ export default async (req, res) => {
       category = {
         type: 1,
         created: current,
-        img: { saveName: "", path: "" },
+        img: { saveName: "", path: "/img/common/default_thumbnail.png" },
         view: {
           intro: "",
           created: "",

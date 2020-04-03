@@ -58,10 +58,7 @@ const Social =props => {
 
         console.log('로그인 성공');
 
-        window.sessionStorage.setItem('id', googleRes.profileObj.googleId);
-        window.sessionStorage.setItem('name', googleRes.profileObj.name);
-        window.sessionStorage.setItem('email', googleRes.profileObj.email);
-        window.sessionStorage.setItem('path', googleRes.profileObj.imageUrl ? googleRes.profileObj.imageUrl : '');
+        window.sessionStorage.setItem('id', `google_${googleRes.googleId}`);
 
         history.back();
     };

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {VIEW_STATE, CATEGORY_STATE} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import React ,{useEffect}from "react";
+import React, { useEffect } from 'react'
 
 const ViewList = props => {
 
@@ -9,7 +9,6 @@ const ViewList = props => {
   const setState = e => {
     dispatch({type : VIEW_STATE, data : { state : 'selected', value : e }});
   };
-
   return(
     <a className={props.activeTarget === props.title ? 'site active' : 'site'}>
       <span className="site-img">
@@ -23,7 +22,10 @@ const ViewList = props => {
       </span>
     </a>
   )
+  console.log(props.title)
 };
+
+
 
 const None= props => {
   return(
@@ -43,7 +45,14 @@ const Unselected = props => {
   )
 };
 
+const handleChange = props => {
+  // const [value, setValue] = useState(props.intro);
+  // setValue(props.intro);
+  console.log('수정중');
+}
+
 const Selected = props => {
+
   return(
     <div className="contents">
       <div className="box">
@@ -78,7 +87,8 @@ const Selected = props => {
               placeholder="이미지 소개글을 입력하세요"
               style={{ "resize": "none" }}
               value={props.intro}
-            />
+              onChange = {handleChange}
+              />
           </div>
         </form>
         <p className="desc clearfix">
@@ -103,17 +113,18 @@ const View = props => {
   const { siteInfo , viewState, viewValue } = useSelector(state => state.user);
 
 
-    console.log(siteInfo);
-    console.log(props.category);
-    console.log(viewState);
-    console.log(viewValue);
+    // console.log(siteInfo);
+    // console.log(props.category);
+    // console.log(viewState);
+    // console.log(viewValue);
 
 
   const view = siteInfo.category[props.category].view;
   const viewList = siteInfo.category[props.category].viewList;
 
-    console.log(view);
-    console.log(viewList);
+
+    // console.log(view);
+    // console.log(viewList);
 
     //                   0      1
     // categoryList = [ 테1 , 테2 ]
@@ -155,10 +166,10 @@ const View = props => {
             <div className="inner scroll">
               {viewList.map((item , index) => (
                 <ViewList
-                  key={index}
-                  imgPath={view[item].img.path}
-                  title={view[item].originName}
-                  id={view[item].id}
+                  key = {index}
+                  imgPath = {view[item].img.path}
+                  title = {view[item].originName}
+                  id = {view[item].id}
                 />
               ))}
               <a className="site add" href="#">

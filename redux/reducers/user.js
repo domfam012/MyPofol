@@ -5,8 +5,10 @@ export const initialState = {
     siteState : 'unselected', // 'unselected' : 사이트 선택 안됨 'selected' : 사이트 선택 됨 'none' : 사이트 없음
     siteValue : '',
     categoryInfo : {},
+    viewState : 'none',
+    viewValue : '',
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
-    categoryIdx : 0 ,
+    categoryValue : '' ,
     portfolioAutoPlay : false, // 자동 슬라이드
     portfolioPopup : false // 이미지 이동 팝업 노출
 };
@@ -20,6 +22,7 @@ export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
 export const CATEGORY_STATE = 'CATEGORY_STATE';
+export const VIEW_STATE = 'VIEW_STATE';
 
 export default (state = initialState , action) => {
     switch (action.type) {
@@ -77,7 +80,14 @@ export default (state = initialState , action) => {
             return {
                 ...state,
                 categoryState: action.data.state,
-                categoryIdx: action.data.index
+                categoryValue: action.data.value ? action.data.value : ''
+            }
+        }
+        case VIEW_STATE : {
+            return {
+                ...state,
+                viewState: action.data.state,
+                viewValue: action.data.value ? action.data.value : ''
             }
         }
         default: {

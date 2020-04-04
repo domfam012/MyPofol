@@ -1,19 +1,27 @@
 import {CATEGORY_STATE} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 import React ,{useEffect}from "react";
+import Link from 'next/link'
 
 const CategoryList = props => {
     const dispatch = useDispatch();
     const setState = e => {
-        dispatch({type : CATEGORY_STATE, data : { state : 'selected', index : e }});
+        console.log(e)
+        dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e }});
     };
+
+     console.log(props)
+
     return(
-        <div className={props.activeTargetIdx === props.categoryList.indexOf(props.title) && props.categoryState === "selected"? 'site active' : 'site'}>
+        <div className={props.activeTarget === props.title ? 'site active' : 'site'}>
             <span className="site-img"><img src={props.imgPath} alt="thumbnail"/></span>
             <span className="site-body"><span className="title">{props.title}</span></span>
             <span className="btn-area">
-            <button onClick={(e) => setState(props.categoryIdx)}  className="btn btn-outline-secondary mr-1">선택</button>
-            <button className="btn btn-primary">상세</button></span>
+                <button onClick={(e) => setState(props.id)}  className="btn btn-outline-secondary mr-1">선택</button>
+                <Link href={`/admin/edit?site=${props.site}&category=${props.id}`} as={`/admin/edit?site=${props.site}&category=${props.id}`}>
+                    <button className="btn btn-primary">상세</button>
+                </Link>
+            </span>
         </div>
     )
 };
@@ -48,11 +56,11 @@ const Selected = props => {
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" className="custom-control-input" checked={props.type === 1}/>
+                    <input type="radio" id="pc" name="category" className="custom-control-input" checked={props.type === '1'}/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" className="custom-control-input" checked={props.type === 2}/>
+                    <input type="radio" id="mobile" name="category" className="custom-control-input" checked={props.type === '2'}/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -80,60 +88,58 @@ const Selected = props => {
 const Category = props => {
     const dispatch = useDispatch();
 
-    const { siteInfo , categoryState  , categoryIdx} = useSelector(state => state.user);
+    const { siteInfo, categoryState  , categoryValue} = useSelector(state => state.user);
 
     useEffect(() => {
-        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none', index : 0} }) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected', index : 0} });
+        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'}}) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
     }, []);
 
-  return (
-      <div className="inner no-mw clearfix">
-          <div className="section-container edit">
-              <section>
-                  <div className="title_area">
-                      <h2 className="title"><i className="far fa-chevron-left"></i>{props.siteName}</h2>
-                      <div className="btn-area mb">
-                          <button className="btn btn-outline-secondary">삭제</button>
-                          <button className="btn btn-primary">새 카테고리 추가</button>
-                      </div>
-                  </div>
-                  <div className="contents">
-                      <div className="inner">
-                          {siteInfo.categoryList.map((item , index) => (
-                              <CategoryList
-                                  key={index}
-                                  imgPath={siteInfo.category[index].img.path}
-                                  title={item}
-                                  categoryIdx={index}
-                                  categoryList={siteInfo.categoryList}
-                                  activeTargetIdx={categoryIdx}
-                                  categoryState={categoryState}
-
-                              />
-                          ))}
-                          <a className="site add" href="#">
-                              <p className="plus"><i className="fal fa-plus"></i></p>
-                              <p className="txt">새 카테고리 추가</p>
-                          </a>
-                      </div>
-                  </div>
-              </section>
-          </div>
-          <div className="snb">
-              {
-                  categoryState === 'none'
-                  ? <None/> :
-                      categoryState === 'selected'
-                      ? <Selected
-                         title = {siteInfo.categoryList[categoryIdx]}
-                         type = {siteInfo.category[categoryIdx].type}
-                         imgPath={siteInfo.category[categoryIdx].img.path}
-                      />:
-                          <Unselected/>
-              }
-          </div>
-      </div>
-  );
+    return (
+        <div className="inner no-mw clearfix">
+            <div className="section-container edit">
+                <section>
+                    <div className="title_area">
+                        <h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.name}</h2>
+                        <div className="btn-area mb">
+                            <button className="btn btn-outline-secondary">삭제</button>
+                            <button className="btn btn-primary">새 카테고리 추가</button>
+                        </div>
+                    </div>
+                    <div className="contents">
+                        <div className="inner">
+                            {siteInfo.categoryList.map((item , index) => (
+                                <CategoryList
+                                    key={index}
+                                    imgPath={siteInfo.category[item].img.path}
+                                    title={siteInfo.category[item].name}
+                                    id={siteInfo.category[item].id}
+                                    activeTarget={categoryValue !== '' ? categoryValue : ''}
+                                    site={props.site}
+                                />
+                            ))}
+                            <a className="site add" href="#">
+                                <p className="plus"><i className="fal fa-plus"></i></p>
+                                <p className="txt">새 카테고리 추가</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div className="snb">
+                {
+                    categoryState === 'none'
+                        ? <None/> :
+                        categoryState === 'selected'
+                            ? <Selected
+                                title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
+                                type = {siteInfo.category[categoryValue].type}
+                                imgPath={siteInfo.category[categoryValue].img.path}
+                            />:
+                            <Unselected/>
+                }
+            </div>
+        </div>
+    );
 };
 
 

@@ -5,6 +5,7 @@
 
 import { loadDB } from "../../../public/js/db";
 import moment from "moment";
+import shortid from "shortid";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -57,7 +58,7 @@ export default async (req, res) => {
         const subRef = await subCollection.get();
         subRef.forEach(subDoc => {
           data[url].category = {};
-          data[url].category[subDoc.id] = { id:subDoc.id, ...subDoc.data() };
+          data[url].category[subDoc.id] = { id: subDoc.id, ...subDoc.data() };
         });
         const resData = JSON.stringify({
           status: 200,
@@ -105,22 +106,28 @@ export default async (req, res) => {
         type: 1,
         created: current,
         img: { saveName: "", path: "/img/common/default_thumbnail.png" },
-        view: {
-          intro: "",
-          created: "",
-          originName: "",
-          img: { saveName: "", path: "" }
-        },
+        view: {},
         viewList: []
       };
+
+      // {saveName}: {
+      //   id: "",
+      //   intro: "",
+      //   created: "",
+      //   originName: "",
+      //   img: { saveName: "", path: "" }
+      // }
 
       // 카테고리 등록
       const promises = [];
       for (let categoryName of site.categoryList) {
+        const sid = shortid.generate();
+        category = { ...category, id: sid, name: categoryName };
+
         promises.push(
           doc
             .collection("category")
-            .doc(categoryName)
+            .doc(sid)
             .set(category)
         );
       }
@@ -155,8 +162,7 @@ export default async (req, res) => {
           path: req.body.site.thumbnail.path
         },
         intro: req.body.site.intro,
-        template: req.body.site.template,
-        categoryList: req.body.categoryList
+        template: req.body.site.template
       };
 
       // 사이트 업데이트

@@ -2,7 +2,17 @@ import Link from 'next/link'
 import {VIEW_STATE, CATEGORY_STATE} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 import React, { useEffect } from 'react'
-
+/*
+1. ? : => 'active'
+2. (input)intro 수정 기능 onChange
+3. (textarea) title 수정 기능 onChange
+4. (textarea) 글자수 제한 및 카운트 기능
+5. 썸네일 이미지 변경 -> file 찾기 -> 이미지 변경
+6. 새 이미지 추가 -> modal(알림창 '이미지가 추가되었습니다.')
+7. 이미지 저장 -> modal(알림창 '이미지가 저장되었습니다.')
+8. 삭제 -> modal(알림창 '삭제하시겠습니까?->확인/취소->'삭제되었습니다.')
+9. 저장 ->  modal(알림창 '저장하겠습니까?->저장/취소->'저장되었습니다..')
+* */
 const ViewList = props => {
 
   const dispatch = useDispatch();
@@ -22,7 +32,7 @@ const ViewList = props => {
       </span>
     </a>
   )
-  console.log(props.title)
+  // console.log(props.title)
 };
 
 
@@ -48,6 +58,10 @@ const Unselected = props => {
 const handleChange = props => {
   // const [value, setValue] = useState(props.intro);
   // setValue(props.intro);
+
+  const setState = e => {
+  };
+
   console.log('수정중');
 }
 
@@ -62,7 +76,7 @@ const Selected = props => {
               type="text"
               className="form-control"
               title="이미지명"
-              placeholder={props.title}
+              value={props.title}
             />
           </div>
         </form>

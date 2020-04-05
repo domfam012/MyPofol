@@ -1,12 +1,12 @@
 import Head from 'next/head'
-import React ,{useEffect} from "react";
+import React from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
+import {useSelector} from "react-redux";
 
-import {useDispatch} from "react-redux";
+const Mypage = () => {
 
-const Mypage = props => {
-
+    const {userInfo} = useSelector(state => state.user);
 
     return (
         <Layout>
@@ -20,7 +20,8 @@ const Mypage = props => {
             </Head>
             <Header/>
             {
-                typeof window !=="undefined" ?  <div className="container-fluid">
+               Object.keys(userInfo).length !== 0 ?
+                   <div className="container-fluid">
                     <section className="mypage">
                         <div className="title_area">
                             <h2 className="title">마이페이지</h2>
@@ -30,18 +31,18 @@ const Mypage = props => {
                                 <li>
                                     <span className="title">프로필 이미지</span>
                                     <span className="info profile _profile">
-                                    {window.sessionStorage.path ? <img src={window.sessionStorage.path } alt="프로필이미지"/>: <i className="fal fa-user"></i>}
+                                    {userInfo.img.path ? <img src={userInfo.img.path } alt="프로필이미지"/>: <i className="fal fa-user"></i>}
                                 </span>
                                 </li>
                                 <li>
                                     <span className="title">이름/닉네임</span>
-                                    <span className="info top _name">{window.sessionStorage.name}</span>
+                                    <span className="info top _name">{userInfo.name}</span>
                                 </li>
                                 <li>
                                     <span className="title">이메일 주소</span>
-                                    <span className="info top _address">{window.sessionStorage.email}</span>
+                                    <span className="info top _address">{userInfo.email}</span>
                                 </li>
-                                { window.sessionStorage.phone ?
+                                { userInfo.phone ?
                                     <li>
                                         <span className="title">연락처</span>
                                         <span className="info top _address">{}</span>
@@ -50,7 +51,7 @@ const Mypage = props => {
                                 <li>
                                     <span className="title">SNS 연결</span>
                                     <span className="info top _address"><img src="/img/common/google.png" alt="연동 이미지"/>
-                                <span className="txt">{window.sessionStorage.name}님 계정과 연결되었습니다.</span>
+                                <span className="txt">{userInfo.name}님 계정과 연결되었습니다.</span>
                             </span>
                                 </li>
                             </ul>

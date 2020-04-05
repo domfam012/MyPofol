@@ -1,41 +1,63 @@
-import React, {useState } from "react";
+import React, {useState , useEffect} from "react";
 import Header from "../../../components/header/portfolio/Category"
 import Layout from "../../../components/Layout";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel'
-import {PORTFOLIO_CATEGORY_INFO} from '../../../redux/reducers/user';
+import {PORTFOLIO_IDX, PORTFOLIO_SITE_INFO} from '../../../redux/reducers/user';
 import ImageNavigator from "../../../components/popup/portfolio/ImageNavigator"
-/*const CarouselList = props => {
+import axios from "axios";
+
+const CarouselList = props => {
     return(
-        <div className="carousel-item">
-            <img className="d-block" src={props.src} alt=""/>
+        <div className={props.current === props.index ? "carousel-item active" : "carousel-item"}>
+            <img  className="d-block" src={props.src} alt=""/>
         </div>
     )
-};*/
+};
+
 const Category = props => {
-    const { siteInfo, categoryInfo, portfolioAutoPlay , portfolioPopup } = useSelector(state => state.user);
-    const [index, setIndex] = useState(0);
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
+    const dispatch = useDispatch();
+    const { portfolioInfo, portfolioImgInfo, portfolioIdx, portfolioAutoPlay , portfolioPopup} = useSelector(state => state.user);
+    const image = { name: '' };
+    const [index, setIndex] = useState(portfolioIdx);
+
+    const handleSelect = (selectedIndex) => {
+        if (portfolioAutoPlay) {
+            dispatch({type: PORTFOLIO_IDX, data: selectedIndex});
+            setIndex(selectedIndex);
+        } else {
+            setIndex(selectedIndex);
+            dispatch({type: PORTFOLIO_IDX, data: selectedIndex});
+        }
     };
-    const current = categoryInfo.viewList[index];
+
+    if(Object.keys(portfolioImgInfo).length === 0 )  {
+        return false;
+    }else{
+        image.name = portfolioAutoPlay
+            ? portfolioImgInfo.view[portfolioImgInfo.viewList[index]].originName
+            : portfolioImgInfo.view[portfolioImgInfo.viewList[portfolioIdx]].originName
+    }
+
     return (
-           portfolioPopup
+        portfolioPopup
             ? <ImageNavigator
                 site={props.site}
-                siteInfo={siteInfo}
-                image={categoryInfo.view}
-                imageList={categoryInfo.viewList}
-                currentIdx={index}
-              />
+                siteImgPath={portfolioInfo.logo.path}
+                siteName={portfolioInfo.name}
+                image={portfolioImgInfo.view}
+                imageList={portfolioImgInfo.viewList}
+                currentIdx={ portfolioAutoPlay? index : portfolioIdx}
+            />
             : <Layout>
                 <Header
                     site={props.site}
-                    siteInfo={siteInfo}
-                    image={categoryInfo.view[current].originName}
-                    imageLength={categoryInfo.viewList.length}
+                    siteImgPath={portfolioInfo.logo.path}
+                    siteName={portfolioInfo.name}
+                    image={image.name}
+                    imageLength={portfolioImgInfo.viewList.length}
                     autoPlay={portfolioAutoPlay}
-                    currentIdx={index+1}
+                    currentIdx={ portfolioAutoPlay? index+1 : portfolioIdx+1}
                 />
                 <section className="p_section slider">
                     <h2 className="sr-only">project</h2>
@@ -43,15 +65,14 @@ const Category = props => {
                         <div className="row">
                             <div className="col">
                                 <div id="carouselProject" className="carousel slide">
-                                    <Carousel interval={portfolioAutoPlay ? 3000 : null} activeIndex={index} onSelect={handleSelect}>
-                                        {categoryInfo.viewList.map((item , index) => (
-                                            <Carousel.Item key={index} className="carousel-item">
-                                                <img key={index} className="d-block" src={categoryInfo.view[item].img.path} alt=""/>
-                                            </Carousel.Item>
-                                            /*<CarouselList
-                                                 key={index}
-                                                 src={categoryInfo[item].img.path}
-                                             />*/
+                                    <Carousel interval={portfolioAutoPlay ? 2000 : null} activeIndex={portfolioAutoPlay? index : portfolioIdx} onSelect={handleSelect}>
+                                        {portfolioImgInfo.viewList.map((item , idx) => (
+                                            <CarouselList
+                                                key={idx}
+                                                src={portfolioImgInfo.view[item].img.path}
+                                                index={idx}
+                                                current={portfolioAutoPlay? index : portfolioIdx}
+                                            />
                                         ))}
                                     </Carousel>
                                 </div>
@@ -66,11 +87,13 @@ const Category = props => {
 Category.getInitialProps = async function(ctx) {
     const site = ctx.query.site;
     const category = ctx.query.category;
+    const siteRes = await axios.get(`http://localhost:8080/api/site/${site}`);
+    const categoryRes = await axios.get(`http://localhost:8080/api/site/${site}/category/${category}`);
     ctx.store.dispatch({
-        type : PORTFOLIO_CATEGORY_INFO,
+        type : PORTFOLIO_SITE_INFO,
         data : {
-            site : site,
-            category : category
+            site : siteRes.data.data[site],
+            category :categoryRes.data.data[0],
         }
     });
     return ({
@@ -78,7 +101,6 @@ Category.getInitialProps = async function(ctx) {
         category : category
     })
 };
-
 export default Category;
 
 

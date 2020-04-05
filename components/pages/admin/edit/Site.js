@@ -59,7 +59,7 @@ const Site = () => {
                     </span>
                         <p className="site-body">
                             <span className="title">베스킨라빈스</span>
-                            <Link href="/portfolio/[site]" as={`/portfolio/${site}`}>
+                            <Link href={`/portfolio/${site}`} as={`/portfolio/${site}`}>
                                 <a className="address" href="#">
                                     http://www.mypofol.com/test
                                 </a>

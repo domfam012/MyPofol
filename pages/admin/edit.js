@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 import Site from "../../components/pages/admin/edit/Site";
 import Category from "../../components/pages/admin/edit/Category";
 import View from "../../components/pages/admin/edit/View";
-import {LOG_ING, PORTFOLIO_SITE_INFO} from "../../redux/reducers/user";
-import {useDispatch, useSelector} from "react-redux";
+import {SITE_INFO} from "../../redux/reducers/user";
 import axios from "axios";
 
 const Edit = props => {
@@ -55,7 +54,7 @@ Edit.getInitialProps = async function(ctx) {
     if(query.site){
         const res = await axios.get(`http://localhost:8080/api/site/${query.site}`);
         ctx.store.dispatch({
-            type : PORTFOLIO_SITE_INFO,
+            type : SITE_INFO,
             data : res.data.data[query.site]
         });
     }

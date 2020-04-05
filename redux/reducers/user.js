@@ -2,17 +2,21 @@ export const initialState = {
     isLoggedIn : false,
     userInfo : {},
     siteInfo : {},
-    categoryInfo : {},
     viewState : 'none',
     viewValue : '',
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
     categoryValue : '' ,
+    addCategory : false,
+    portfolioInfo : {},
+    portfolioImgInfo : {},
+    portfolioIdx : 0,
     portfolioAutoPlay : false, // 자동 슬라이드
     portfolioPopup : false // 이미지 이동 팝업 노출
 };
 
+export const SITE_INFO = ' SITE_INFO';
 export const PORTFOLIO_SITE_INFO = ' PORTFOLIO_SITE_INFO';
-export const PORTFOLIO_CATEGORY_INFO = ' PORTFOLIO_CATEGORY_INFO';
+export const PORTFOLIO_IDX = 'PORTFOLIO_IDX';
 export const CONTROL_AUTO_PLAY = 'CONTROL_AUTO_PLAY';
 export const CONTROL_POPUP = 'CONTROL_POPUP';
 export const LOG_ING = 'LOG_ING';
@@ -44,17 +48,23 @@ export default (state = initialState , action) => {
                 userInfo : {}
             };
         }
-        case PORTFOLIO_SITE_INFO : {
+        case SITE_INFO : {
             return {
                 ...state,
                 siteInfo : action.data
             };
         }
-        case PORTFOLIO_CATEGORY_INFO : {
+        case PORTFOLIO_SITE_INFO : {
             return {
                 ...state,
-                siteInfo : Site[action.data.site],
-                categoryInfo : Site[action.data.site].category[action.data.category]
+                portfolioInfo : action.data.site,
+                portfolioImgInfo: action.data.category ? action.data.category : {}
+            };
+        }
+        case PORTFOLIO_IDX : {
+            return {
+                ...state,
+                portfolioIdx: action.data
             };
         }
         case CONTROL_AUTO_PLAY : {
@@ -78,7 +88,8 @@ export default (state = initialState , action) => {
             return {
                 ...state,
                 categoryState: action.data.state,
-                categoryValue: action.data.value ? action.data.value : ''
+                categoryValue: action.data.value ? action.data.value : '',
+                addCategory: action.data.add ? action.data.add : false
             }
         }
         case VIEW_STATE : {

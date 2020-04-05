@@ -6,7 +6,7 @@ const Header = props => {
                 <nav className="navbar navbar-expand">
                     <h1>
                         <a className="navbar-brand" href="#">
-                            <img src={props.siteLogo} alt="" style={{width : "160px" , height : "45px"}}/>
+                            <img src={props.siteLogo} alt="" />
                         </a>
                     </h1>
                     <div className="collapse navbar-collapse">

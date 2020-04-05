@@ -1,19 +1,18 @@
-import {CATEGORY_STATE} from "../../../../redux/reducers/user";
+import {CATEGORY_STATE, CONTROL_POPUP, LOG_OUT} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import React ,{useEffect}from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Link from 'next/link'
+import axios from "axios";
+import shortid from 'shortid';
 
 const CategoryList = props => {
     const dispatch = useDispatch();
     const setState = e => {
-        console.log(e)
         dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e }});
     };
 
-     console.log(props)
-
     return(
-        <div className={props.activeTarget === props.title ? 'site active' : 'site'}>
+        <div className={props.activeTarget === props.id ? 'site active' : 'site'}>
             <span className="site-img"><img src={props.imgPath} alt="thumbnail"/></span>
             <span className="site-body"><span className="title">{props.title}</span></span>
             <span className="btn-area">
@@ -26,7 +25,7 @@ const CategoryList = props => {
     )
 };
 
-const None= props => {
+const None= () => {
     return(
         <div className="select">
             <p className="title">카테고리를 추가하세요</p>
@@ -34,7 +33,7 @@ const None= props => {
     )
 };
 
-const Unselected = props => {
+const Unselected = () => {
     return(
         <div className="select">
             <p className="title">카테고리를 선택하세요</p>
@@ -56,11 +55,11 @@ const Selected = props => {
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" className="custom-control-input" checked={props.type === '1'}/>
+                    <input type="radio" id="pc" name="category" className="custom-control-input" defaultChecked={props.type === 1 }/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" className="custom-control-input" checked={props.type === '2'}/>
+                    <input type="radio" id="mobile" name="category" className="custom-control-input" defaultChecked={props.type === 2 }/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -85,13 +84,110 @@ const Selected = props => {
     )
 };
 
+const AddCategory = props => {
+    const dispatch = useDispatch();
+    const [img, setImg] = useState("");
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+
+    const onImgUpload = e => {
+        setImg(URL.createObjectURL(e.target.files[0]));
+    };
+    const onNameChange = e => {
+        setName(e.target.value);
+    };
+    const onTypeChange = e => {
+        setType(e.target.id);
+    };
+    const prevAddCategory = () => {
+        dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+    };
+    const addCategory = async () => {
+        const categoryKey = shortid.generate();
+        const categoryInfo = {
+            type : type === 'pc' ? 1 : 2,
+            img : img,
+            name : name,
+        };
+        const res = await axios.post(
+            `http://localhost:8080/api/site/${props.site}/category/${categoryKey}`,
+            categoryInfo
+        );
+        if(res.status === 200){
+            alert( `카테고리 추가 완료 ※ API 수정 후 이 후 시나리오 작업 가능 ※
+            name → ${name} 
+            type → ${type} 
+            img → ${img} `);
+        }else {
+            alert('카테고리 추가 실패' );
+        }
+    };
+
+    return(
+        <div className="contents">
+            <div className="box">
+                <form className="form_site">
+                    <div className="form-group active">
+                        <input
+                            id={"name"}
+                            name={"name"}
+                            value={name}
+                            onChange={onNameChange}
+                            type="text"
+                            className="form-control"
+                            title="카테고리"
+                            placeholder=""
+                        />
+                    </div>
+                </form>
+            </div>
+            <div className="box">
+                <div className="custom-control custom-radio custom-control-inline mr">
+                    <input type="radio" id="pc" name="category"  onChange={onTypeChange} className="custom-control-input" />
+                    <label className="custom-control-label" htmlFor="pc">PC</label>
+                </div>
+                <div className="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="mobile" name="category"  onChange={onTypeChange} className="custom-control-input" />
+                    <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
+                </div>
+            </div>
+            <div className="box">
+                <form className="form_intro">
+                    <div className="form-group mb-2">
+                <span className="img">
+                  <img src="/img/common/default_thumbnail.png" alt="template" />
+                </span>
+                    </div>
+                </form>
+                <div className="btn-area mb change">
+                    <input
+                        type="file"
+                        id="imgUploader"
+                        name={"img"}
+                        className="form-control-file"
+                        onChange={onImgUpload}>
+                    </input>
+                </div>
+                <p className="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>-파일명 영문, 숫자 허용</p>
+            </div>
+            <div className="btn-area mb">
+                <button onClick={prevAddCategory}className="btn btn-lg btn-outline-secondary">취소</button>
+                <button onClick={addCategory} className="btn btn-lg btn-primary">저장</button>
+            </div>
+        </div>
+    )
+};
+
 const Category = props => {
     const dispatch = useDispatch();
-
-    const { siteInfo, categoryState  , categoryValue} = useSelector(state => state.user);
+    const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
 
     useEffect(() => {
         siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'}}) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
+    }, []);
+
+    const onAddCategory = useCallback(() => {
+        dispatch({type : CATEGORY_STATE, data : { state : 'selected' , add : true}})
     }, []);
 
     return (
@@ -102,7 +198,7 @@ const Category = props => {
                         <h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.name}</h2>
                         <div className="btn-area mb">
                             <button className="btn btn-outline-secondary">삭제</button>
-                            <button className="btn btn-primary">새 카테고리 추가</button>
+                            <button onClick={onAddCategory} className="btn btn-primary">새 카테고리 추가</button>
                         </div>
                     </div>
                     <div className="contents">
@@ -117,7 +213,7 @@ const Category = props => {
                                     site={props.site}
                                 />
                             ))}
-                            <a className="site add" href="#">
+                            <a onClick={onAddCategory} className={addCategory ? "site add active" : "site add"} href="#">
                                 <p className="plus"><i className="fal fa-plus"></i></p>
                                 <p className="txt">새 카테고리 추가</p>
                             </a>
@@ -129,13 +225,15 @@ const Category = props => {
                 {
                     categoryState === 'none'
                         ? <None/> :
-                        categoryState === 'selected'
-                            ? <Selected
+                        categoryState !== 'selected'
+                            ? <Unselected/> :
+                            addCategory ?
+                                <AddCategory
+                                site = {siteInfo.url}/> :
+                                <Selected
                                 title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
                                 type = {siteInfo.category[categoryValue].type}
-                                imgPath={siteInfo.category[categoryValue].img.path}
-                            />:
-                            <Unselected/>
+                                imgPath={siteInfo.category[categoryValue].img.path}/>
                 }
             </div>
         </div>

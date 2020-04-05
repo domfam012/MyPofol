@@ -22,13 +22,13 @@ const Header = props => {
                     <h1>
                         <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
                             <a className="navbar-brand" href="#">
-                                <span><img src={props.siteInfo.logo} alt="" style={{width : "160px" , height : "45px"}}/></span>
+                                <span><img src={props.siteImgPath} alt="" /></span>
                             </a>
                         </Link>
                     </h1>
                     <Link href="/portfolio/[site]" as={`/portfolio/${props.site}`}>
                         <a className="navbar-prev" href="#">
-                            <span className="nav-prev-title">{props.siteInfo.name}</span>
+                            <span className="nav-prev-title">{props.siteName}</span>
                             <span className="navbar-prev-icon"></span>
                         </a>
                     </Link>

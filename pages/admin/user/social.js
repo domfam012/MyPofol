@@ -3,15 +3,14 @@ import React ,{useEffect}from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
 import { useRouter } from "next/router";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {LOG_IN, LOG_ING} from "../../../redux/reducers/user";
 import {GoogleLogin} from 'react-google-login';
 import shortid from 'shortid';
 import moment from "moment";
 import axios from "axios";
 
-const Social =props => {
-    const router = useRouter();
+const Social = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {

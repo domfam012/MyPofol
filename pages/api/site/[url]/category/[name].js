@@ -54,7 +54,9 @@ export default async (req, res) => {
       // 받아온 값 타입 && null 체크
       data = {
         type: req.body.type || 1,
-        img: req.body.img || { saveName: "", path: "" },
+        img: { saveName: req.query.name, path: req.body.img} || { saveName: "", path: "" },
+        name : req.body.name || "",
+        id : req.query.name,
         view: {},
         viewList: [],
         created: moment()

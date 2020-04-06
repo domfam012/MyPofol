@@ -25,10 +25,7 @@ const Alert = props => {
   const { message, closeAlert } = props;
 
   return (
-    <div
-      className="modal"
-      style={{ display: "block" }}
-    >
+    <div className="modal fade show" id="delete"  role="dialog" aria-labelledby="deleteModal" aria-hidden="true" style={{display: "block", background: `rgba(0,0,0,.5)` }} >
       <div className="modal-dialog modal-sm modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">

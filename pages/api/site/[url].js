@@ -175,6 +175,9 @@ export default async (req, res) => {
         categoryList: req.body.categoryList
       };
 
+      if(req.body.site.logo) site.logo = req.body.site.logo;
+      if(req.body.site.thumbnail) site.thumbnail = req.body.site.thumbnail;
+
       // 사이트 업데이트
       await doc.update(site);
 

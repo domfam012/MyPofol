@@ -38,10 +38,12 @@ export default async (req, res) => {
   //   viewList: []
   // };
 
-    const data = { };
-    data[url] = {};
+  const data = {};
+  data[url] = {};
+
   let site, category;
   let resData, ref, doc;
+
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
     case "GET":

@@ -25,6 +25,9 @@ export default async (req, res) => {
   let resData;
   let data = {};
 
+  // 사이트 문서
+  const siteDoc = await db.collection(`Site`).doc(url);
+
   switch (req.method) {
     // 카테고리 조회
     case "GET":
@@ -75,7 +78,6 @@ export default async (req, res) => {
         });
 
       // 카테고리 리스트 등록
-      const siteDoc = await db.collection(`Site`).doc(url);
       await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
 
       return res.status(200).end();
@@ -101,7 +103,8 @@ export default async (req, res) => {
 
     // 카테고리 삭제
     case "DELETE":
-      doc.delete();
+      await doc.delete();
+      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
 
       resData = JSON.stringify({
         status: 200,

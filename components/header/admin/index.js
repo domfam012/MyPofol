@@ -6,17 +6,15 @@ import React from "react";
 import { GoogleLogout } from 'react-google-login';
 
 // Header
-const Header = props => {
+const Header = () => {
     const {isLoggedIn, userInfo } = useSelector(state => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
 
     const logout = () => {
         dispatch({type :LOG_OUT});
-
         const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut().then(() =>{console.log('로그아웃')});
-
         localStorage.clear();
         router.push(`/`);
     };

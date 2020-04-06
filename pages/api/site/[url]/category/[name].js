@@ -87,6 +87,7 @@ export default async (req, res) => {
       // 데이터 체크
       data = {
         type: req.body.category.type,
+        name: req.body.category.name,
         view: req.body.category.view,
         viewList: req.body.category.viewList
       };

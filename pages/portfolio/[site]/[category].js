@@ -1,9 +1,9 @@
-import React, {useState , useEffect} from "react";
+import React, {useState } from "react";
 import Header from "../../../components/header/portfolio/Category"
 import Layout from "../../../components/Layout";
 import {useDispatch, useSelector} from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel'
-import {PORTFOLIO_IDX, PORTFOLIO_SITE_INFO} from '../../../redux/reducers/user';
+import { PORTFOLIO_SITE_INFO} from '../../../redux/reducers/user';
 import ImageNavigator from "../../../components/popup/portfolio/ImageNavigator"
 import axios from "axios";
 

@@ -221,7 +221,7 @@ const AddCategory = props => {
                     );
                     if(res.status === 200){
                         dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-                        history.back();
+                        router.push(`/admin/edit?site=${props.site}/category/${categoryKey}`);
                     }else alert('카테고리 추가 실패' );
                 });
             }

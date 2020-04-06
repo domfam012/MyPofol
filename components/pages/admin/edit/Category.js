@@ -66,6 +66,8 @@ const Selected = props => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
 
+  console.log()
+
   // 이미지 변경
   const onImgUpload = e => {
     setImg(e.target.files[0]);
@@ -191,7 +193,7 @@ const Selected = props => {
             name={"img"}
             className="form-control-file"
             onChange={onImgUpload}
-          ></input>
+          />
         </div>
         <p className="desc">
           -가로 00px X 세로 00px (jpg,png,gif허용)
@@ -258,7 +260,8 @@ const AddCategory = props => {
           const categoryInfo = {
             type: type === "pc" ? 1 : 2,
             img: { saveName: categoryKey, path: url },
-            name: name
+            name: name,
+
           };
           const res = await axios.post(
             `http://localhost:8080/api/site/${props.site}/category/${categoryKey}`,

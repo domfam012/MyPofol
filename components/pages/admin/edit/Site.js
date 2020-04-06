@@ -289,7 +289,7 @@ const Site = () => {
               </div>
 
               <div className="contents">
-                <div className="inner scroll-lg">
+                <div className="inner scroll-xl">
                   {userInfo.site.map((item, idx) => (
                     <SiteList
                       key={idx}

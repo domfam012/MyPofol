@@ -128,6 +128,7 @@ const Popup = props => {
               <Step6
                 onNext={handleNext}
                 onPrev={handlePrev}
+                site={site}
                 onClose={closePopup}
               />
             );

@@ -14,6 +14,7 @@ export const initialState = {
     portfolioPopup : false // 이미지 이동 팝업 노출
 };
 
+export const ADD_SITE = 'ADD_SITE';
 export const SITE_INFO = ' SITE_INFO';
 export const PORTFOLIO_SITE_INFO = ' PORTFOLIO_SITE_INFO';
 export const PORTFOLIO_IDX = 'PORTFOLIO_IDX';
@@ -47,6 +48,12 @@ export default (state = initialState , action) => {
                 isLoggedIn : false,
                 userInfo : {}
             };
+        }
+        case ADD_SITE : {
+            return {
+                ...state,
+                userInfo : action.data
+            }
         }
         case SITE_INFO : {
             return {

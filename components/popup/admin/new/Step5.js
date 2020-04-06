@@ -77,15 +77,12 @@ const Step5 = props => {
     const dbUpload = async () => {
       site.userId = localStorage.id;
 
-      console.log('-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0')
-      console.log(site.userId)
-
       const url = site.url;
       const res = await axios.post(
           `http://localhost:8080/api/site/${url}`,
           site
       );
-      console.log(res);
+      // console.log(res);
       if (res.status === 200) onNext();
       else {
         alert("error occured");

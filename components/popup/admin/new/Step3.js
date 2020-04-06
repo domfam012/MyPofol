@@ -8,7 +8,6 @@ const Step3 = props => {
   const [email, setEmail] = useState(site.email);
 
   const [img, setImg] = useState("");
-
   const inputImgEl = useRef(null);
 
   const onTelChange = e => {
@@ -80,7 +79,7 @@ const Step3 = props => {
                 (
                     <label
                         style={{"cursor":"pointer"}}
-                        htmlFor={"imgUploader"}
+                        htmlFor={"logoUploader"}
                     >
                       <span className="plus">
                         <i className="fal fa-plus" />
@@ -89,13 +88,13 @@ const Step3 = props => {
                     </label>
                 )
                 : (
-                    <img src={img} alt="로고이미지 추가" />
+                    <img src={img} alt="로고이미지 추가" style={{display: "block"}}/>
                 )
             }
             <input
                 style={{"display":"none"}}
                 type="file"
-                id="imgUploader"
+                id="logoUploader"
                 name={"img"}
                 className="form-control-file"
                 ref={inputImgEl}

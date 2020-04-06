@@ -83,6 +83,7 @@ export default async (req, res) => {
       doc = await db.collection("Site").doc(url);
 
       user = req.body.userId;
+      userDoc = userCol.doc(user);
 
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
@@ -113,7 +114,6 @@ export default async (req, res) => {
       await doc.set(site);
 
       // 사이트 리스트 등록
-      userDoc = userCol.doc(user);
       await userDoc.update({
         siteList: firestore.FieldValue.arrayUnion(url)
       });
@@ -161,6 +161,8 @@ export default async (req, res) => {
     case "PATCH":
       doc = await db.collection("Site").doc(url);
 
+      console.log(req.body)
+
       // Update
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
@@ -168,17 +170,20 @@ export default async (req, res) => {
         name: req.body.site.name,
         email: req.body.site.email,
         phone: req.body.site.phone,
-        logo: {
-          saveName: req.body.site.logo.saveName,
-          path: req.body.site.logo.path
-        },
-        thumbnail: {
-          saveName: req.body.site.thumbnail.saveName,
-          path: req.body.site.thumbnail.path
-        },
+        // logo: {
+        //   saveName: req.body.site.logo.saveName,
+        //   path: req.body.site.logo.path
+        // },
+        // thumbnail: {
+        //   saveName: req.body.site.thumbnail.saveName,
+        //   path: req.body.site.thumbnail.path
+        // },
         intro: req.body.site.intro,
         template: req.body.site.template
       };
+
+      if(req.body.site.logo) site.logo = req.body.site.logo;
+      if(req.body.site.thumbnail) site.thumbnail = req.body.site.thumbnail;
 
       // 사이트 업데이트
       await doc.update(site);
@@ -202,6 +207,10 @@ export default async (req, res) => {
 
       // 사이트 삭제
       await doc.delete();
+
+      // 사이트 리스트 삭제
+      user = req.body.userId;
+      userDoc = userCol.doc(user);
       await userDoc.update({
         siteList: firestore.FieldValue.arrayRemove(url)
       });

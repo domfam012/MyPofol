@@ -30,11 +30,11 @@ export default async (req, res) => {
 
       // 사이트 collection 에서 해당 사이트들 조회
       const getSub = async () => {
-        console.log(siteList)
+        // console.log(siteList)
         for (let site of siteList) {
           const subDoc = await db.collection("Site").doc(site);
           const subRef = await subDoc.get();
-          console.log(subRef.data())
+          // console.log(subRef.data())
           if (subRef._document !== null) {
             resData.site.push(subRef.data());
           } else {

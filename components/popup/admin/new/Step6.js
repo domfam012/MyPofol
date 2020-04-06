@@ -1,5 +1,19 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_SITE } from "../../../../redux/reducers/user";
+
 const Step6 = props => {
+  const { site } = props;
   const { onClose } = props;
+
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector(state => state.user);
+
+  const newInfo = { ...userInfo, site: userInfo.site.concat(site), siteList: userInfo.siteList.concat(site.url) };
+
+  useEffect(() => {
+    dispatch({ type: ADD_SITE, data: newInfo });
+  }, []);
 
   return (
     <section className="container-fluid init complete">

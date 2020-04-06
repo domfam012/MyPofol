@@ -75,14 +75,14 @@ const Step5 = props => {
 
   useEffect(() => {
     const dbUpload = async () => {
-      site.userId = window.sessionStorage.id;
+      site.userId = localStorage.id;
 
       const url = site.url;
       const res = await axios.post(
           `http://localhost:8080/api/site/${url}`,
           site
       );
-      console.log(res);
+      // console.log(res);
       if (res.status === 200) onNext();
       else {
         alert("error occured");
@@ -126,6 +126,11 @@ const TemplateList = props => {
   const { templateList } = props;
   const { onTemplateSelect } = props;
 
+  const handlePreview = () => {
+  //  template.preview => modal
+
+  };
+
   return (
     <div className="card-box">
       {templateList.map((template, idx) => (
@@ -146,7 +151,9 @@ const TemplateList = props => {
               >
                 선택
               </button>
-              <button className="btn btn-primary">미리보기</button>
+              <button className="btn btn-primary"
+                      onClick={handlePreview}
+              >미리보기</button>
             </div>
           </div>
         </div>

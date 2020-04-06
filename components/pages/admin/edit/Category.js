@@ -99,8 +99,8 @@ const Selected = props => {
                     );
                     if(res.status === 200){
                         dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-                        history.back();
-                    }else alert('카테고리 추가 실패' );
+                        window.location.reload();
+                    }else alert('카테고리 수정 실패' );
                 });
             }
         );
@@ -221,7 +221,7 @@ const AddCategory = props => {
                     );
                     if(res.status === 200){
                         dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-                        router.push(`/admin/edit?site=${props.site}/category/${categoryKey}`);
+                        window.location.reload();
                     }else alert('카테고리 추가 실패' );
                 });
             }
@@ -312,7 +312,7 @@ const Category = props => {
             );
             if(res.status === 200){
                 dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-                history.back();
+                window.location.reload();
             }else{
                 alert('카테고리 삭제 실패');
             }

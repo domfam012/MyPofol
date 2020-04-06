@@ -116,7 +116,8 @@ const AddCategory = props => {
     //  새 카테고리 추가 저장 버튼 클릭 시 카테고리 등록
     const registerCategory = async () => {
         const storage = await loadStorage();
-        const storageRef = storage.ref(`site/${props.site}/category/${props.category}`);
+        const categoryKey = shortid.generate();
+        const storageRef = storage.ref(`site/${props.site}/category/${categoryKey}`);
         const uploadTask = storageRef.put(img);
 
         uploadTask.on(
@@ -125,10 +126,9 @@ const AddCategory = props => {
             err => storageErrHandler(err),
             () => {
                 uploadTask.snapshot.ref.getDownloadURL().then(async url => {
-                    const categoryKey = shortid.generate();
                     const categoryInfo = {
                         type : type === 'pc' ? 1 : 2,
-                        img : { saveName : categoryKey, path : url ? img : "/img/common/default_thumbnail.png"},
+                        img : { saveName : categoryKey, path : url},
                         name : name,
                     };
                     const res = await axios.post(
@@ -136,7 +136,8 @@ const AddCategory = props => {
                         categoryInfo
                     );
                     if(res.status === 200){
-                        alert( `카테고리 추가 완료 `);
+                        dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+                        history.back();
                     }else alert('카테고리 추가 실패' );
                 });
             }
@@ -227,7 +228,7 @@ const Category = props => {
                 `http://localhost:8080/api/site/${siteInfo.url}/category/${categoryValue}`
             );
             if(res.status === 200){
-                alert('카테고리 삭제 성공');
+                dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
                 history.back();
             }else{
                 alert('카테고리 삭제 실패');
@@ -280,8 +281,7 @@ const Category = props => {
                             ? <Unselected/> :
                             addCategory ?
                                 <AddCategory
-                                site = {siteInfo.url}
-                                category = {siteInfo.category[categoryValue].id}/> :
+                                site = {siteInfo.url}/> :
                                 <Selected
                                 title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
                                 type = {siteInfo.category[categoryValue].type}

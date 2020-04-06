@@ -259,9 +259,11 @@ const Site = () => {
   console.log(userInfo);
 
   useEffect(() => {
-    userInfo.siteList.length === 0
-      ? dispatch({ type: SITE_STATE, data: { state: "none" } })
-      : dispatch({ type: SITE_STATE, data: { state: "unselected" } });
+      if (Object.keys(userInfo).length !== 0 ){
+          userInfo.siteList.length === 0
+              ? dispatch({ type: SITE_STATE, data: { state: "none" } })
+              : dispatch({ type: SITE_STATE, data: { state: "unselected" } });
+      }
   }, []);
 
   return (
@@ -269,6 +271,7 @@ const Site = () => {
       {openPopup ? (
         <Popup closePopup={closePopup} />
       ) : (
+          Object.keys(userInfo).length !== 0 ?
         <div className="inner clearfix">
           <div className="section-container">
             <section>
@@ -327,7 +330,7 @@ const Site = () => {
               <Unselected />
             )}
           </div>
-        </div>
+        </div> : ''
       )}
     </>
   );

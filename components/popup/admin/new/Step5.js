@@ -75,6 +75,8 @@ const Step5 = props => {
 
   useEffect(() => {
     const dbUpload = async () => {
+      site.userId = window.sessionStorage.id;
+
       const url = site.url;
       const res = await axios.post(
           `http://localhost:8080/api/site/${url}`,

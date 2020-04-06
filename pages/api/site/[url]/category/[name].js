@@ -19,9 +19,8 @@ export default async (req, res) => {
   } = req;
 
   const collection = db.collection(`Site/${url}/category`);
-  const sid = shortid.generate();
 
-  let doc = await collection.doc(sid);
+  let doc = await collection.doc(name);
   let resData;
   let data = {};
 
@@ -58,12 +57,10 @@ export default async (req, res) => {
     case "POST":
       // 받아온 값 타입 && null 체크
       data = {
-        id: sid,
-        name: name,
+        name: req.body.name,
         type: req.body.type || 1,
         img: req.body.img || { saveName: req.query.name , path: "/img/common/default_thumbnail.png" },
-        name : req.body.name || "",
-        id : req.query.name,
+        id : name,
         view: {},
         viewList: [],
         created: moment()
@@ -80,7 +77,7 @@ export default async (req, res) => {
         });
 
       // 카테고리 리스트 등록
-      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
+      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(name) });
 
       return res.status(200).end();
 
@@ -106,7 +103,7 @@ export default async (req, res) => {
     // 카테고리 삭제
     case "DELETE":
       await doc.delete();
-      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
+      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(name) });
 
       resData = JSON.stringify({
         status: 200,

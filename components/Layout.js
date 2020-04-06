@@ -3,7 +3,7 @@ import React ,{useEffect} from 'react'
 import { useRouter } from 'next/router'
 import {useDispatch} from "react-redux";
 import axios from "axios/index";
-import {LOG_ING, LOG_IN} from "../redux/reducers/user";
+import {LOG_ING, LOG_IN, PORTFOLIO_SITE_INFO} from "../redux/reducers/user";
 
 const Layout = props => {
   const { header, footer } = props;
@@ -20,12 +20,15 @@ const Layout = props => {
     }, []);
 
     const getUserInfo = async() => {
-        axios.get(`http://localhost:8080/api/user/${window.sessionStorage.id}`)
-            .then( userRes => {
-                const userInfo = {};
-                userInfo[userRes.googleId] = userRes.data.data[0];
-                dispatch({type :LOG_IN, data : Object.values(userInfo)[0] });
-            });
+        const userInfo = {};
+
+        const userRes = await axios.get(`http://localhost:8080/api/user/${window.sessionStorage.id}`);
+        userInfo[userRes.googleId] = userRes.data.data[0];
+
+        const siteRes = await axios.get(`http://localhost:8080/api/user/${window.sessionStorage.id}/site`);
+        userInfo[userRes.googleId] = { ...userInfo[userRes.googleId], site: siteRes.data.site };
+
+        dispatch({ type: LOG_IN, data: Object.values(userInfo)[0] });
     };
 
   return (

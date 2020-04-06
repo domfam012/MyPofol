@@ -3,8 +3,9 @@
  *  /api/site/[url]/category/[name]
  */
 
-import { loadDB } from "../../../../../public/js/db";
+import { loadDB, firestore } from "../../../../../public/js/db";
 import moment from "moment";
+import shortid from "shortid";
 
 export default async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -18,10 +19,14 @@ export default async (req, res) => {
   } = req;
 
   const collection = db.collection(`Site/${url}/category`);
+  const sid = shortid.generate();
 
-  let doc = await collection.doc(name);
+  let doc = await collection.doc(sid);
   let resData;
   let data = {};
+
+  // 사이트 문서
+  const siteDoc = await db.collection(`Site`).doc(url);
 
   switch (req.method) {
     // 카테고리 조회
@@ -53,6 +58,8 @@ export default async (req, res) => {
     case "POST":
       // 받아온 값 타입 && null 체크
       data = {
+        id: sid,
+        name: name,
         type: req.body.type || 1,
         img: req.body.img || { saveName: "", path: "" },
         view: {},
@@ -66,9 +73,12 @@ export default async (req, res) => {
       await doc
         .set(data)
         .then()
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
+        .catch(err => {
+          console.error("Error adding document: ", err);
         });
+
+      // 카테고리 리스트 등록
+      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
 
       return res.status(200).end();
 
@@ -93,7 +103,8 @@ export default async (req, res) => {
 
     // 카테고리 삭제
     case "DELETE":
-      doc.delete();
+      await doc.delete();
+      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(sid) });
 
       resData = JSON.stringify({
         status: 200,

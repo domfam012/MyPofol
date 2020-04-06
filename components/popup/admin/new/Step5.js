@@ -126,6 +126,11 @@ const TemplateList = props => {
   const { templateList } = props;
   const { onTemplateSelect } = props;
 
+  const handlePreview = () => {
+  //  template.preview => modal
+
+  };
+
   return (
     <div className="card-box">
       {templateList.map((template, idx) => (
@@ -146,7 +151,9 @@ const TemplateList = props => {
               >
                 선택
               </button>
-              <button className="btn btn-primary">미리보기</button>
+              <button className="btn btn-primary"
+                      onClick={handlePreview}
+              >미리보기</button>
             </div>
           </div>
         </div>

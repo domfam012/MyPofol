@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {REMOVE_SITE, SITE_STATE} from "../../../../redux/reducers/user";
+import { REMOVE_SITE, SITE_STATE } from "../../../../redux/reducers/user";
 import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
 
 import axios from "axios";
+import { loadStorage } from "../../../../public/js/db";
 
 const SiteList = props => {
   const dispatch = useDispatch();
@@ -67,13 +68,18 @@ const Unselected = props => {
 };
 
 const Selected = props => {
-  const { logoPath, thumbnailPath, template } = props;
+  const { template } = props;
   const [title, setTitle] = useState(props.title);
   const [intro, setIntro] = useState(props.intro);
   const [introLength, setIntroLength] = useState(props.intro.length);
   const [email, setEmail] = useState(props.email);
   const [phone, setPhone] = useState(props.phone);
   const url = props.url;
+
+  const [logo, setLogo] = useState(props.logoPath);                 // preview
+  const inputLogoEl = useRef(null);                       // file
+  const [thumbnail, setThumbnail] = useState(props.thumbnailPath);  // preview
+  const inputThumbnailEl = useRef(null);                  // file
 
   const dispatch = useDispatch();
   const setState = () => {
@@ -85,8 +91,10 @@ const Selected = props => {
   };
 
   const handleIntroChange = e => {
-    setIntro(e.target.value);
-    setIntroLength(e.target.value.length);
+    if(e.target.value.length < 201) {
+      setIntro(e.target.value);
+      setIntroLength(e.target.value.length);
+    }
   };
 
   const handleEmailChange = e => {
@@ -97,11 +105,107 @@ const Selected = props => {
     setPhone(e.target.value);
   };
 
+  // const [ template ]
+  const handleTemplateChange = () => {
+
+  };
+
+
+
+  // const handleLogoChange = (saveName, path) => setSite({ ...site, logo: { saveName: saveName, path: path } });
+  // const handleLogoFile = val => setLogoFile(val);
+  // const handleThumbnailChange = (saveName, path) => setSite({ ...site, thumbnail: { saveName: saveName, path: path } });
+  // const handleThumbnailFile = val => setThumbnailFile(val);
+
+
+
   const handleCancel = () => {
     setState();
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // const storage = await loadStorage();
+    // const storageRef = storage.ref(`site/${props.site}/category/${props.id}`);
+    // const uploadTask = storageRef.put(img);
+
+    // uploadTask.on(
+    //     "state_changed",
+    //     () => {},
+    //     err => storageErrHandler(err),
+    //     () => {
+    //       uploadTask.snapshot.ref.getDownloadURL().then(async url => {
+    //         const categoryInfo = {
+    //           category: {
+    //             type: type === "pc" ? 1 : 2,
+    //             img: { saveName: props.id, path: url },
+    //             name: name,
+    //             view: props.view,
+    //             viewList: props.viewList
+    //           }
+    //         };
+    //         const res = await axios.patch(
+    //             `http://localhost:8080/api/site/${props.site}/category/${props.id}`,
+    //             categoryInfo
+    //         );
+    //         if (res.status === 200) {
+    //           dispatch({ type: CATEGORY_STATE, data: { state: "unselected" } });
+    //           history.back();
+    //         } else alert("카테고리 추가 실패");
+    //       });
+    //     }
+    // );
+
+    // const storageErrHandler = err => {
+    //   switch (err.code) {
+    //     case "storage/unauthorized":
+    //       return alert("User doesn't have permission to access the object");
+    //     case "storage/canceled":
+    //       return alert("User canceled the upload");
+    //     case "storage/unknown":
+    //       return alert("Unknown error occurred, inspect error.serverResponse");
+    //   }
+    // };
+
+    const isValidate = () => {
+      if (!title) return false;
+      else if (!phone) return false;
+      else if (!email) return false;
+      else return template;
+    };
+
+    if (!isValidate()) {
+      return alert('값을 모두 입력해주세요.');
+    }
+
+    // template 추가
+    // img 추가(로고, 썸네일)
+    const dbUpload = async () => {
+      const site = {
+        name: title,
+        phone: phone,
+        email,
+        intro,
+        template: 1
+      };
+
+      if(!inputLogoEl) site.logo = { saveName: 'logo', path: '' };
+      if(!inputThumbnailEl) site.thumbnail = { saveName: 'thumbnail', path: '' };
+
+      const res = await axios.patch(
+          `http://localhost:8080/api/site/${url}`,
+          { site }
+      );
+      if(res.status === 200) {
+
+        dispatch({ type: SITE_STATE, data: "unselected" });
+        window.location = '';
+
+      } else {
+        alert('수정에 실패하였습니다.');
+      }
+    };
+
+    await dbUpload();
 
   };
 
@@ -124,19 +228,19 @@ const Selected = props => {
       </div>
 
       <div className="box add_logo">
-        {logoPath === "" ? (
-          <a className="add_logo" href="#">
+        {logo === "" ? (
+          <label className="add_logo" href="#">
             <p className="plus">
               <i className="fal fa-plus" />
             </p>
             <p className="txt">로고이미지 추가</p>
-          </a>
+          </label>
         ) : (
           <>
             <form className="form_intro">
               <div className="form-group mb-2">
                 <span className="img">
-                  <img src={logoPath} alt="template" />
+                  <img src={logo} alt="template" />
                 </span>
               </div>
             </form>
@@ -158,8 +262,8 @@ const Selected = props => {
             <span className="img">
               <img
                 src={`${
-                  thumbnailPath
-                    ? thumbnailPath
+                  thumbnail
+                    ? thumbnail
                     : "/img/common/default_thumbnail.png"
                 }`}
                 alt="template"
@@ -232,7 +336,9 @@ const Selected = props => {
           </div>
         </form>
         <div className="btn-area mb change">
-          <button className="btn btn-secondary">템플릿 변경</button>
+          <button className="btn btn-secondary"
+                  onClick={handleTemplateChange}
+          >템플릿 변경</button>
         </div>
       </div>
       <div className="btn-area mb">

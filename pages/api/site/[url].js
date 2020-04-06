@@ -161,6 +161,8 @@ export default async (req, res) => {
     case "PATCH":
       doc = await db.collection("Site").doc(url);
 
+      console.log(req.body)
+
       // Update
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
@@ -168,14 +170,14 @@ export default async (req, res) => {
         name: req.body.site.name,
         email: req.body.site.email,
         phone: req.body.site.phone,
-        logo: {
-          saveName: req.body.site.logo.saveName,
-          path: req.body.site.logo.path
-        },
-        thumbnail: {
-          saveName: req.body.site.thumbnail.saveName,
-          path: req.body.site.thumbnail.path
-        },
+        // logo: {
+        //   saveName: req.body.site.logo.saveName,
+        //   path: req.body.site.logo.path
+        // },
+        // thumbnail: {
+        //   saveName: req.body.site.thumbnail.saveName,
+        //   path: req.body.site.thumbnail.path
+        // },
         intro: req.body.site.intro,
         template: req.body.site.template
       };

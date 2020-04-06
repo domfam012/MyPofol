@@ -8,7 +8,6 @@ const Step3 = props => {
   const [email, setEmail] = useState(site.email);
 
   const [img, setImg] = useState("");
-
   const inputImgEl = useRef(null);
 
   const onTelChange = e => {

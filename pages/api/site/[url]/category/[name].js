@@ -57,10 +57,10 @@ export default async (req, res) => {
     case "POST":
       // 받아온 값 타입 && null 체크
       data = {
-        name: req.body.name,
-        type: req.body.type || 1,
-        img: req.body.img || {
-          saveName: req.query.name,
+        name: req.body.category.name,
+        type: req.body.category.type || 1,
+        img: req.body.category.img || {
+          saveName: name,
           path: "/img/common/default_thumbnail.png"
         },
         id: name,
@@ -71,6 +71,7 @@ export default async (req, res) => {
           .format()
       };
 
+      console.log(data);
       // 카테고리 등록
       await doc
         .set(data)

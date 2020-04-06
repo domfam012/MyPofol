@@ -89,7 +89,7 @@ const Step3 = props => {
                     </label>
                 )
                 : (
-                    <img src={img} alt="로고이미지 추가" />
+                    <img src={img} alt="로고이미지 추가" style={{display: "block"}}/>
                 )
             }
             <input

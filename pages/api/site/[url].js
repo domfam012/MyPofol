@@ -80,6 +80,7 @@ export default async (req, res) => {
       doc = await db.collection("Site").doc(url);
 
       user = req.body.userId;
+      userDoc = userCol.doc(user);
 
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
@@ -110,7 +111,6 @@ export default async (req, res) => {
       await doc.set(site);
 
       // 사이트 리스트 등록
-      userDoc = userCol.doc(user);
       await userDoc.update({
         siteList: firestore.FieldValue.arrayUnion(url)
       });
@@ -195,6 +195,10 @@ export default async (req, res) => {
 
       // 사이트 삭제
       await doc.delete();
+
+      // 사이트 리스트 삭제
+      user = req.body.userId;
+      userDoc = userCol.doc(user);
       await userDoc.update({
         siteList: firestore.FieldValue.arrayRemove(url)
       });

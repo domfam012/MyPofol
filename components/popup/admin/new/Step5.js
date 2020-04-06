@@ -135,7 +135,7 @@ const TemplateList = props => {
     <div className="card-box">
       {templateList.map((template, idx) => (
         <div className="d-inline-block" key={template.index}>
-          <div className={`card ${idx % 3 === 2 ? "mr-0" : ""}`}>
+          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""}`}>
             <div className="img">
               <p>
                 <i className="far fa-image" />

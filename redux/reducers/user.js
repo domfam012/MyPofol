@@ -17,6 +17,7 @@ export const initialState = {
 };
 
 export const ADD_SITE = 'ADD_SITE';
+export const REMOVE_SITE = 'REMOVE_SITE';
 export const SITE_INFO = ' SITE_INFO';
 export const PORTFOLIO_SITE_INFO = ' PORTFOLIO_SITE_INFO';
 export const PORTFOLIO_CATEGORY_INFO = ' PORTFOLIO_CATEGORY_INFO';
@@ -55,6 +56,13 @@ export default (state = initialState , action) => {
         case ADD_SITE : {
             return {
                 ...state,
+                userInfo : action.data
+            }
+        }
+        case REMOVE_SITE : {
+            return {
+                ...state,
+                siteState: "unselected",
                 userInfo : action.data
             }
         }

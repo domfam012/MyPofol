@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SITE_STATE } from "../../../../redux/reducers/user";
+import {REMOVE_SITE, SITE_STATE} from "../../../../redux/reducers/user";
 import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
+
+import axios from "axios";
 
 const SiteList = props => {
   const dispatch = useDispatch();
@@ -243,6 +245,7 @@ const Selected = props => {
 
 const Site = () => {
   const dispatch = useDispatch();
+  const { userInfo, siteState, siteValue } = useSelector(state => state.user);
 
   const [openPopup, setOpenPopup] = useState(false);
   const closePopup = () => {
@@ -253,10 +256,28 @@ const Site = () => {
     setOpenPopup(true);
   };
 
-  const site = "test";
-  const { userInfo, siteState, siteValue } = useSelector(state => state.user);
+  const handleDelete = async () => {
+    if(siteValue === 9999) alert("삭제할 사이트를 선택해주세요");
+    else {
+      const reqData = { userId: localStorage.id };
+      const res = await axios.delete(
+          `http://localhost:8080/api/site/${userInfo.siteList[siteValue]}`,
+          { data: reqData }
+      );
+      if(res.status === 200) {
+        const newInfo = {
+          ...userInfo,
+          site: userInfo.site.filter((val, idx) => idx !== siteValue),
+          siteList: userInfo.siteList.filter((val, idx) => idx !== siteValue)
+        };
 
-  console.log(userInfo);
+        dispatch({ type: REMOVE_SITE, data: newInfo });
+
+      } else {
+        alert("사이트 삭제 실패");
+      }
+    }
+  };
 
   useEffect(() => {
       if (Object.keys(userInfo).length !== 0 ){
@@ -278,7 +299,7 @@ const Site = () => {
               <div className="title_area">
                 <h2 className="title">웹사이트 관리</h2>
                 <div className="btn-area mb">
-                  <button className="btn btn-outline-secondary">삭제</button>
+                  <button className="btn btn-outline-secondary" onClick={handleDelete}>삭제</button>
                   <button
                     className="btn btn-primary"
                     onClick={() => setOpenPopup(true)}

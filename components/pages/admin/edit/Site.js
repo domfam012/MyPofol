@@ -71,6 +71,7 @@ const Selected = props => {
   const [introLength, setIntroLength] = useState(props.intro.length);
   const [email, setEmail] = useState(props.email);
   const [phone, setPhone] = useState(props.phone);
+  const url = props.url;
 
   const dispatch = useDispatch();
   const setState = () => {
@@ -115,7 +116,7 @@ const Selected = props => {
               value={title}
               onChange={handleTitleChange}
             />
-            <span className="site_title">http://www.mypofol.com/domfam</span>
+            <span className="site_title">http://www.mypofol.com/{url}</span>
           </div>
         </form>
       </div>
@@ -319,6 +320,7 @@ const Site = () => {
                 intro={userInfo.site[siteValue].intro}
                 email={userInfo.site[siteValue].email}
                 phone={userInfo.site[siteValue].phone}
+                url={userInfo.site[siteValue].url}
                 template={userInfo.site[siteValue].template}
               />
             ) : (

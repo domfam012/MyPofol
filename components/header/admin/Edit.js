@@ -1,22 +1,20 @@
 // Header
-import React , { useCallback } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import {useDispatch, useSelector} from 'react-redux';
 import Link from 'next/link'
 import {LOG_OUT} from "../../../redux/reducers/user";
 import { GoogleLogout } from 'react-google-login';
 
-const Header = props => {
+const Header = () => {
     const{isLoggedIn , userInfo} = useSelector(state => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
 
     const logout = () => {
         dispatch({type :LOG_OUT});
-
         const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut().then(() =>{console.log('로그아웃')});
-
         localStorage.clear();
         router.push(`/`);
     };

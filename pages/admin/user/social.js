@@ -1,17 +1,18 @@
 import Head from 'next/head'
-import React ,{useEffect}from "react";
+import React, {useState } from "react";
 import Layout from "../../../components/Layout";
 import Header from "../../../components/header/admin/Edit"
-import { useRouter } from "next/router";
 import {useDispatch} from "react-redux";
-import {LOG_IN, LOG_ING} from "../../../redux/reducers/user";
+import {LOG_IN} from "../../../redux/reducers/user";
 import {GoogleLogin} from 'react-google-login';
 import shortid from 'shortid';
 import moment from "moment";
 import axios from "axios";
 
+
 const Social = () => {
     const dispatch = useDispatch();
+    const [sign, setSign] = useState('');
 
     const responseGoogle = async(googleRes) => {
         axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
@@ -49,14 +50,17 @@ const Social = () => {
     const login = (googleRes, userRes) => {
         const userInfo = {};
         userInfo[`google_${googleRes.googleId}`] = userRes.data.data[0];
-        dispatch({type :LOG_IN, data : Object.values(userInfo)[0]  });
-        console.log('로그인 성공');
+        dispatch({type :LOG_IN, data : Object.values(userInfo)[0] });
         localStorage.setItem("id", `google_${googleRes.googleId}`);
         history.back();
     };
 
     const responseFail= (err) => {
         console.log(err);
+    };
+
+    const onSignIn = e => {
+        setSign(e.target.id);
     };
 
     return (
@@ -71,16 +75,19 @@ const Social = () => {
             </Head>
             <Header/>
             <section className="container-fluid init login">
-                <h2 className="title">로그인</h2>
+                <h2 className="title">{sign === '' ? '로그인' : '회원가입' }</h2>
                 <div className="sub">
-                    <p>처음오셨나요? 무료로 계정을 생성할 수 있습니다.</p>
+                    <p>{sign === '' ? '처음오셨나요? 무료로 계정을 생성할 수 있습니다.' : ''}</p>
                 </div>
+
+
                 <div className="btn-area social">
-                    <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
+                   {/* <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
                         src="/img/common/kakao.png" alt="카카오"/></button>
                     <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
                         src="/img/common/naver.png" alt="네이버"/></button>
-
+                    <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
+                        src="/img/common/facebook.png" alt="페이스북"/></button>*/}
                     <GoogleLogin
                         clientId={'715542130806-oe0pdnl5jtlov6suh1787c2fofk6ahos.apps.googleusercontent.com'}
                         buttonText="Google"
@@ -91,10 +98,9 @@ const Social = () => {
                         onSuccess={responseGoogle}
                         onFailure={responseFail}
                         isSignedIn={true}/>
-
-                    <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
-                        src="/img/common/facebook.png" alt="페이스북"/></button>
-                    <button type="button" className="btn btn-block btn-link">회원가입하기</button>
+                    {
+                        sign  === '' ?  <button onClick={onSignIn} id="sign" type="button" className="btn btn-block btn-link">회원가입하기</button> :  ''
+                    }
                 </div>
             </section>
 

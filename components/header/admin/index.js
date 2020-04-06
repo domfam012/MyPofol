@@ -17,7 +17,7 @@ const Header = props => {
         const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut().then(() =>{console.log('로그아웃')});
 
-        window.sessionStorage.clear();
+        localStorage.clear();
         router.push(`/`);
     };
 

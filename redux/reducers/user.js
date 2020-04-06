@@ -100,7 +100,8 @@ export default (state = initialState , action) => {
             return {
                 ...state,
                 viewState: action.data.state,
-                viewValue: action.data.value ? action.data.value : ''
+                viewValue: action.data.value ? action.data.value : '',
+                addImage: action.data.add ? action.data.add : false
             }
         }
         default: {

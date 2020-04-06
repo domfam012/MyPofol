@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { loadStorage } from '../../../../public/js/db'
 import { CATEGORY_STATE, VIEW_STATE, LOG_IN } from '../../../../redux/reducers/user'
 import {useDispatch, useSelector} from "react-redux";
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
+import shortid from "shortid";
 /*
 1. ? : => 'active'
 2. (input)intro 수정 기능 onChange
@@ -56,15 +57,11 @@ const Unselected = props => {
 };
 
 const Selected = props => {
-  const { thumbnailPath, category } = props;
+  const { category } = props;
   const [title, setTitle] = useState(props.title);
   const [intro, setIntro] = useState(props.intro);
   const [img, setImg] = useState("");
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
   const [introLength, setIntroLength] = useState(props.intro.length);
-
-  console.log(props.id)
 
   const dispatch = useDispatch();
   const setState = e => {
@@ -87,27 +84,61 @@ const Selected = props => {
     setImg(e.target.files[0]);
   };
 
-  // 카테고리 타입 선택
-  const onTypeChange = e => {
-    setType(e.target.id);
-  };
-
   // 취소 클릭 시
   const handleCancel = () => {
     setState();
   };
 
-  // 카테고리 수정 취소 버튼 선택 시 CATEGORY_STATE 변경
-  const prevAddCategory = () => {
-    dispatch({ type: CATEGORY_STATE, data: { state: "unselected" } });
+  // 이미지 추가
+  const registerImage = async () => {
+
+    const view = category.view;
+    const viewList = category.viewList;
+
+    const storage = await loadStorage();
+    const imageKey = shortid.generate();
+    const storageRef = storage.ref(
+      `site/${props.site}/category/${imageKey}`
+    );
+    const uploadTask = storageRef.put(img);
+
+    // view 데이터 복사
+    const newView = { ...view }
+    newView[props.id] = {
+      ...newView[props.id],
+      originName : title,
+      intro : intro
+    };
+
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      err => storageErrHandler(err),
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(async url => {
+          const newViewList = {
+            category : {
+              ...category,
+              view: newView,
+              viewList: category.viewList
+            }
+          };
+
+          const res = await axios.patch(
+            `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
+            newViewList
+          );
+          if (res.status === 200) {
+          dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
+          history.back();
+        } else alert("카테고리 추가 실패");
+      });
+      }
+    );
   };
 
-  //  이미지 수정 저장 버튼 클릭 시 이미지 타이틀 수정
+  // 이미지 수정 저장 버튼 클릭 시 이미지 타이틀 수정
   const updateCategory = async () => {
-
-    // const { siteInfo , viewState, viewValue } = useSelector(state => state.user);
-
-    console.log(props)
 
     const view = category.view;
     const viewList = category.viewList;
@@ -128,67 +159,30 @@ const Selected = props => {
       }
     };
 
-    // view 데이터 수정
-    // '클릭된 이미지의 데이터 '찾고 ...
-    // props.id -> object의 key 값
-
-    // let category = {
-    //   type: type === "pc" ? 1 : 2,
-    //   name: name,
-    //   view: view,
-    //   viewList: viewList
-    // }
-
     const res = await axios.patch(
       `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
       newCategory
     );
 
-    dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
-    history.back();
+    const newSite = {
+      category: {
+        ...category
+      }
+    }
+    newSite.category[props.category.id] = newCategory;
 
-    // const
-    // 제목, 이미지 경로, 이미지 소개글 수정
-
+    dispatch({ type: LOG_IN, data : {
+        ...props.siteInfo,
+        site : {
+          category: {
+            ...category
+          }
+        }
+      } });
 
     return;
 
-
-
-    const storage = await loadStorage();
-    const storageRef = storage.ref(`site/${props.site}/category/${props.id}/${props.saveName}`);
-    const uploadTask = storageRef.put(img);
-    console.log(storageRef)
-
-
-
-
-    uploadTask.on(
-      "state_changed",
-      () => {},
-      err => storageErrHandler(err),
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(async url => {
-          const categoryInfo = {
-            category: {
-              type: type === "pc" ? 1 : 2,
-              name: name,
-              view: newData,
-              viewList: props.viewList
-            }
-          };
-          const res = await axios.patch(
-            `http://localhost:8080/api/site/${props.site}/category/${props.id}`,
-            categoryInfo
-          );
-          if (res.status === 200) {
-            dispatch({ type: CATEGORY_STATE, data: { state: "unselected" } });
-            history.back();
-          } else alert("카테고리 추가 실패");
-        });
-      }
-    );
-  };
+  }
 
   const storageErrHandler = err => {
     switch (err.code) {
@@ -207,11 +201,13 @@ const Selected = props => {
         <form className="form_site">
           <div className="form-group active">
             <input
+              id={"name"}
               type="text"
               className="form-control"
               title="이미지명"
               value={title}
               onChange={handleTitleChange}
+              placeholder={props.title}
             />
           </div>
         </form>
@@ -221,7 +217,14 @@ const Selected = props => {
           <img src={props.imgPath} alt={props.title} />
         </a>
         <div className="btn-area mb-1 change">
-          <button className="btn btn-secondary w-auto">썸네일 이미지 변경</button>
+          <input
+            type="file"
+            id="imgUploader"
+            name="img"
+            className="form-control-file"
+            onChange={onImgUpload}
+          />
+          {/*<button className="btn btn-secondary w-auto">썸네일 이미지 변경</button>*/}
         </div>
         <p className="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>-파일명 영문, 숫자 허용</p>
       </div>
@@ -248,7 +251,7 @@ const Selected = props => {
       </div>
       <div className="btn-area mb">
         <button className="btn btn-lg btn-outline-secondary" onClick={handleCancel}>취소</button>
-        <button className="btn btn-lg btn-primary" onClick={updateCategory}>저장</button>
+        <button className="btn btn-lg btn-primary" onClick={registerImage}>저장</button>
       </div>
     </div>
 
@@ -258,9 +261,7 @@ const Selected = props => {
 const View = props => {
 
   const dispatch = useDispatch();
-
-  const { siteInfo , viewState, viewValue } = useSelector(state => state.user);
-
+  const { siteInfo , viewState, viewValue, addImage } = useSelector(state => state.user);
 
     // console.log(siteInfo);
     // console.log(props.category);
@@ -272,7 +273,7 @@ const View = props => {
   const viewList = category.viewList;
   const url = siteInfo.url;
 
-    // console.log(view);
+    console.log(view);
     // console.log(viewList);
 
     //                   0      1
@@ -290,6 +291,24 @@ const View = props => {
 
     // siteInfo.category[siteInfo.categoryList.indexOf(props.category)] = category[1]
 
+  // 새 이미지 추가 클릭 시 VIEW_STATE 변경
+  const onAddImage = useCallback(() => {
+    dispatch({type : VIEW_STATE, data : { state : 'selected' , add : true}})
+  }, []);
+
+  // 삭제 버튼 클릭 시 카테고리 삭제
+  const onDeleteImage =  async () => {
+    if (viewValue === '' )  alert ("삭제 할 카테고리를 선택해주세요");
+    else{
+      const res = await axios.delete(
+        `http://localhost:8080/api/site/${url}/category/`,
+      );
+      if(res.status === 200){
+        dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
+        window.location.reload();
+      }else alert('카테고리 삭제 실패');
+    }
+  };
 
   useEffect(() => {
       viewList.length === 0 ? dispatch({type : VIEW_STATE, data : { state : 'none'} }) : dispatch({type : VIEW_STATE, data : { state : 'unselected'} });
@@ -304,8 +323,8 @@ const View = props => {
               <a href="#"><h2 className="title"><i className="far fa-chevron-left"></i>{category.name}</h2></a>
             </Link>
             <div className="btn-area mb">
-              <button className="btn btn-outline-secondary">삭제</button>
-              <button className="btn btn-primary">새 이미지 추가</button>
+              <button onClick={onDeleteImage} className="btn btn-outline-secondary">삭제</button>
+              <button onClick={onAddImage} className="btn btn-primary">새 이미지 추가</button>
             </div>
           </div>
           <div className="contents">
@@ -319,7 +338,7 @@ const View = props => {
                   activeTarget={viewValue !== "" ? viewValue : ""}
                 />
               ))}
-              <a className="site add" href="#">
+              <a onClick={onAddImage} className="site add" href="#">
                 <p className="plus"><i className="fal fa-plus"></i></p>
                 <p className="txt">새 이미지 추가</p>
               </a>
@@ -336,10 +355,13 @@ const View = props => {
                   url = {url}
                   category = {category}
                   siteInfo = {siteInfo}
-                  id = {view[viewValue].id}
+
                   title = {viewValue !== '' ? view[viewValue].originName : ''}
-                  imgPath = {view[viewValue].img.path}
-                  intro = {view[viewValue].intro}
+                  id = {view[viewValue] ? view[viewValue].id : ''}
+                  imgPath = {view[viewValue] ? view[viewValue].img.path : ''}
+                  intro = {view[viewValue] ? view[viewValue].intro : ''}
+
+                  addImage={addImage}
               />:
                 <Unselected/>
         }

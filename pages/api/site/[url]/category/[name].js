@@ -27,6 +27,7 @@ export default async (req, res) => {
   // 사이트 문서
   const siteDoc = await db.collection(`Site`).doc(url);
 
+
   switch (req.method) {
     // 카테고리 조회
     case "GET":
@@ -122,5 +123,6 @@ export default async (req, res) => {
       });
 
       return res.status(200).json(resData);
+
   }
 };

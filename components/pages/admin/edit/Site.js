@@ -13,6 +13,7 @@ const Site = () => {
   };
 
     const site = 'test';
+    const site2 = 'test2';
   return (
     <>
       {openPopup ? (
@@ -70,6 +71,30 @@ const Site = () => {
                         선택
                       </button>
                       <Link href={`/admin/edit?site=${site}`} as={`/admin/edit?site=${site}`}>
+                    <button className="btn btn-primary">상세</button>
+                  </Link>
+                    </span>
+                    </div>
+                    <div className="site active">
+                    <span className="site-img">
+                      <img
+                          src="/img/common/default_thumbnail.png"
+                          alt="thumbnail"
+                      />
+                    </span>
+                        <p className="site-body">
+                            <span className="title">베스킨라빈스2</span>
+                            <Link href={`/portfolio/${site2}`} as={`/portfolio/${site2}`}>
+                                <a className="address" href="#">
+                                    http://www.mypofol.com/test2
+                                </a>
+                            </Link>
+                        </p>
+                        <span className="btn-area">
+                      <button className="btn btn-outline-secondary mr-1">
+                        선택
+                      </button>
+                      <Link href={`/admin/edit?site=${site2}`} as={`/admin/edit?site=${site2}`}>
                     <button className="btn btn-primary">상세</button>
                   </Link>
                     </span>

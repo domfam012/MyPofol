@@ -54,7 +54,7 @@ export default async (req, res) => {
       // 받아온 값 타입 && null 체크
       data = {
         type: req.body.type || 1,
-        img: req.body.img || { saveName: "", path: "" },
+        img: req.body.img || { saveName: req.query.name , path: "/img/common/default_thumbnail.png" },
         name : req.body.name || "",
         id : req.query.name,
         view: {},

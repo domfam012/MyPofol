@@ -30,23 +30,22 @@ export default async (req, res) => {
 
       // 사이트 collection 에서 해당 사이트들 조회
       const getSub = async () => {
-        // console.log(siteList)
+        console.log(siteList)
         for (let site of siteList) {
           const subDoc = await db.collection("Site").doc(site);
           const subRef = await subDoc.get();
-          // console.log(subRef.data())
+          console.log(subRef.data())
           if (subRef._document !== null) {
             resData.site.push(subRef.data());
-
-            resData.status = 200;
-            resData.msg = "success";
-
-            // 정상 조회 응답
-            return res.status(200).send(resData);
           } else {
             return res.status(500).send("user's sites not found");
           }
         }
+        resData.status = 200;
+        resData.msg = "success";
+
+        // 정상 조회 응답
+        return res.status(200).send(resData);
       };
       getSub();
 

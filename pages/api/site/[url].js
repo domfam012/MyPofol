@@ -44,7 +44,9 @@ export default async (req, res) => {
   let site, category;
   let resData, ref, doc;
 
-  const userDoc = await db.collection("User").doc(user);
+  let user;
+  const userCol = await db.collection("User");
+  let userDoc;
 
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
@@ -80,7 +82,7 @@ export default async (req, res) => {
     case "POST":
       doc = await db.collection("Site").doc(url);
 
-      const user = req.body.userId;
+      user = req.body.userId;
 
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
@@ -111,6 +113,7 @@ export default async (req, res) => {
       await doc.set(site);
 
       // 사이트 리스트 등록
+      userDoc = userCol.doc(user);
       await userDoc.update({
         siteList: firestore.FieldValue.arrayUnion(url)
       });

@@ -13,10 +13,6 @@ import axios from "axios";
 const Social = () => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (window.sessionStorage.id){dispatch({type :LOG_ING});}
-    }, []);
-
     const responseGoogle = async(googleRes) => {
         axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
             .then( userRes => {
@@ -54,11 +50,8 @@ const Social = () => {
         const userInfo = {};
         userInfo[`google_${googleRes.googleId}`] = userRes.data.data[0];
         dispatch({type :LOG_IN, data : Object.values(userInfo)[0]  });
-
         console.log('로그인 성공');
-
-        window.sessionStorage.setItem('id', `google_${googleRes.googleId}`);
-
+        localStorage.setItem("id", `google_${googleRes.googleId}`);
         history.back();
     };
 

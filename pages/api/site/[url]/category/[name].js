@@ -59,8 +59,11 @@ export default async (req, res) => {
       data = {
         name: req.body.name,
         type: req.body.type || 1,
-        img: req.body.img || { saveName: req.query.name , path: "/img/common/default_thumbnail.png" },
-        id : name,
+        img: req.body.img || {
+          saveName: req.query.name,
+          path: "/img/common/default_thumbnail.png"
+        },
+        id: name,
         view: {},
         viewList: [],
         created: moment()
@@ -77,7 +80,9 @@ export default async (req, res) => {
         });
 
       // 카테고리 리스트 등록
-      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(name) });
+      await siteDoc.update({
+        categoryList: firestore.FieldValue.arrayUnion(name)
+      });
 
       return res.status(200).end();
 
@@ -104,7 +109,12 @@ export default async (req, res) => {
     // 카테고리 삭제
     case "DELETE":
       await doc.delete();
-      await siteDoc.update({ categoryList: firestore.FieldValue.arrayUnion(name) });
+
+      // console.log(name);
+
+      await siteDoc.update({
+        categoryList: firestore.FieldValue.arrayRemove(name)
+      });
 
       resData = JSON.stringify({
         status: 200,

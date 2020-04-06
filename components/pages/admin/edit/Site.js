@@ -295,7 +295,7 @@ const Site = () => {
                       key={idx}
                       idx={idx}
                       name={item.name}
-                      img={item.thumbnail.path}
+                      img={item.thumbnail ? item.thumbnail.path : ''}
                       url={item.url}
                       activeTarget={siteValue !== "" ? siteValue : ""}
                     />

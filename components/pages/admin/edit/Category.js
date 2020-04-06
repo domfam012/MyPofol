@@ -47,22 +47,100 @@ const Unselected = () => {
 };
 
 const Selected = props => {
+    const dispatch = useDispatch();
+    const [img, setImg] = useState("");
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+
+    // 이미지 변경
+    const onImgUpload = e => {
+        setImg(e.target.files[0]);
+    };
+
+    // 카테고리 명 입력
+    const onNameChange = e => {
+        setName(e.target.value);
+    };
+
+    // 카테고리 타입 선택
+    const onTypeChange = e => {
+        setType(e.target.id);
+    };
+
+    // 카테고리 수정 취소 버튼 선택 시 CATEGORY_STATE 변경
+    const prevAddCategory = () => {
+        dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+    };
+
+    //  카테고리 수정 저장 버튼 클릭 시 카테고리 수정
+    const updateCategory = async () => {
+        const storage = await loadStorage();
+        const storageRef = storage.ref(`site/${props.site}/category/${props.id}`);
+        const uploadTask = storageRef.put(img);
+
+        uploadTask.on(
+            "state_changed",
+            () => {},
+            err => storageErrHandler(err),
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then(async url => {
+                    const categoryInfo = {
+                        category : {
+                            type : type === 'pc' ? 1 : 2,
+                            img : { saveName : props.id, path : url},
+                            name : name,
+                            view : props.view,
+                            viewList : props.viewList
+                        }
+                    };
+                    const res = await axios.patch(
+                        `http://localhost:8080/api/site/${props.site}/category/${props.id}`,
+                        categoryInfo
+                    );
+                    if(res.status === 200){
+                        dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+                        history.back();
+                    }else alert('카테고리 추가 실패' );
+                });
+            }
+        );
+    };
+
+    const storageErrHandler = err => {
+        switch(err.code) {
+            case "storage/unauthorized":
+                return alert("User doesn't have permission to access the object");
+            case "storage/canceled":
+                return alert("User canceled the upload");
+            case "storage/unknown":
+                return alert("Unknown error occurred, inspect error.serverResponse");
+        }
+    };
     return(
         <div className="contents">
             <div className="box">
                 <form className="form_site">
                     <div className="form-group active">
-                        <input type="text" className="form-control" title="사이트명" placeholder={props.title}/>
+                        <input
+                            id={"name"}
+                            name={"name"}
+                            value={name}
+                            onChange={onNameChange}
+                            type="text"
+                            className="form-control"
+                            title="카테고리"
+                            placeholder={props.title}
+                        />
                     </div>
                 </form>
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" className="custom-control-input" defaultChecked={props.type === 1 }/>
+                    <input type="radio" id="pc" name="category" onChange={onTypeChange} className="custom-control-input" defaultChecked={props.type === 1 }/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" className="custom-control-input" defaultChecked={props.type === 2 }/>
+                    <input type="radio" id="mobile" name="category" onChange={onTypeChange}  className="custom-control-input" defaultChecked={props.type === 2 }/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -75,13 +153,19 @@ const Selected = props => {
                     </div>
                 </form>
                 <div className="btn-area mb change">
-                    <button className="btn btn-secondary">썸네일 변경</button>
+                    <input
+                        type="file"
+                        id="imgUploader"
+                        name={"img"}
+                        className="form-control-file"
+                        onChange={onImgUpload}>
+                    </input>
                 </div>
                 <p className="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>-파일명 영문, 숫자 허용</p>
             </div>
             <div className="btn-area mb">
-                <button className="btn btn-lg btn-outline-secondary">취소</button>
-                <button className="btn btn-lg btn-primary">저장</button>
+                <button onClick={prevAddCategory} className="btn btn-lg btn-outline-secondary">취소</button>
+                <button onClick={updateCategory} className="btn btn-lg btn-primary">저장</button>
             </div>
         </div>
     )
@@ -142,18 +226,17 @@ const AddCategory = props => {
                 });
             }
         );
+    };
 
-        const storageErrHandler = err => {
-            switch(err.code) {
-                case "storage/unauthorized":
-                    return alert("User doesn't have permission to access the object");
-                case "storage/canceled":
-                    return alert("User canceled the upload");
-                case "storage/unknown":
-                    return alert("Unknown error occurred, inspect error.serverResponse");
-            }
-        };
-
+    const storageErrHandler = err => {
+        switch(err.code) {
+            case "storage/unauthorized":
+                return alert("User doesn't have permission to access the object");
+            case "storage/canceled":
+                return alert("User canceled the upload");
+            case "storage/unknown":
+                return alert("Unknown error occurred, inspect error.serverResponse");
+        }
     };
 
     return(
@@ -285,7 +368,11 @@ const Category = props => {
                                 <Selected
                                 title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
                                 type = {siteInfo.category[categoryValue].type}
-                                imgPath={siteInfo.category[categoryValue].img.path}/>
+                                imgPath={siteInfo.category[categoryValue].img.path}
+                                view = {siteInfo.category[categoryValue].view}
+                                id = {siteInfo.category[categoryValue].id}
+                                viewList={siteInfo.category[categoryValue].viewList}
+                                site = {siteInfo.url}/>
                 }
             </div>
         </div>

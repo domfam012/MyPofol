@@ -3,7 +3,7 @@
  *  /api/site/[url]
  */
 
-import { loadDB } from "../../../public/js/db";
+import {firestore, loadDB} from "../../../public/js/db";
 import moment from "moment";
 import shortid from "shortid";
 
@@ -44,6 +44,8 @@ export default async (req, res) => {
   let site, category;
   let resData, ref, doc;
 
+  const userDoc = await db.collection("User").doc(user);
+
   switch (req.method) {
     //  사이트 & 카테고리 전체 조회
     case "GET":
@@ -78,6 +80,8 @@ export default async (req, res) => {
     case "POST":
       doc = await db.collection("Site").doc(url);
 
+      const user = req.body.userId;
+
       // 데이터 체크
       // ...site ...category 통째로 받아서 확인후 직접 집어넣기
       const current = moment()
@@ -105,6 +109,11 @@ export default async (req, res) => {
 
       // 사이트 등록
       await doc.set(site);
+
+      // 사이트 리스트 등록
+      await userDoc.update({
+        siteList: firestore.FieldValue.arrayUnion(url)
+      });
 
       category = {
         type: 1,
@@ -190,6 +199,9 @@ export default async (req, res) => {
 
       // 사이트 삭제
       await doc.delete();
+      await userDoc.update({
+        siteList: firestore.FieldValue.arrayRemove(url)
+      });
 
       resData = JSON.stringify({
         status: 200,

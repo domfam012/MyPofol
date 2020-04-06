@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import {VIEW_STATE, CATEGORY_STATE} from "../../../../redux/reducers/user";
+import {VIEW_STATE} from "../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 /*
 1. ? : => 'active'
 2. (input)intro 수정 기능 onChange
@@ -12,6 +12,7 @@ import React, { useEffect } from 'react'
 7. 이미지 저장 -> modal(알림창 '이미지가 저장되었습니다.')
 8. 삭제 -> modal(알림창 '삭제하시겠습니까?->확인/취소->'삭제되었습니다.')
 9. 저장 ->  modal(알림창 '저장하겠습니까?->저장/취소->'저장되었습니다..')
+10. 취소
 * */
 const ViewList = props => {
 
@@ -20,7 +21,7 @@ const ViewList = props => {
     dispatch({type : VIEW_STATE, data : { state : 'selected', value : e }});
   };
   return(
-    <a className={props.activeTarget === props.title ? 'site active' : 'site'}>
+    <a className={`site ${props.activeTarget === props.id ? "active" : ""}`}>
       <span className="site-img">
         <img src={props.imgPath} alt={props.title} />
       </span>
@@ -55,17 +56,36 @@ const Unselected = props => {
   )
 };
 
-const handleChange = props => {
-  // const [value, setValue] = useState(props.intro);
-  // setValue(props.intro);
+const Selected = props => {
 
+  const { thumbnailPath } = props;
+  const [title, setTitle] = useState(props.title);
+  const [intro, setIntro] = useState(props.intro);
+  const [introLength, setIntroLength] = useState(props.intro.length);
+
+  const dispatch = useDispatch();
   const setState = e => {
+    dispatch({type : VIEW_STATE, data : { state : 'selected', value : e }});
   };
 
-  console.log('수정중');
-}
+  const handleTitleChange = e => {
+    setTitle(e.target.value);
+  };
 
-const Selected = props => {
+  const handleIntroChange = e => {
+    if(e.target.value.length < 201) {
+      setIntro(e.target.value);
+      setIntroLength(e.target.value.length);
+    }
+  };
+
+  const handleCancel = () => {
+    setState();
+  };
+
+  const handleSave = () => {
+
+  };
 
   return(
     <div className="contents">
@@ -76,7 +96,8 @@ const Selected = props => {
               type="text"
               className="form-control"
               title="이미지명"
-              value={props.title}
+              value={title}
+              onChange={handleTitleChange}
             />
           </div>
         </form>
@@ -100,20 +121,20 @@ const Selected = props => {
               rows="7"
               placeholder="이미지 소개글을 입력하세요"
               style={{ "resize": "none" }}
-              value={props.intro}
-              onChange = {handleChange}
+              value={intro}
+              onChange = {handleIntroChange}
               />
           </div>
         </form>
         <p className="desc clearfix">
           <span className="float-left">한글기준 200자 이내</span>
           <span className="float-right pr-2">
-            <span className="_word">0</span>/200</span>
+            <span className="_word">{introLength}</span>/200</span>
         </p>
       </div>
       <div className="btn-area mb">
-        <button className="btn btn-lg btn-outline-secondary">취소</button>
-        <button className="btn btn-lg btn-primary">저장</button>
+        <button className="btn btn-lg btn-outline-secondary" onClick={handleCancel}>취소</button>
+        <button className="btn btn-lg btn-primary" onClick={handleSave}>저장</button>
       </div>
     </div>
 
@@ -156,8 +177,6 @@ const View = props => {
     // siteInfo.category[siteInfo.categoryList.indexOf(props.category)] = category[1]
 
 
-
-
   useEffect(() => {
       viewList.length === 0 ? dispatch({type : VIEW_STATE, data : { state : 'none'} }) : dispatch({type : VIEW_STATE, data : { state : 'unselected'} });
   }, []);
@@ -184,6 +203,7 @@ const View = props => {
                   imgPath = {view[item].img.path}
                   title = {view[item].originName}
                   id = {view[item].id}
+                  activeTarget={viewValue !== "" ? viewValue : ""}
                 />
               ))}
               <a className="site add" href="#">

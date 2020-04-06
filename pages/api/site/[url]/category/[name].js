@@ -71,7 +71,7 @@ export default async (req, res) => {
           .format()
       };
 
-      console.log(data);
+      // console.log(data);
       // 카테고리 등록
       await doc
         .set(data)

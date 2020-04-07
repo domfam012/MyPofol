@@ -20,7 +20,7 @@ export const ADD_SITE = 'ADD_SITE';
 export const REMOVE_SITE = 'REMOVE_SITE';
 export const SITE_INFO = ' SITE_INFO';
 export const PORTFOLIO_SITE_INFO = ' PORTFOLIO_SITE_INFO';
-export const PORTFOLIO_CATEGORY_INFO = ' PORTFOLIO_CATEGORY_INFO';
+export const PORTFOLIO_IDX = 'PORTFOLIO_IDX';
 export const CONTROL_AUTO_PLAY = 'CONTROL_AUTO_PLAY';
 export const CONTROL_POPUP = 'CONTROL_POPUP';
 export const LOG_ING = 'LOG_ING';
@@ -77,6 +77,12 @@ export default (state = initialState , action) => {
                 ...state,
                 portfolioInfo : action.data.site,
                 portfolioImgInfo: action.data.category ? action.data.category : {}
+            };
+        }
+        case PORTFOLIO_IDX : {
+            return {
+                ...state,
+                portfolioIdx: action.data
             };
         }
         case CONTROL_AUTO_PLAY : {

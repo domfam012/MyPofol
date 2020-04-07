@@ -1,10 +1,12 @@
 import axios from 'axios'
 import Link from 'next/link'
-import { loadStorage } from '../../../../public/js/db'
-import { CATEGORY_STATE, VIEW_STATE, LOG_IN } from '../../../../redux/reducers/user'
-import {useDispatch, useSelector} from "react-redux";
-import React, { useCallback, useEffect, useState } from 'react';
-import shortid from "shortid";
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadStorage } from "../../../../public/js/db";
+import Alert from '../../../popup/alert';
+import Confirm from '../../../popup/Confirm';
+import shortid from 'shortid'
+import { CATEGORY_STATE, VIEW_STATE } from '../../../../redux/reducers/user'
 /*
 1. ? : => 'active'
 2. (input)intro 수정 기능 onChange
@@ -86,103 +88,108 @@ const Selected = props => {
 
   // 취소 클릭 시
   const handleCancel = () => {
-    setState();
+    dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
+    window.location.reload();
   };
 
   // 이미지 추가
   const registerImage = async () => {
-
-    const view = category.view;
-    const viewList = category.viewList;
-
-    const storage = await loadStorage();
-    const imageKey = shortid.generate();
-    const storageRef = storage.ref(
-      `site/${props.site}/category/${imageKey}`
-    );
-    const uploadTask = storageRef.put(img);
-
-    // view 데이터 복사
-    const newView = { ...view }
-    newView[props.id] = {
-      ...newView[props.id],
-      originName : title,
-      intro : intro
-    };
-
-    uploadTask.on(
-      "state_changed",
-      () => {},
-      err => storageErrHandler(err),
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(async url => {
-          const newViewList = {
-            category : {
-              ...category,
-              view: newView,
-              viewList: category.viewList
-            }
-          };
-
-          const res = await axios.patch(
-            `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
-            newViewList
-          );
-          if (res.status === 200) {
-          dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
-          history.back();
-        } else alert("카테고리 추가 실패");
-      });
-      }
-    );
-  };
-
-  // 이미지 수정 저장 버튼 클릭 시 이미지 타이틀 수정
-  const updateCategory = async () => {
-
     const view = category.view;
     const viewList = category.viewList;
 
     // view 데이터 복사
     const newView = { ...view }
-    newView[props.id] = {
-      ...newView[props.id],
+    let viewId  = shortid.generate();
+    viewList.push(viewId);
+
+    newView[viewId] = {
+      ...newView[viewId],
+      id: viewId,
       originName : title,
       intro : intro
     };
 
-    const newCategory = {
+    const newCategoryList = {
       category : {
         ...category,
         view: newView,
-        viewList: category.viewList
+        viewList
       }
     };
 
-    const res = await axios.patch(
-      `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
-      newCategory
-    );
+    if(img === ''){
+      // newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣고 API 연동
+      /*
+     * newView  배열에 img : { path : '/img/common/default_thumbnail.png' , saveName : viewId}
+     *  > 추가 : 이미지 선택 X
+     *     > path : 디폴트 , saveName : viewId  : 새로 만들어준 ID값
+     *
+     * newView  배열에 img : { path : '기존 이미지(props.imgPath)' , saveName : '기존 saveName (props로 기존 saveName 전달 받아서 처리)'}
+     *  > 수정 : 이미지 수정 X
+     *     > path : 기존 , saveName  : 기존
+     */
+      // TODO : newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣기
+      newView[viewId] = {
+        ...newView[viewId],
+        id: viewId,
+        originName : title,
+        intro : intro,
+        img : img === '' ? ({saveName: viewId, path : '/img/common/default_thumbnail.png'}) : (props.addImage ? '' : {saveName : props.saveName, path : props.imgPath})
+      };
+      // API 연동
+      const res = await axios.patch (
+        `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
+        newView
+      );
+      if (res.status === 200) {
+        dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
+        window.location.reload();
+      } else alert(`이미지 ${ props.addImage ? '추가' : '수정'}실패` );
 
-    const newSite = {
-      category: {
-        ...category
-      }
-    }
-    newSite.category[props.category.id] = newCategory;
+    } else {
+      // newView 배열에 스토리지 저장 후 반환된 URL 값으로 img : {} 만들어 넣고 API 연동
+      // 스토리지 저장
+      const storage = await loadStorage();
+      const storageRef = storage.ref(`site/${props.site}/category/${viewId}`);
+      const uploadTask = storageRef.put(img);
+      uploadTask.on(
+        "state_changed",
+        () => {},
+        err => storageErrHandler(err),
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(async url => {
+            /*
+          *  > 추가 : 이미지 선택 O
+           *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : viewId  : 새로 만들어준 ID값
+          *
+          *  > 수정 : 이미지 수정 O
+          *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : 기존
+          */
+            // TODO : 반환된 URL 값으로 img : {} 만들기
+            newView[viewId] = {
+              ...newView[viewId],
+              id: viewId,
+              originName : title,
+              intro : intro,
+              img : img === '' ? '' : (props.addImage ? {saveName : viewId, path : props.url} : {saveName : props.saveName, path : props.url})
+            };
 
-    dispatch({ type: LOG_IN, data : {
-        ...props.siteInfo,
-        site : {
-          category: {
-            ...category
-          }
+            //API 연동
+            const res = await axios.patch (
+              `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
+              newView
+            );
+            if (res.status === 200) {
+              dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
+              window.location.reload();
+            } else alert(`이미지 ${ props.addImage ? '추가' : '수정'}실패` );
+          });
         }
-      } });
+      );
+    };
+    }
 
-    return;
-
-  }
+    // console.log(newCategoryList)
 
   const storageErrHandler = err => {
     switch (err.code) {
@@ -201,11 +208,10 @@ const Selected = props => {
         <form className="form_site">
           <div className="form-group active">
             <input
-              id={"name"}
+              id="name"
               type="text"
               className="form-control"
               title="이미지명"
-              value={title}
               onChange={handleTitleChange}
               placeholder={props.title}
             />
@@ -236,9 +242,8 @@ const Selected = props => {
               className="form-control"
               id="introduction"
               rows="7"
-              placeholder="이미지 소개글을 입력하세요"
               style={{ "resize": "none" }}
-              value={intro}
+              placeholder={props.intro}
               onChange = {handleIntroChange}
               />
           </div>
@@ -254,7 +259,6 @@ const Selected = props => {
         <button className="btn btn-lg btn-primary" onClick={registerImage}>저장</button>
       </div>
     </div>
-
   )
 };
 
@@ -262,51 +266,47 @@ const View = props => {
 
   const dispatch = useDispatch();
   const { siteInfo , viewState, viewValue, addImage } = useSelector(state => state.user);
-
-    // console.log(siteInfo);
-    // console.log(props.category);
-    // console.log(viewState);
-    // console.log(viewValue);
+  const [openConfirm, setOpenConfirm ] = useState(false);
+  const [openAlert, setOpenAlert ] = useState(false);
 
   const category = siteInfo.category[props.category];
   const view = category.view;
   const viewList = category.viewList;
   const url = siteInfo.url;
 
-    console.log(view);
-    // console.log(viewList);
-
-    //                   0      1
-    // categoryList = [ 테1 , 테2 ]
-    // category = [
-    // {} , // 무조건 테1 해당하는 정보 : 0
-    // {}  // 무조건 테2 해당하는 정보 : 1
-    // ]
-    // props.category = 테2
-
-
-    // indexOf 란 >  배열에서 'value' 값의 인덱스 정보를 반환
-    // indexOf 사용 방법>  array.indexOf('value') = index
-    // indexOf 시용 방법 예시> siteInfo.categoryList.indexOf('테2') = 1
-
-    // siteInfo.category[siteInfo.categoryList.indexOf(props.category)] = category[1]
-
   // 새 이미지 추가 클릭 시 VIEW_STATE 변경
   const onAddImage = useCallback(() => {
     dispatch({type : VIEW_STATE, data : { state : 'selected' , add : true}})
   }, []);
 
+  // 카테고리 전체 혹은 1개만 있는 경우 삭제 시 Alert 팝업 노출
+  const closeAlert = () => {
+    setOpenAlert(!openAlert);
+  };
+  const alertCallback = () => {
+    closeAlert();
+  };
+  // 카테고리 정상 삭제 시 Confirm 팝업 노출
+  const closeConfirm = props => {
+    if(props === 'delete'){
+      dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
+      window.location.reload();
+    }
+    setOpenConfirm(!openConfirm);
+  };
+  const confirmCallback = () => {
+    closeConfirm('delete');
+  };
+
   // 삭제 버튼 클릭 시 카테고리 삭제
   const onDeleteImage =  async () => {
-    if (viewValue === '' )  alert ("삭제 할 카테고리를 선택해주세요");
+    if (viewValue === '')  alert ("삭제 할 카테고리를 선택해주세요");
     else{
       const res = await axios.delete(
-        `http://localhost:8080/api/site/${url}/category/`,
+        `http://localhost:8080/api/site/${url}/category/${viewValue}`,
       );
-      if(res.status === 200){
-        dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
-        window.location.reload();
-      }else alert('카테고리 삭제 실패');
+     if(res.status === 200) closeConfirm();
+      else alert('카테고리 삭제 실패');
     }
   };
 
@@ -332,13 +332,13 @@ const View = props => {
               {viewList.map((item , index) => (
                 <ViewList
                   key = {index}
-                  imgPath = {view[item].img.path}
-                  title = {view[item].originName}
-                  id = {view[item].id}
+                  // imgPath = {view[item] ? view[item].img.path : ''}
+                  title = {view[item] ? view[item].originName : ''}
+                  id = {view[item] ? view[item].id : ''}
                   activeTarget={viewValue !== "" ? viewValue : ""}
                 />
               ))}
-              <a onClick={onAddImage} className="site add" href="#">
+              <a onClick={onAddImage} className={addImage ? "site add active" : "site add"} href="#">
                 <p className="plus"><i className="fal fa-plus"></i></p>
                 <p className="txt">새 이미지 추가</p>
               </a>
@@ -355,17 +355,17 @@ const View = props => {
                   url = {url}
                   category = {category}
                   siteInfo = {siteInfo}
-
+                  addImage={addImage}
                   title = {viewValue !== '' ? view[viewValue].originName : ''}
                   id = {view[viewValue] ? view[viewValue].id : ''}
-                  imgPath = {view[viewValue] ? view[viewValue].img.path : ''}
+                  // imgPath = {viewValue !== '' ? view[viewValue].img.path : ''}
                   intro = {view[viewValue] ? view[viewValue].intro : ''}
-
-                  addImage={addImage}
               />:
                 <Unselected/>
         }
       </div>
+      { openConfirm ?  <Confirm message={"선택한 카테고리를 삭제하시겠습니까?"}  closeConfirm={closeConfirm} cb={confirmCallback}/> : '' }
+      { openAlert ?  <Alert message={"최소 1개의 카테고리는 존재해야 합니다."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
     </div>
   );
 };

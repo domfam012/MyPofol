@@ -45,7 +45,7 @@ const Alert = props => {
               type="button"
               className="btn btn-lg btn-primary btn-block"
               style={{ width: "165px" }}
-              onClick={handleProgress}
+              onClick={cb ? handleProgress : closeAlert}
             >
               확인
             </button>

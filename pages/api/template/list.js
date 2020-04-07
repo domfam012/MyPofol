@@ -16,7 +16,7 @@ export default async (req, res) => {
 
   if (req.method === "GET") {
 
-    const ref = await collection.get();
+    const ref = await collection.orderBy("index", "asc").get();
     const data = [];
 
     ref.forEach(doc => { // 템플릿

@@ -45,6 +45,8 @@ const Index = props => {
 
   const templateList = props.data;
 
+  console.log(isLoggedIn);
+
   return (
     <>
       {

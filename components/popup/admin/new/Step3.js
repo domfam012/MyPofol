@@ -79,7 +79,7 @@ const Step3 = props => {
                 (
                     <label
                         style={{"cursor":"pointer"}}
-                        htmlFor={"imgUploader"}
+                        htmlFor={"logoUploader"}
                     >
                       <span className="plus">
                         <i className="fal fa-plus" />
@@ -94,7 +94,7 @@ const Step3 = props => {
             <input
                 style={{"display":"none"}}
                 type="file"
-                id="imgUploader"
+                id="logoUploader"
                 name={"img"}
                 className="form-control-file"
                 ref={inputImgEl}

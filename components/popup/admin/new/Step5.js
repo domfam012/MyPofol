@@ -18,7 +18,7 @@ const Step5 = props => {
   const [msg, setMsg] = useState("");
 
   const handleTemplateSelect = idx => {
-    console.log(idx)
+    console.log(idx);
     setTemplate(idx);
     handleTemplateChange(idx);
   };
@@ -64,7 +64,9 @@ const Step5 = props => {
         const storageErrHandler = err => {
           switch (err.code) {
             case "storage/unauthorized":
-              return alert("User doesn't have permission to access the object\n관리자에게 문의해주세요.");
+              return alert(
+                "User doesn't have permission to access the object\n관리자에게 문의해주세요."
+              );
             case "storage/canceled":
               setMsg("이미지 업로드가 취소되었습니다.");
               return setOpenAlert(true);
@@ -106,39 +108,34 @@ const Step5 = props => {
   }, [site.logo]);
 
   return (
-    <>
-      {openAlert ? (
-        <Alert message={msg} closeAlert={closeAlert} />
-      ) : (
-        <section className="container-fluid init select">
-          <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
-          <p className="title font-weight-normal pl">
-            <img src="/img/common/4.png" alt="1" />
-            마음에 드는 템플릿을 <span className="font-weight-bold">선택</span>
-            하세요.
-          </p>
+    <section className="container-fluid init select">
+      <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
+      <p className="title font-weight-normal pl">
+        <img src="/img/common/4.png" alt="1" />
+        마음에 드는 템플릿을 <span className="font-weight-bold">선택</span>
+        하세요.
+      </p>
 
-          <TemplateList
-            key={"pofolTemplates"}
-            selected={template}
-            templateList={templateList}
-            onTemplateSelect={handleTemplateSelect}
-          />
+      <TemplateList
+        key={"pofolTemplates"}
+        selected={template}
+        templateList={templateList}
+        onTemplateSelect={handleTemplateSelect}
+      />
 
-          <div className="btn-area mb mb-5">
-            <button
-              className="btn btn-xl btn-outline-secondary mr"
-              onClick={onPrev}
-            >
-              이전
-            </button>
-            <button className="btn btn-xl btn-primary" onClick={handleNext}>
-              다음
-            </button>
-          </div>
-        </section>
-      )}
-    </>
+      <div className="btn-area mb mb-5">
+        <button
+          className="btn btn-xl btn-outline-secondary mr"
+          onClick={onPrev}
+        >
+          이전
+        </button>
+        <button className="btn btn-xl btn-primary" onClick={handleNext}>
+          다음
+        </button>
+      </div>
+      {openAlert ? <Alert message={msg} closeAlert={closeAlert} /> : ""}
+    </section>
   );
 };
 
@@ -155,23 +152,26 @@ const TemplateList = props => {
     <div className="card-box">
       {templateList.map((template, idx) => (
         <div className="d-inline-block" key={template.index}>
-          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${(idx + 1) === selected ? "active" : ""}`}>
-
+          <div
+            className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${
+              idx + 1 === selected ? "active" : ""
+            }`}
+          >
             <div className="img">
-              {template.img
-                  ? (
-                      <img src={template.img.path} alt="템플릿 이미지"
-                           style={{
-                             width: "100%",
-                             height: "118px"
-                           }}/>
-                  )
-                  : (
-                      <p>
-                        <i className="far fa-image" />
-                      </p>
-                  )
-              }
+              {template.img ? (
+                <img
+                  src={template.img.path}
+                  alt="템플릿 이미지"
+                  style={{
+                    width: "100%",
+                    height: "118px"
+                  }}
+                />
+              ) : (
+                <p>
+                  <i className="far fa-image" />
+                </p>
+              )}
             </div>
 
             <div className="card-body">

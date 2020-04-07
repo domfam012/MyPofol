@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { REMOVE_SITE, SITE_STATE } from "../../../../redux/reducers/user";
 import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
+import Alert from "../../../popup/alert";
 
 import axios from "axios";
 import { loadStorage } from "../../../../public/js/db";

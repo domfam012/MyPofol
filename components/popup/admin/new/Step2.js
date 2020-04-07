@@ -14,7 +14,7 @@ const Step2 = props => {
   const closeAlert = () => {
     setOpenAlert(!openAlert);
   };
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState("");
 
   let isChecking = false;
 
@@ -39,16 +39,13 @@ const Step2 = props => {
     if (!name) {
       setMsg("사이트명을 입력해주세요.");
       setOpenAlert(true);
-    }
-    else if (!url) {
+    } else if (!url) {
       setMsg("사이트 url을 입력해주세요.");
       setOpenAlert(true);
-    }
-    else if (!urlChecked) {
+    } else if (!urlChecked) {
       setMsg("사이트 중복확인을 확인해주세요.");
       setOpenAlert(true);
-    }
-    else onNext();
+    } else onNext();
   };
 
   const checkUrl = async e => {
@@ -84,34 +81,34 @@ const Step2 = props => {
         <form className="form_info mb">
           <div className="form-group">
             <input
-                id={"name"}
-                name={"name"}
-                value={name}
-                onChange={onNameChange}
-                type="text"
-                className="form-control mb-1"
-                title="사이트명"
-                placeholder="사이트명"
-                style={{ width: "400px" }}
+              id={"name"}
+              name={"name"}
+              value={name}
+              onChange={onNameChange}
+              type="text"
+              className="form-control mb-1"
+              title="사이트명"
+              placeholder="사이트명"
+              style={{ width: "400px" }}
             />
             <span className="desc">
-                사이트 상단에 로고와 함께 표시되며, 언제든지 변경가능합니다.{" "}
-              </span>
+              사이트 상단에 로고와 함께 표시되며, 언제든지 변경가능합니다.{" "}
+            </span>
           </div>
           <div className="form-group">
-              <span className="domain d-inline-block">
-                http://www.mypofol.com/
-              </span>
+            <span className="domain d-inline-block">
+              http://www.mypofol.com/
+            </span>
             <input
-                id={"site"}
-                name={"site"}
-                value={url}
-                onChange={onUrlChange}
-                type="text"
-                className="form-control d-inline-block ml-1"
-                title="사이트 주소*"
-                placeholder="사이트 주소*"
-                style={{ width: "200px" }}
+              id={"site"}
+              name={"site"}
+              value={url}
+              onChange={onUrlChange}
+              type="text"
+              className="form-control d-inline-block ml-1"
+              title="사이트 주소*"
+              placeholder="사이트 주소*"
+              style={{ width: "200px" }}
             />
             <button className="btn btn-primary" onClick={checkUrl}>
               사이트 중복확인
@@ -123,11 +120,8 @@ const Step2 = props => {
             다음
           </button>
         </div>
-        {openAlert ?
-            <Alert message={msg} closeAlert={closeAlert} /> : ''
-        }
+        {openAlert ? <Alert message={msg} closeAlert={closeAlert} /> : ""}
       </section>
-
     </>
   );
 };

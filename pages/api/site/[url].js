@@ -135,9 +135,12 @@ export default async (req, res) => {
 
       // 카테고리 등록
       const promises = [];
+      // site.categoryList = [];
+      const newCategoryList = [];
       for (let categoryName of site.categoryList) {
         const sid = shortid.generate();
         category = { ...category, id: sid, name: categoryName };
+        newCategoryList.push(sid);
 
         promises.push(
           doc
@@ -146,6 +149,9 @@ export default async (req, res) => {
             .set(category)
         );
       }
+
+      await doc.update({categoryList: newCategoryList});
+
       Promise.all(promises)
         .then(function() {
           console.log("All subcollections were added!");
@@ -161,7 +167,7 @@ export default async (req, res) => {
     case "PATCH":
       doc = await db.collection("Site").doc(url);
 
-      console.log(req.body)
+      // console.log(req.body)
 
       // Update
       // 데이터 체크

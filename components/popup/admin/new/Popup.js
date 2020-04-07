@@ -34,7 +34,7 @@ const Popup = props => {
   const [site, setSite] = useState({
     name: '',
     url: '',
-    tel: '',
+    phone: '',
     email: '',
     logo: {
       saveName: '',
@@ -52,7 +52,7 @@ const Popup = props => {
 
   const handleNameChange = val => setSite({ ...site, name: val });
   const handleUrlChange = val => setSite({ ...site, url: val });
-  const handleTelChange = val => setSite({ ...site, tel: val });
+  const handlePhoneChange = val => setSite({ ...site, phone: val });
   const handleEmailChange = val => setSite({ ...site, email: val });
   const handleImgChange = (saveName, path) => setSite({ ...site, logo: { saveName: saveName, path: path } });
   const handleImgFile = val => setLogoImg(val);
@@ -97,7 +97,7 @@ const Popup = props => {
                 onNext={handleNext}
                 onPrev={handlePrev}
                 site={site}
-                handleTelChange={handleTelChange}
+                handlePhoneChange={handlePhoneChange}
                 handleEmailChange={handleEmailChange}
                 handleImgFile={handleImgFile}
               />

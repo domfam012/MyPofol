@@ -10,9 +10,9 @@
 
  ..
 
- {openAlert
+ {openConfirm
       ? (
-          <Confirm message={"퇴근"} closeAlert={closeAlert} cb={confirmCallback}/>
+          <Confirm message={"퇴근"}  closeConfirm={closeConfirm} cb={confirmCallback}/>
 )
 : (
     <></>
@@ -22,20 +22,20 @@
 */
 
 const Confirm = props => {
-  const { message, closeAlert, cb } = props;
+  const { message, closeConfirm, cb } = props;
 
   const handleProgress = async () => {
     await cb();
-    closeAlert();
+    closeConfirm();
   };
 
   return (
-    <div className="modal" style={{ display: "block" }}>
+    <div className="modal fade show" id="delete"  role="dialog" aria-labelledby="deleteModal" aria-hidden="true" style={{display: "block", background: `rgba(0,0,0,.5)` }}>
       <div className="modal-dialog modal-sm modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
             <span className="modal-title" id="saveLabel" />
-            <button type="button" className="close" onClick={closeAlert}>
+            <button type="button" className="close" onClick={closeConfirm}>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -44,15 +44,15 @@ const Confirm = props => {
             <button
               type="button"
               className="btn btn-lg btn-outline-secondary"
-              style="width: 47%;"
-              onClick={closeAlert}
+              style={{ width: "165px" }}
+              onClick={closeConfirm}
             >
               취소
             </button>
             <button
               type="button"
               className="btn btn-lg btn-primary"
-              style="width: 47%;"
+              style={{width: "165px"}}
               onClick={handleProgress}
             >
               확인

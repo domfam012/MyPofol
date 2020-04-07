@@ -150,7 +150,7 @@ export default async (req, res) => {
         );
       }
 
-      await userDoc.update({categoryList: newCategoryList});
+      await doc.update({categoryList: newCategoryList});
 
       Promise.all(promises)
         .then(function() {

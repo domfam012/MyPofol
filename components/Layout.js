@@ -27,7 +27,7 @@ const Layout = props => {
 
         const siteRes = await axios.get(`http://localhost:8080/api/user/${localStorage.id}/site`);
         userInfo[userRes.googleId] = { ...userInfo[userRes.googleId], site: siteRes.data.site };
-        console.log(siteRes.data)
+        // console.log(siteRes.data)
 
         dispatch({ type: LOG_IN, data: Object.values(userInfo)[0] });
     };

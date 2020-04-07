@@ -30,7 +30,7 @@ import Step6 from "./Step6";
 const Popup = props => {
   const { closePopup } = props;
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(5);
   const [site, setSite] = useState({
     name: '',
     url: '',
@@ -64,6 +64,7 @@ const Popup = props => {
     const fetchTemplate = async () => {
       const res = await axios.get(`http://localhost:8080/api/template/list`);
       setTemplateList(res.data.data);
+      // console.log(res.data.data);
     };
     fetchTemplate();
   }, []);

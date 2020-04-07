@@ -70,22 +70,22 @@ const Unselected = props => {
 const Selected = props => {
   const dispatch = useDispatch();
   const { template } = props;
-  const [title, setTitle] = useState('');
-  const [intro, setIntro] = useState('');
+  const [title, setTitle] = useState("");
+  const [intro, setIntro] = useState("");
   const [introLength, setIntroLength] = useState(props.intro.length);
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const url = props.url;
 
   // console.log(props);
 
-  const [logo, setLogo] = useState('');                 // preview
-  const [logoFile, setLogoFile] = useState();                       // file
-  const inputLogoEl = useRef(null);                       // file elem
+  const [logo, setLogo] = useState(""); // preview
+  const [logoFile, setLogoFile] = useState(); // file
+  const inputLogoEl = useRef(null); // file elem
 
-  const [thumbnail, setThumbnail] = useState('');  // preview
-  const [thumbnailFile, setThumbnailFile] = useState();             // file
-  const inputThumbnailEl = useRef(null);                  // file elem
+  const [thumbnail, setThumbnail] = useState(""); // preview
+  const [thumbnailFile, setThumbnailFile] = useState(); // file
+  const inputThumbnailEl = useRef(null); // file elem
 
   const setState = () => {
     dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
@@ -135,7 +135,6 @@ const Selected = props => {
   };
 
   const handleSave = async () => {
-
     const isValidate = () => {
       if (!title) return false;
       else if (!phone) return false;
@@ -162,15 +161,17 @@ const Selected = props => {
           const uploadTask = storageRef.put(item);
 
           uploadTask.on(
-              "state_changed", () => {}, err => storageErrHandler(err),
-              async _ => {
-                const url = await uploadTask.snapshot.ref
-                    .getDownloadURL()
-                    .then(url => url);
+            "state_changed",
+            () => {},
+            err => storageErrHandler(err),
+            async _ => {
+              const url = await uploadTask.snapshot.ref
+                .getDownloadURL()
+                .then(url => url);
 
-                site[imgType].path = url;
-                resolve();
-              }
+              site[imgType].path = url;
+              resolve();
+            }
           );
         });
       };
@@ -182,20 +183,22 @@ const Selected = props => {
           case "storage/canceled":
             return alert("User canceled the upload");
           case "storage/unknown":
-            return alert("Unknown error occurred, inspect error.serverResponse");
+            return alert(
+              "Unknown error occurred, inspect error.serverResponse"
+            );
         }
       };
 
       const storage = await loadStorage();
 
-      if(logoFile) {
+      if (logoFile) {
         site.logo = { saveName: "logo", path: "" };
-        await process(logoFile, 'logo');
+        await process(logoFile, "logo");
       }
 
-      if(thumbnailFile) {
+      if (thumbnailFile) {
         site.thumbnail = { saveName: "thumbnail", path: "" };
-        await process(thumbnailFile, 'thumbnail');
+        await process(thumbnailFile, "thumbnail");
       }
 
       await cb();
@@ -214,9 +217,8 @@ const Selected = props => {
     };
 
     await uploadDetailImg(dbUpload);
-
   };
-console.log(props)
+
   return (
     <div className="contents">
       <div className="box">
@@ -227,7 +229,7 @@ console.log(props)
               className="form-control"
               title="사이트명"
               placeholder="POTENS"
-              value={props.title}
+              value={title ? title : props.title}
               onChange={handleTitleChange}
             />
             <span className="site_title">http://www.mypofol.com/{url}</span>
@@ -240,27 +242,27 @@ console.log(props)
           <form className="form_intro">
             <div className="form-group mb-2">
               <span className="img">
-                <img src={props.logoPath} alt="template" />
+                <img src={logo ? logo : props.logoPath} alt="template" />
               </span>
             </div>
           </form>
           <div className="btn-area mb change">
             <button className="btn btn-secondary">
               <label
-                  style={{"cursor":"pointer", marginBottom:"0"}}
-                  htmlFor={"logoUploader"}
+                style={{ cursor: "pointer", marginBottom: "0" }}
+                htmlFor={"logoUploader"}
               >
                 로고 변경
               </label>
             </button>
             <input
-                style={{"display":"none"}}
-                type="file"
-                id="logoUploader"
-                name={"img"}
-                className="form-control-file"
-                ref={inputLogoEl}
-                onChange={onLogoUpload}
+              style={{ display: "none" }}
+              type="file"
+              id="logoUploader"
+              name={"img"}
+              className="form-control-file"
+              ref={inputLogoEl}
+              onChange={onLogoUpload}
             />
           </div>
         </>
@@ -276,7 +278,13 @@ console.log(props)
           <div className="form-group mb-2">
             <span className="img">
               <img
-                src={props.thumbnailPath ? props.thumbnailPath : "/img/common/default_thumbnail.png"}
+                src={
+                  thumbnail !== ""
+                    ? thumbnail
+                    : props.thumbnailPath !== ""
+                      ? props.thumbnailPath
+                      : "/img/common/default_thumbnail.png"
+                }
                 alt="template"
               />
             </span>
@@ -285,20 +293,20 @@ console.log(props)
         <div className="btn-area mb change">
           <button className="btn btn-secondary">
             <label
-                style={{"cursor":"pointer", marginBottom:"0"}}
-                htmlFor={"thumbnailUploader"}
+              style={{ cursor: "pointer", marginBottom: "0" }}
+              htmlFor={"thumbnailUploader"}
             >
               썸네일 변경
             </label>
           </button>
           <input
-              style={{"display":"none"}}
-              type="file"
-              id="thumbnailUploader"
-              name={"img"}
-              className="form-control-file"
-              ref={inputThumbnailEl}
-              onChange={onThumbnailUpload}
+            style={{ display: "none" }}
+            type="file"
+            id="thumbnailUploader"
+            name={"img"}
+            className="form-control-file"
+            ref={inputThumbnailEl}
+            onChange={onThumbnailUpload}
           />
         </div>
         <p className="desc">
@@ -317,7 +325,7 @@ console.log(props)
               rows="7"
               placeholder="웹사이트 소개글을 입력하세요"
               style={{ resize: "none" }}
-              value={props.intro}
+              value={intro ? intro : props.intro}
               onChange={handleIntroChange}
             />
           </div>
@@ -338,7 +346,7 @@ console.log(props)
               className="form-control"
               title="연락처"
               placeholder="연락처"
-              value={props.phone}
+              value={phone ? phone : props.phone}
               onChange={handlePhoneChange}
             />
           </div>
@@ -348,7 +356,7 @@ console.log(props)
               className="form-control"
               title="이메일"
               placeholder="이메일"
-              value={props.email}
+              value={email ? email : props.email}
               onChange={handleEmailChange}
             />
           </div>
@@ -462,7 +470,11 @@ const Site = () => {
                       key={idx}
                       idx={idx}
                       name={item.name}
-                      img={item.thumbnail ? item.thumbnail.path : "/img/common/default_thumbnail.png"}
+                      img={
+                        item.thumbnail
+                          ? item.thumbnail.path
+                          : "/img/common/default_thumbnail.png"
+                      }
                       url={item.url}
                       activeTarget={siteValue !== 9999 ? siteValue : ""}
                     />
@@ -485,13 +497,21 @@ const Site = () => {
             ) : siteState === "selected" ? (
               <Selected
                 title={siteValue !== "" ? userInfo.site[siteValue].name : ""}
-                logoPath={siteValue !== "" ? userInfo.site[siteValue].logo.path : ""}
-                thumbnailPath={siteValue !== "" ? userInfo.site[siteValue].thumbnail.path : "/img/common/default_thumbnail.png"}
+                logoPath={
+                  siteValue !== "" ? userInfo.site[siteValue].logo.path : ""
+                }
+                thumbnailPath={
+                  siteValue !== ""
+                    ? userInfo.site[siteValue].thumbnail.path
+                    : "/img/common/default_thumbnail.png"
+                }
                 intro={siteValue !== "" ? userInfo.site[siteValue].intro : ""}
                 email={siteValue !== "" ? userInfo.site[siteValue].email : ""}
                 phone={siteValue !== "" ? userInfo.site[siteValue].phone : ""}
                 url={siteValue !== "" ? userInfo.site[siteValue].url : ""}
-                template={siteValue !== "" ? userInfo.site[siteValue].template : 1}
+                template={
+                  siteValue !== "" ? userInfo.site[siteValue].template : 1
+                }
               />
             ) : (
               <Unselected />

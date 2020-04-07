@@ -33,8 +33,7 @@ const Step4 = props => {
     if (!newCategory.length) {
       setMsg("최소 1개의 카테고리를 입력해주세요.");
       return setOpenAlert(true);
-    }
-    else {
+    } else {
       setCategoryList(newCategory);
       setItGo(true);
     }
@@ -51,56 +50,51 @@ const Step4 = props => {
   }, [itGo]);
 
   return (
-    <>
-      {openAlert ? (
-        <Alert message={msg} closeAlert={closeAlert} />
-      ) : (
-        <section className="container-fluid init detail category">
-          <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
-          <p className="title font-weight-normal pl">
-            <img src="/img/common/3.png" alt="1" />
-            당신의 웹사이트에 필요한
-            <span className="font-weight-bold"> 카테고리를 등록</span>하세요.
-          </p>
-          <div className="sub">
-            <p>카테고리는 최소1개~8개까지 등록 가능해요.</p>
-          </div>
+    <section className="container-fluid init detail category">
+      <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
+      <p className="title font-weight-normal pl">
+        <img src="/img/common/3.png" alt="1" />
+        당신의 웹사이트에 필요한
+        <span className="font-weight-bold"> 카테고리를 등록</span>하세요.
+      </p>
+      <div className="sub">
+        <p>카테고리는 최소1개~8개까지 등록 가능해요.</p>
+      </div>
 
-          <form className="form_info detail">
-            <CategoryInput
-              key={"categoryList"}
-              categoryList={categoryList}
-              handleCatItemChange={handleCatItemChange}
-            />
+      <form className="form_info detail">
+        <CategoryInput
+          key={"categoryList"}
+          categoryList={categoryList}
+          handleCatItemChange={handleCatItemChange}
+        />
 
-            {categoryList.length < 8 ? (
-              <div className="d-inline-block">
-                <button
-                  className="btn btn-lg btn-primary"
-                  onClick={handleCatListChange}
-                >
-                  카테고리 추가
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
-          </form>
-
-          <div className="btn-area mb mb-5">
+        {categoryList.length < 8 ? (
+          <div className="d-inline-block">
             <button
-              className="btn btn-xl btn-outline-secondary mr"
-              onClick={onPrev}
+              className="btn btn-lg btn-primary"
+              onClick={handleCatListChange}
             >
-              이전
-            </button>
-            <button className="btn btn-xl btn-primary" onClick={handleNext}>
-              다음
+              카테고리 추가
             </button>
           </div>
-        </section>
-      )}
-    </>
+        ) : (
+          <></>
+        )}
+      </form>
+
+      <div className="btn-area mb mb-5">
+        <button
+          className="btn btn-xl btn-outline-secondary mr"
+          onClick={onPrev}
+        >
+          이전
+        </button>
+        <button className="btn btn-xl btn-primary" onClick={handleNext}>
+          다음
+        </button>
+      </div>
+      {openAlert ? <Alert message={msg} closeAlert={closeAlert} /> : ""}
+    </section>
   );
 };
 

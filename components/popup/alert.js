@@ -19,6 +19,11 @@
       )
   }
 
+ cb 입력시
+ <Alert message={"퇴근"} closeAlert={closeAlert} cb={AlertCallback}/>
+
+ cb 미입력시 -> 확인 버튼 누르면 closeAlert 만 진행
+ <Alert message={"퇴근"} closeAlert={closeAlert} cb={AlertCallback}/>
  */
 
 const Alert = props => {

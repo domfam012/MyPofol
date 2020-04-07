@@ -76,6 +76,8 @@ const Selected = props => {
   const [phone, setPhone] = useState(props.phone);
   const url = props.url;
 
+  // console.log(props);
+
   const [logo, setLogo] = useState(props.logoPath);                 // preview
   const [logoFile, setLogoFile] = useState();                       // file
   const inputLogoEl = useRef(null);                       // file elem

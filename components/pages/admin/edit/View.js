@@ -92,54 +92,64 @@ const Selected = props => {
     window.location.reload();
   };
 
-  // 이미지 추가
-  const registerImage = async () => {
+  // 이미지 변경 및 추가
+  const EditView = async () => {
     const view = category.view;
     const viewList = category.viewList;
-
-    // view 데이터 복사
-    const newView = { ...view }
-    let viewId  = shortid.generate();
-    viewList.push(viewId);
-
-    newView[viewId] = {
-      ...newView[viewId],
-      id: viewId,
-      originName : title,
-      intro : intro
-    };
-
-    const newCategoryList = {
-      category : {
-        ...category,
-        view: newView,
-        viewList
-      }
-    };
+    const newView = { ...view }  // view 데이터 복사
 
     if(img === ''){
       // newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣고 API 연동
-      /*
-     * newView  배열에 img : { path : '/img/common/default_thumbnail.png' , saveName : viewId}
-     *  > 추가 : 이미지 선택 X
-     *     > path : 디폴트 , saveName : viewId  : 새로 만들어준 ID값
-     *
-     * newView  배열에 img : { path : '기존 이미지(props.imgPath)' , saveName : '기존 saveName (props로 기존 saveName 전달 받아서 처리)'}
-     *  > 수정 : 이미지 수정 X
-     *     > path : 기존 , saveName  : 기존
-     */
+        /*
+         * newView  배열에 img : { path : '/img/common/default_thumbnail.png' , saveName : viewId}
+         *  > 추가 : 이미지 선택 X
+         *     > path : 디폴트 , saveName : viewId  : 새로 만들어준 ID값
+         *
+         * newView  배열에 img : { path : '기존 이미지(props.imgPath)' , saveName : '기존 saveName (props로 기존 saveName 전달 받아서 처리)'}
+         *  > 수정 : 이미지 수정 X
+         *     > path : 기존 , saveName  : 기존
+         */
       // TODO : newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣기
-      newView[viewId] = {
-        ...newView[viewId],
-        id: viewId,
-        originName : title,
-        intro : intro,
-        img : img === '' ? ({saveName: viewId, path : '/img/common/default_thumbnail.png'}) : (props.addImage ? '' : {saveName : props.saveName, path : props.imgPath})
+      if (props.addImage) {
+        // 추가
+        let viewId  = shortid.generate();
+        viewList.push(viewId);
+        newView[viewId] = {
+          ...newView[viewId],
+          id: viewId,
+          originName : title,
+          intro : intro
+        };
+        newView[viewId] = {
+          ...newView[viewId],
+          img : {
+            saveName: viewId,
+            path : '/img/common/default_thumbnail.png'
+          }
+        };
+      } else {
+        // 수정
+        viewList.push(props.saveName);
+        const newView = {
+          ...newView,
+          img : {
+            saveName : props.saveName,
+            path: props.imgPath
+          }
+        }
+      }
+
+      const newCategoryList= {
+        category : {
+          ...category,
+          view: newView,
+          viewList
+        }
       };
       // API 연동
       const res = await axios.patch (
         `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
-        newView
+        newCategoryList
       );
       if (res.status === 200) {
         dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
@@ -159,34 +169,54 @@ const Selected = props => {
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then(async url => {
             /*
-          *  > 추가 : 이미지 선택 O
-           *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : viewId  : 새로 만들어준 ID값
-          *
-          *  > 수정 : 이미지 수정 O
-          *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : 기존
-          */
+            *  > 추가 : 이미지 선택 O
+            *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : viewId  : 새로 만들어준 ID값
+            *
+            *  > 수정 : 이미지 수정 O
+            *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : 기존
+            */
             // TODO : 반환된 URL 값으로 img : {} 만들기
-            newView[viewId] = {
-              ...newView[viewId],
-              id: viewId,
-              originName : title,
-              intro : intro,
-              img : img === '' ? '' : (props.addImage ? {saveName : viewId, path : props.url} : {saveName : props.saveName, path : props.url})
-            };
+            if (props.addImage) {
+              // 추가
+              let viewId  = shortid.generate();
+              viewList.push(viewId);
+              newView[viewId] = {
+                ...newView[viewId],
+                id: viewId,
+                originName : title,
+                intro : intro
+              };
+              newView[viewId] = {
+                ...newView[viewId],
+                img :{saveName : viewId, path : url}
+              };
+            }else{
+              // 수정
 
+            }
+
+            const newCategoryListImg= {
+              category : {
+                ...category,
+                view: newView,
+                viewList
+              }
+            };
             //API 연동
             const res = await axios.patch (
               `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
-              newView
+              newCategoryListImg
             );
             if (res.status === 200) {
               dispatch({ type: VIEW_STATE, data: { state: "unselected" } });
               window.location.reload();
             } else alert(`이미지 ${ props.addImage ? '추가' : '수정'}실패` );
-          });
+
+            }
+           );
         }
       );
-    };
+    }
     }
 
     // console.log(newCategoryList)
@@ -256,7 +286,7 @@ const Selected = props => {
       </div>
       <div className="btn-area mb">
         <button className="btn btn-lg btn-outline-secondary" onClick={handleCancel}>취소</button>
-        <button className="btn btn-lg btn-primary" onClick={registerImage}>저장</button>
+        <button className="btn btn-lg btn-primary" onClick={EditView}>저장</button>
       </div>
     </div>
   )
@@ -332,7 +362,7 @@ const View = props => {
               {viewList.map((item , index) => (
                 <ViewList
                   key = {index}
-                  // imgPath = {view[item] ? view[item].img.path : ''}
+                  imgPath = {view[item] ? view[item].img.path : ''}
                   title = {view[item] ? view[item].originName : ''}
                   id = {view[item] ? view[item].id : ''}
                   activeTarget={viewValue !== "" ? viewValue : ""}
@@ -358,7 +388,7 @@ const View = props => {
                   addImage={addImage}
                   title = {viewValue !== '' ? view[viewValue].originName : ''}
                   id = {view[viewValue] ? view[viewValue].id : ''}
-                  // imgPath = {viewValue !== '' ? view[viewValue].img.path : ''}
+                  imgPath = {viewValue !== '' ? view[viewValue].img.path : ''}
                   intro = {view[viewValue] ? view[viewValue].intro : ''}
               />:
                 <Unselected/>

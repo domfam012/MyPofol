@@ -3,7 +3,7 @@ import Header from "../../../components/header/portfolio/Category"
 import Layout from "../../../components/Layout";
 import {useDispatch, useSelector} from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel'
-import { PORTFOLIO_SITE_INFO} from '../../../redux/reducers/user';
+import {PORTFOLIO_IDX, PORTFOLIO_SITE_INFO} from '../../../redux/reducers/user';
 import ImageNavigator from "../../../components/popup/portfolio/ImageNavigator"
 import axios from "axios";
 
@@ -21,6 +21,7 @@ const Category = props => {
     const image = { name: '' };
     const [index, setIndex] = useState(portfolioIdx);
 
+
     const handleSelect = (selectedIndex) => {
         if (portfolioAutoPlay) {
             dispatch({type: PORTFOLIO_IDX, data: selectedIndex});
@@ -31,13 +32,9 @@ const Category = props => {
         }
     };
 
-    if(Object.keys(portfolioImgInfo).length === 0 )  {
-        return false;
-    }else{
-        image.name = portfolioAutoPlay
-            ? portfolioImgInfo.view[portfolioImgInfo.viewList[index]].originName
-            : portfolioImgInfo.view[portfolioImgInfo.viewList[portfolioIdx]].originName
-    }
+    image.name = portfolioAutoPlay
+        ? portfolioImgInfo.view[portfolioImgInfo.viewList[index]].originName
+        : portfolioImgInfo.view[portfolioImgInfo.viewList[portfolioIdx]].originName
 
     return (
         portfolioPopup

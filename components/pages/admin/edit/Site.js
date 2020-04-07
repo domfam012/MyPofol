@@ -149,10 +149,6 @@ const Selected = props => {
       else if (!email) return false;
       else return template;
     };
-    console.log(title)
-    console.log(phone)
-    console.log(email)
-    console.log(template)
 
     if (!isValidate()) {
       return alert("값을 모두 입력해주세요.");
@@ -294,8 +290,8 @@ const Selected = props => {
                   thumbnail !== ""
                     ? thumbnail
                     : props.thumbnailPath !== ""
-                      ? props.thumbnailPath
-                      : "/img/common/default_thumbnail.png"
+                    ? props.thumbnailPath
+                    : "/img/common/default_thumbnail.png"
                 }
                 alt="template"
               />
@@ -407,9 +403,6 @@ const Site = () => {
   const dispatch = useDispatch();
   const { userInfo, siteState, siteValue } = useSelector(state => state.user);
 
-  // let site;
-  // if(userInfo.site) site = userInfo.site[siteValue];
-
   const [openPopup, setOpenPopup] = useState(false);
   const closePopup = () => {
     setOpenPopup(!openPopup);
@@ -419,26 +412,46 @@ const Site = () => {
     setOpenPopup(true);
   };
 
-  const handleDelete = async () => {
-    if (siteValue === 9999) alert("삭제할 사이트를 선택해주세요");
-    else {
-      const reqData = { userId: localStorage.id };
-      const res = await axios.delete(
-        `http://localhost:8080/api/site/${userInfo.siteList[siteValue]}`,
-        { data: reqData }
-      );
-      if (res.status === 200) {
-        const newInfo = {
-          ...userInfo,
-          site: userInfo.site.filter((val, idx) => idx !== siteValue),
-          siteList: userInfo.siteList.filter((val, idx) => idx !== siteValue)
-        };
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlert = () => {
+    setOpenAlert(!openAlert);
+  };
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertCb, setAlertCb] = useState(() => {});
 
-        dispatch({ type: REMOVE_SITE, data: newInfo });
-      } else {
-        alert("사이트 삭제 실패");
+  const handleDeleteCheck = () => {
+    setAlertMsg("선택한 사이트를 삭제하시겠습니까?");
+    setAlertCb(() => handleDelete);
+  };
+
+  useEffect(() => {
+    if (alertMsg !== '') setOpenAlert(true);
+  }, [alertCb]);
+
+  const handleDelete = () => {
+    return new Promise(resolve => {
+      if (siteValue === 9999) alert("삭제할 사이트를 선택해주세요");
+      else {
+        const reqData = { userId: localStorage.id };
+        axios.delete(
+            `http://localhost:8080/api/site/${userInfo.siteList[siteValue]}`,
+            { data: reqData }
+        ).then(res => {
+          if (res.status === 200) {
+            const newInfo = {
+              ...userInfo,
+              site: userInfo.site.filter((val, idx) => idx !== siteValue),
+              siteList: userInfo.siteList.filter((val, idx) => idx !== siteValue)
+            };
+
+            dispatch({ type: REMOVE_SITE, data: newInfo });
+            resolve();
+          } else {
+            alert("사이트 삭제 실패");
+          }
+        });
       }
-    }
+    });
   };
 
   useEffect(() => {
@@ -461,8 +474,8 @@ const Site = () => {
                 <h2 className="title">웹사이트 관리</h2>
                 <div className="btn-area mb">
                   <button
-                    className="btn btn-outline-secondary"
-                    onClick={handleDelete}
+                    className={`btn btn-outline-secondary ${siteValue === 9999 ? 'disabled' : ''}`}
+                    onClick={handleDeleteCheck}
                   >
                     삭제
                   </button>
@@ -533,6 +546,7 @@ const Site = () => {
       ) : (
         ""
       )}
+      {openAlert ? <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} /> : ""}
     </>
   );
 };

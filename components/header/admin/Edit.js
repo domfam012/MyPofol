@@ -12,11 +12,14 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const logout = () => {
-        dispatch({type :LOG_OUT});
+
         const auth2 = window.gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() =>{console.log('로그아웃')});
-        localStorage.clear();
-        router.push(`/`);
+        auth2.signOut().then(() =>{
+            console.log('로그아웃');
+            localStorage.clear();
+            dispatch({type :LOG_OUT});
+            router.push(`/`);
+        });
     };
 
     return (

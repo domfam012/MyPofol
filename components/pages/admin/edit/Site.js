@@ -68,25 +68,25 @@ const Unselected = props => {
 };
 
 const Selected = props => {
+  const dispatch = useDispatch();
   const { template } = props;
-  const [title, setTitle] = useState(props.title);
-  const [intro, setIntro] = useState(props.intro);
+  const [title, setTitle] = useState('');
+  const [intro, setIntro] = useState('');
   const [introLength, setIntroLength] = useState(props.intro.length);
-  const [email, setEmail] = useState(props.email);
-  const [phone, setPhone] = useState(props.phone);
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const url = props.url;
 
   // console.log(props);
 
-  const [logo, setLogo] = useState(props.logoPath);                 // preview
+  const [logo, setLogo] = useState('');                 // preview
   const [logoFile, setLogoFile] = useState();                       // file
   const inputLogoEl = useRef(null);                       // file elem
 
-  const [thumbnail, setThumbnail] = useState(props.thumbnailPath);  // preview
+  const [thumbnail, setThumbnail] = useState('');  // preview
   const [thumbnailFile, setThumbnailFile] = useState();             // file
   const inputThumbnailEl = useRef(null);                  // file elem
 
-  const dispatch = useDispatch();
   const setState = () => {
     dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
   };
@@ -216,7 +216,7 @@ const Selected = props => {
     await uploadDetailImg(dbUpload);
 
   };
-
+console.log(props)
   return (
     <div className="contents">
       <div className="box">
@@ -227,7 +227,7 @@ const Selected = props => {
               className="form-control"
               title="사이트명"
               placeholder="POTENS"
-              value={title}
+              value={props.title}
               onChange={handleTitleChange}
             />
             <span className="site_title">http://www.mypofol.com/{url}</span>
@@ -240,7 +240,7 @@ const Selected = props => {
           <form className="form_intro">
             <div className="form-group mb-2">
               <span className="img">
-                <img src={logo} alt="template" />
+                <img src={props.logoPath} alt="template" />
               </span>
             </div>
           </form>
@@ -276,9 +276,7 @@ const Selected = props => {
           <div className="form-group mb-2">
             <span className="img">
               <img
-                src={`${
-                  thumbnail ? thumbnail : "/img/common/default_thumbnail.png"
-                }`}
+                src={props.thumbnailPath ? props.thumbnailPath : "/img/common/default_thumbnail.png"}
                 alt="template"
               />
             </span>
@@ -319,7 +317,7 @@ const Selected = props => {
               rows="7"
               placeholder="웹사이트 소개글을 입력하세요"
               style={{ resize: "none" }}
-              value={intro}
+              value={props.intro}
               onChange={handleIntroChange}
             />
           </div>
@@ -340,7 +338,7 @@ const Selected = props => {
               className="form-control"
               title="연락처"
               placeholder="연락처"
-              value={phone}
+              value={props.phone}
               onChange={handlePhoneChange}
             />
           </div>
@@ -350,7 +348,7 @@ const Selected = props => {
               className="form-control"
               title="이메일"
               placeholder="이메일"
-              value={email}
+              value={props.email}
               onChange={handleEmailChange}
             />
           </div>
@@ -389,8 +387,8 @@ const Site = () => {
   const dispatch = useDispatch();
   const { userInfo, siteState, siteValue } = useSelector(state => state.user);
 
-  let site;
-  if(userInfo.site) site = userInfo.site[siteValue];
+  // let site;
+  // if(userInfo.site) site = userInfo.site[siteValue];
 
   const [openPopup, setOpenPopup] = useState(false);
   const closePopup = () => {
@@ -464,7 +462,7 @@ const Site = () => {
                       key={idx}
                       idx={idx}
                       name={item.name}
-                      img={item.thumbnail ? item.thumbnail.path : ""}
+                      img={item.thumbnail ? item.thumbnail.path : "/img/common/default_thumbnail.png"}
                       url={item.url}
                       activeTarget={siteValue !== 9999 ? siteValue : ""}
                     />
@@ -486,14 +484,14 @@ const Site = () => {
               <None />
             ) : siteState === "selected" ? (
               <Selected
-                title={siteValue !== "" ? site.name : ""}
-                logoPath={site.logo ? site.logo.path : ""}
-                thumbnailPath={site.thumbnail ? site.thumbnail.path : ""}
-                intro={site.intro ? site.intro : ""}
-                email={site.email ? site.email : ""}
-                phone={site.phone ? site.phone : ""}
-                url={site.url ? site.url : ""}
-                template={site.template ? site.template : 1}
+                title={siteValue !== "" ? userInfo.site[siteValue].name : ""}
+                logoPath={siteValue !== "" ? userInfo.site[siteValue].logo.path : ""}
+                thumbnailPath={siteValue !== "" ? userInfo.site[siteValue].thumbnail.path : "/img/common/default_thumbnail.png"}
+                intro={siteValue !== "" ? userInfo.site[siteValue].intro : ""}
+                email={siteValue !== "" ? userInfo.site[siteValue].email : ""}
+                phone={siteValue !== "" ? userInfo.site[siteValue].phone : ""}
+                url={siteValue !== "" ? userInfo.site[siteValue].url : ""}
+                template={siteValue !== "" ? userInfo.site[siteValue].template : 1}
               />
             ) : (
               <Unselected />

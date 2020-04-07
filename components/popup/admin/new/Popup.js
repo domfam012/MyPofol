@@ -64,6 +64,7 @@ const Popup = props => {
     const fetchTemplate = async () => {
       const res = await axios.get(`http://localhost:8080/api/template/list`);
       setTemplateList(res.data.data);
+      // console.log(res.data.data);
     };
     fetchTemplate();
   }, []);

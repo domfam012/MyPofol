@@ -18,6 +18,7 @@ const Step5 = props => {
   const [msg, setMsg] = useState("");
 
   const handleTemplateSelect = idx => {
+    console.log(idx)
     setTemplate(idx);
     handleTemplateChange(idx);
   };
@@ -41,7 +42,7 @@ const Step5 = props => {
     };
 
     if (isValidate()) {
-      console.log(`site: ${JSON.stringify(site)}`);
+      // console.log(`site: ${JSON.stringify(site)}`);
 
       const storageUpload = async () => {
         const storage = await loadStorage();
@@ -154,12 +155,25 @@ const TemplateList = props => {
     <div className="card-box">
       {templateList.map((template, idx) => (
         <div className="d-inline-block" key={template.index}>
-          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${idx === selected ? "active" : ""}`}>
+          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${(idx + 1) === selected ? "active" : ""}`}>
+
             <div className="img">
-              <p>
-                <i className="far fa-image" />
-              </p>
+              {template.img
+                  ? (
+                      <img src={template.img.path} alt="템플릿 이미지"
+                           style={{
+                             width: "100%",
+                             height: "118px"
+                           }}/>
+                  )
+                  : (
+                      <p>
+                        <i className="far fa-image" />
+                      </p>
+                  )
+              }
             </div>
+
             <div className="card-body">
               <h3 className="card-title">{template.title}</h3>
             </div>

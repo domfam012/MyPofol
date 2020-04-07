@@ -71,7 +71,6 @@ export default async (req, res) => {
           .format()
       };
 
-      console.log(data);
       // 카테고리 등록
       await doc
         .set(data)
@@ -98,8 +97,8 @@ export default async (req, res) => {
         viewList: req.body.category.viewList
       };
 
-      if (req.body.img) {
-        data.img = req.body.img;
+      if (req.body.category.img) {
+        data.img = req.body.category.img;
       }
 
       // 카테고리 수정

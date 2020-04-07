@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch } from 'react-redux';
-import { PORTFOLIO_IDX, CONTROL_POPUP } from '../../../redux/reducers/user';
+import {PORTFOLIO_IDX, CONTROL_POPUP } from '../../../redux/reducers/user';
 import Link from "next/link";
 
 const ImageList = props => {

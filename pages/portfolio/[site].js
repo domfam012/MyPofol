@@ -5,22 +5,26 @@ import Link from "next/link";
 import { useSelector} from 'react-redux';
 import {CONTROL_POPUP, PORTFOLIO_SITE_INFO} from '../../redux/reducers/user';
 import axios from 'axios';
+import {useRouter} from "next/router";
 
 const CategoryList = props => {
+    const router = useRouter();
+    const checkImg = () => {
+        if(props.existImg) router.push(`/portfolio/${props.site}/${props.category}`);
+        else alert('이미지 미존재')
+    };
     return(
-        <Link href={`/portfolio/${props.site}/${props.category}`} as={`/portfolio/${props.site}/${props.category}`}>
-            <a className="col"  href="#">
-                <div className="img">
-                    <img src={props.imgPath} alt="" />
-                </div>
-                <p className="title">{props.name}</p>
-            </a>
-        </Link>
+        <a onClick={checkImg} className="col"  href="#">
+            <div className="img">
+                <img src={props.imgPath} alt="" />
+            </div>
+            <p className="title">{props.name}</p>
+        </a>
     )
 };
 
 const Site = props => {
-    const { portfolioInfo  } = useSelector(state => state.user);
+    const { portfolioInfo } = useSelector(state => state.user);
     
     return (
         <Layout>
@@ -38,6 +42,7 @@ const Site = props => {
                                 site={props.site}
                                 category={item}
                                 name={portfolioInfo.category[item].name}
+                                existImg={portfolioInfo.category[item].viewList.length !== 0}
                             />
                         ))}
                     </div>

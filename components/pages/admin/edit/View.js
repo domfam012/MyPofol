@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Link from 'next/link'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadStorage } from '../../../../public/js/db'
 import Alert from '../../../popup/alert'
@@ -9,7 +9,6 @@ import shortid from 'shortid'
 import { VIEW_STATE } from '../../../../redux/reducers/user'
 
 const ViewList = props => {
-
   const dispatch = useDispatch()
   const setState = e => {
     dispatch({
@@ -34,7 +33,7 @@ const ViewList = props => {
     </div>
   )
 }
-
+// 이미지가 없을 경우
 const None = props => {
   return (
     <div className="select">
@@ -42,7 +41,7 @@ const None = props => {
     </div>
   )
 }
-
+// 이미지를 선택하지 않았을 경우
 const Unselected = props => {
   return (
     <div className="select">
@@ -52,13 +51,17 @@ const Unselected = props => {
     </div>
   )
 }
-
+// 이미지가 선택 됐을 경우
 const Selected = props => {
   const { category } = props
   const [title, setTitle] = useState('')
   const [intro, setIntro] = useState('')
   const [img, setImg] = useState('')
   const [introLength, setIntroLength] = useState(props.intro.length)
+  const [previewImg, setPreview] = useState("")
+  const inputImgEl = useRef(null)
+  const [isSave, checkIsSave ] = useState(true);
+  const [openAlert, setOpenAlert ] = useState(false);
 
   const dispatch = useDispatch()
   const setState = e => {
@@ -84,7 +87,10 @@ const Selected = props => {
 
   // 이미지 변경
   const onImgUpload = e => {
-    setImg(e.target.files[0])
+    const preview = URL.createObjectURL(e.target.files[0]);
+    setPreview(preview);
+    setImg(e.target.files[0]);
+    inputImgEl.current.focus();
   }
 
   // 취소 클릭 시
@@ -176,7 +182,8 @@ const Selected = props => {
         err => storageErrHandler(err),
         () => {
           uploadTask.snapshot.ref.getDownloadURL()
-            .then(async url => {
+            .then(async newUrl => {
+              let viewId = shortid.generate()
                 /*
                 *  > 추가 : 이미지 선택 O
                 *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : viewId  : 새로 만들어준 ID값
@@ -187,8 +194,9 @@ const Selected = props => {
                 // TODO : 반환된 URL 값으로 img : {} 만들기
                 if (props.addImage) {
                   // 추가
-                  let viewId = shortid.generate()
+
                   viewList.push(viewId)
+                  debugger
                   newView[viewId] = {
                     ...newView[viewId],
                     id: viewId,
@@ -196,7 +204,7 @@ const Selected = props => {
                     intro: intro,
                     img: {
                       saveName: viewId,
-                      path: url
+                      path: newUrl
                     }
                   }
                 } else {
@@ -270,17 +278,26 @@ const Selected = props => {
       </div>
       <div className="box">
         <a className="add_logo" href="#">
-          <img src={props.imgPath} alt={props.title}/>
+          <img src={ previewImg !== '' ? previewImg : props.addImage ? "/img/common/default_thumbnail.png" : props.imgPath} alt={props.title}/>
         </a>
         <div className="btn-area mb-1 change">
+            <button className="btn btn-secondary">
+            <label
+                  style={{ cursor: "pointer", marginBottom: "0" }}
+                  htmlFor={"imgUploader"}
+            >
+            이미지 변경
+          </label>
+          </button>
           <input
+            style={{ display: "none" }}
             type="file"
             id="imgUploader"
             name="img"
             className="form-control-file"
+            ref={inputImgEl}
             onChange={onImgUpload}
           />
-          {/*<button className="btn btn-secondary w-auto">썸네일 이미지 변경</button>*/}
         </div>
         <p className="desc">-가로 00px X 세로 00px (jpg,png,gif허용)<br/>-파일명 영문, 숫자 허용</p>
       </div>
@@ -295,6 +312,7 @@ const Selected = props => {
               style={{ 'resize': 'none' }}
               placeholder={props.intro}
               onChange={handleIntroChange}
+              maxLength='200'
             />
           </div>
         </form>
@@ -308,6 +326,7 @@ const Selected = props => {
         <button className="btn btn-lg btn-outline-secondary" onClick={handleCancel}>취소</button>
         <button className="btn btn-lg btn-primary" onClick={EditView}>저장</button>
       </div>
+      { openAlert ?  <Alert message={isSave ? "저장되었습니다." : "이미지명을 입력해주세요."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
     </div>
   )
 }
@@ -324,25 +343,14 @@ const View = props => {
   const viewList = category.viewList
   const url = siteInfo.url
 
-  // 새 이미지 추가 클릭 시 VIEW_STATE 변경
-  const onAddImage = useCallback(() => {
-    dispatch({
-      type: VIEW_STATE,
-      data: {
-        state: 'selected',
-        add: true
-      }
-    })
-  }, [])
-
-  // 카테고리 전체 혹은 1개만 있는 경우 삭제 시 Alert 팝업 노출
+  // 이미지 삭제 시 Alert 팝업 노출
   const closeAlert = () => {
     setOpenAlert(!openAlert)
   }
   const alertCallback = () => {
     closeAlert()
   }
-  // 카테고리 정상 삭제 시 Confirm 팝업 노출
+  // 이미지 정상 삭제 시 Confirm 팝업 노출
   const closeConfirm = props => {
     if (props === 'delete') {
       dispatch({
@@ -354,23 +362,37 @@ const View = props => {
     setOpenConfirm(!openConfirm)
   }
   const confirmCallback = () => {
-    closeConfirm('delete')
+    deleteImageApi();
   }
 
+  // 새 이미지 추가 클릭 시 VIEW_STATE 변경
+  const onAddImage = useCallback(() => {
+    dispatch({
+      type: VIEW_STATE,
+      data: {
+        state: 'selected',
+        add: true
+      }
+    })
+  }, [])
+
   // 삭제 버튼 클릭 시 카테고리 삭제
-  const onDeleteImage = async () => {
-    if (viewValue === '') {
-      alert('삭제 할 이미지를 선택해주세요')
-    } else {
-      const res = await axios.delete(
-        `http://localhost:8080/api/site/${siteInfo.url}/category/${viewValue}`
-      )
-      if (res.status === 200) {
-        closeConfirm()
-      } else {
-        alert('이미지 삭제 실패')
+  const onDeleteImage =  async () => {
+    if(viewList.length === 1) closeAlert();
+    else {
+      if (viewValue === '' )  alert ("삭제할 이미지를 선택해주세요");
+      else{
+        closeConfirm();
       }
     }
+  };
+  // 삭제 버튼 클릭 시 이미지 삭제
+  const deleteImageApi = async () => {
+    const res = await axios.delete(
+      `http://localhost:8080/api/site/${siteInfo.url}/category/${category}`
+    );
+    if(res.status === 200) closeConfirm('delete');
+    else alert('이미지 삭제 실패');
   }
 
   useEffect(() => {
@@ -433,9 +455,9 @@ const View = props => {
               <Unselected/>
         }
       </div>
-      {openConfirm ? <Confirm message={'선택한 카테고리를 삭제하시겠습니까?'} closeConfirm={closeConfirm} cb={confirmCallback}/> : ''}
-      {openAlert ? <Alert message={"최소 1개의 카테고리는 존재해야 합니다."} closeAlert={closeAlert} cb={alertCallback}/> : ''}
-    </div>
+        { openConfirm ? <Confirm message={'선택한 이미지를 삭제하시겠습니까?'} closeConfirm={closeConfirm} cb={confirmCallback}/> : ''}
+        // { openAlert ?  <Alert message={"삭제할 이미지를 선택해주세요."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
+      </div>
   );
 };
 

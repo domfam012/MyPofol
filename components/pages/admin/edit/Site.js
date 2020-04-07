@@ -216,7 +216,7 @@ const Selected = props => {
     await uploadDetailImg(dbUpload);
 
   };
-
+console.log(props)
   return (
     <div className="contents">
       <div className="box">
@@ -276,9 +276,7 @@ const Selected = props => {
           <div className="form-group mb-2">
             <span className="img">
               <img
-                src={`${
-                  thumbnail ? props.thumbnailPath : "/img/common/default_thumbnail.png"
-                }`}
+                src={props.thumbnailPath ? props.thumbnailPath : "/img/common/default_thumbnail.png"}
                 alt="template"
               />
             </span>
@@ -464,7 +462,7 @@ const Site = () => {
                       key={idx}
                       idx={idx}
                       name={item.name}
-                      img={item.thumbnail ? item.thumbnail.path : ""}
+                      img={item.thumbnail ? item.thumbnail.path : "/img/common/default_thumbnail.png"}
                       url={item.url}
                       activeTarget={siteValue !== 9999 ? siteValue : ""}
                     />
@@ -488,7 +486,7 @@ const Site = () => {
               <Selected
                 title={siteValue !== "" ? userInfo.site[siteValue].name : ""}
                 logoPath={siteValue !== "" ? userInfo.site[siteValue].logo.path : ""}
-                thumbnailPath={siteValue !== "" ? userInfo.site[siteValue].thumbnail.path : ""}
+                thumbnailPath={siteValue !== "" ? userInfo.site[siteValue].thumbnail.path : "/img/common/default_thumbnail.png"}
                 intro={siteValue !== "" ? userInfo.site[siteValue].intro : ""}
                 email={siteValue !== "" ? userInfo.site[siteValue].email : ""}
                 phone={siteValue !== "" ? userInfo.site[siteValue].phone : ""}

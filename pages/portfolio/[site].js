@@ -18,7 +18,7 @@ const CategoryList = props => {
             <div className="img">
                 <img src={props.imgPath} alt="" />
             </div>
-            <p className="title">{props.name}</p>
+            <p className="title">{props.name}({props.type === 1 ? 'PC' : 'MOBILE'})</p>
         </a>
     )
 };
@@ -42,6 +42,7 @@ const Site = props => {
                                 site={props.site}
                                 category={item}
                                 name={portfolioInfo.category[item].name}
+                                type={portfolioInfo.category[item].type}
                                 existImg={portfolioInfo.category[item].viewList.length !== 0}
                             />
                         ))}

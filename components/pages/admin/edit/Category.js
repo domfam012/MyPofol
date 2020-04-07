@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState,  useRef} from "react";
 import {CATEGORY_STATE} from "../../../../redux/reducers/user";
 import { loadStorage } from "../../../../public/js/db";
 import Alert from '../../../popup/alert';
@@ -50,11 +50,15 @@ const Unselected = () => {
 
 const EditCategory = props => {
     const dispatch = useDispatch();
-    const [img, setImg] = useState("");
+
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [openAlert, setOpenAlert ] = useState(false);
     const [isSave, checkIsSave ] = useState(true);
+
+    const [previewImg, setPreview] = useState("");
+    const [img, setImg] = useState();
+    const inputImgEl = useRef(null);
 
     // 카테고리 수정 및 추가 저장 완료 Alert 팝업 노출
     const closeAlert = props => {
@@ -70,8 +74,11 @@ const EditCategory = props => {
 
     };
     // 이미지 변경
-    const onImgUpload = e => {
+    const onImgUpload= e => {
+        const preview = URL.createObjectURL(e.target.files[0]);
+        setPreview(preview);
         setImg(e.target.files[0]);
+        inputImgEl.current.focus();
     };
     // 카테고리 명 입력
     const onNameChange = e => {
@@ -169,16 +176,31 @@ const EditCategory = props => {
                 <form className="form_intro">
                     <div className="form-group mb-2">
                         <span className="img">
-                          <img src={props.addCategory ? '/img/common/default_thumbnail.png' : props.imgPath} alt="template" />
+                          <img
+                              src={
+                                  previewImg !== '' ? previewImg : props.addCategory ? "/img/common/default_thumbnail.png" : props.imgPath
+                          }
+                            alt="template"
+                          />
                         </span>
                     </div>
                 </form>
                 <div className="btn-area mb change">
+                    <button className="btn btn-secondary">
+                        <label
+                            style={{ cursor: "pointer", marginBottom: "0" }}
+                            htmlFor={"imgUploader"}
+                        >
+                            썸네일 변경
+                        </label>
+                    </button>
                     <input
+                        style={{ display: "none" }}
                         type="file"
                         id="imgUploader"
                         name={"img"}
                         className="form-control-file"
+                        ref={inputImgEl}
                         onChange={onImgUpload}
                     />
                 </div>
@@ -215,7 +237,7 @@ const Category = props => {
         setOpenConfirm(!openConfirm);
     };
     const confirmCallback = () => {
-        closeConfirm('delete');
+        categoryDeleteApi();
     };
     // 새 카테고리 추가 클릭 시 CATEGORY_STATE 변경
     const onAddCategory = useCallback(() => {
@@ -229,13 +251,17 @@ const Category = props => {
         else {
             if (categoryValue === '' )  alert ("삭제 할 카테고리를 선택해주세요");
             else{
-                const res = await axios.delete(
-                    `http://localhost:8080/api/site/${siteInfo.url}/category/${categoryValue}`
-                );
-                if(res.status === 200) closeConfirm();
-                else alert('카테고리 삭제 실패');
+                closeConfirm();
             }
         }
+    };
+
+    const categoryDeleteApi = async() => {
+        const res = await axios.delete(
+            `http://localhost:8080/api/site/${siteInfo.url}/category/${categoryValue}`
+        );
+        if(res.status === 200) closeConfirm('delete');
+        else alert('카테고리 삭제 실패');
     };
     // 카테고리 개수에 따른 CATEGORY_STATE 변경
     useEffect(() => {

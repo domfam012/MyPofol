@@ -70,11 +70,11 @@ const Unselected = props => {
 const Selected = props => {
   const dispatch = useDispatch();
   const { template } = props;
-  const [title, setTitle] = useState("");
-  const [intro, setIntro] = useState("");
+  const [title, setTitle] = useState();
+  const [intro, setIntro] = useState();
   const [introLength, setIntroLength] = useState(props.intro.length);
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
   const url = props.url;
 
   // console.log(props);
@@ -86,6 +86,13 @@ const Selected = props => {
   const [thumbnail, setThumbnail] = useState(""); // preview
   const [thumbnailFile, setThumbnailFile] = useState(); // file
   const inputThumbnailEl = useRef(null); // file elem
+
+  useEffect(() => {
+    setTitle(props.title);
+    setIntro(props.intro);
+    setEmail(props.email);
+    setPhone(props.phone);
+  }, []);
 
   const setState = () => {
     dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
@@ -141,6 +148,10 @@ const Selected = props => {
       else if (!email) return false;
       else return template;
     };
+    console.log(title)
+    console.log(phone)
+    console.log(email)
+    console.log(template)
 
     if (!isValidate()) {
       return alert("값을 모두 입력해주세요.");
@@ -228,8 +239,8 @@ const Selected = props => {
               type="text"
               className="form-control"
               title="사이트명"
-              placeholder="POTENS"
-              value={title ? title : props.title}
+              placeholder="사이트명을 입력해주세요"
+              value={title !== undefined ? title : props.title}
               onChange={handleTitleChange}
             />
             <span className="site_title">http://www.mypofol.com/{url}</span>
@@ -325,7 +336,7 @@ const Selected = props => {
               rows="7"
               placeholder="웹사이트 소개글을 입력하세요"
               style={{ resize: "none" }}
-              value={intro ? intro : props.intro}
+              value={intro !== undefined ? intro : props.intro}
               onChange={handleIntroChange}
             />
           </div>
@@ -345,8 +356,8 @@ const Selected = props => {
               type="tel"
               className="form-control"
               title="연락처"
-              placeholder="연락처"
-              value={phone ? phone : props.phone}
+              placeholder="연락처를 입력해주세요."
+              value={phone !== undefined ? phone : props.phone}
               onChange={handlePhoneChange}
             />
           </div>
@@ -355,8 +366,8 @@ const Selected = props => {
               type="email"
               className="form-control"
               title="이메일"
-              placeholder="이메일"
-              value={email ? email : props.email}
+              placeholder="이메일을 입력해주세요."
+              value={email !== undefined ? email : props.email}
               onChange={handleEmailChange}
             />
           </div>

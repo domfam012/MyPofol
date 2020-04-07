@@ -194,7 +194,6 @@ const Selected = props => {
                 // TODO : 반환된 URL 값으로 img : {} 만들기
                 if (props.addImage) {
                   // 추가
-
                   viewList.push(viewId)
                   debugger
                   newView[viewId] = {

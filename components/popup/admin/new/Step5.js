@@ -119,6 +119,7 @@ const Step5 = props => {
 
           <TemplateList
             key={"pofolTemplates"}
+            selected={template}
             templateList={templateList}
             onTemplateSelect={handleTemplateSelect}
           />
@@ -143,6 +144,7 @@ const Step5 = props => {
 const TemplateList = props => {
   const { templateList } = props;
   const { onTemplateSelect } = props;
+  const { selected } = props;
 
   const handlePreview = () => {
     //  template.preview => modal
@@ -152,7 +154,7 @@ const TemplateList = props => {
     <div className="card-box">
       {templateList.map((template, idx) => (
         <div className="d-inline-block" key={template.index}>
-          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""}`}>
+          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${idx === selected ? "active" : ""}`}>
             <div className="img">
               <p>
                 <i className="far fa-image" />

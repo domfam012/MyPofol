@@ -12,7 +12,7 @@
 
  {openAlert
       ? (
-          <Alert message={"퇴근"} closeAlert={closeAlert}/>
+          <Alert message={"퇴근"} closeAlert={closeAlert} cb={AlertCallback}/>
       )
       : (
           <></>
@@ -22,7 +22,12 @@
  */
 
 const Alert = props => {
-  const { message, closeAlert } = props;
+  const { message, closeAlert , cb } = props;
+
+    const handleProgress = async () => {
+        await cb();
+        closeAlert();
+    };
 
   return (
     <div className="modal fade show" id="delete"  role="dialog" aria-labelledby="deleteModal" aria-hidden="true" style={{display: "block", background: `rgba(0,0,0,.5)` }} >
@@ -40,7 +45,7 @@ const Alert = props => {
               type="button"
               className="btn btn-lg btn-primary btn-block"
               style={{ width: "165px" }}
-              onClick={closeAlert}
+              onClick={handleProgress}
             >
               확인
             </button>

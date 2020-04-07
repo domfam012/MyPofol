@@ -33,33 +33,33 @@ const Step5 = props => {
     if (isValidate()) {
       console.log(`site: ${JSON.stringify(site)}`);
 
-      const storageUpload = async () => {
-        const storage = await loadStorage();
-        const saveName = shortid.generate();
-        const storageRef = storage.ref(`site/${site.url}/${saveName}`);
-        const uploadTask = storageRef.put(logoImg);
+        const storageUpload = async () => {
+          const storage = await loadStorage();
+          const saveName = shortid.generate();
+          const storageRef = storage.ref(`site/${site.url}/${saveName}`);
+          const uploadTask = storageRef.put(logoImg);
 
-        uploadTask.on(
-          "state_changed",
-          () => {},
-          err => storageErrHandler(err),
-          () => {
-            uploadTask.snapshot.ref.getDownloadURL().then(url => {
-              handleImgChange(saveName, url);
-            });
-          }
-        );
+          uploadTask.on(
+              "state_changed",
+              () => {},
+              err => storageErrHandler(err),
+              () => {
+                uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                  handleImgChange(saveName, url);
+                });
+              }
+          );
 
-        const storageErrHandler = err => {
-          switch(err.code) {
-            case "storage/unauthorized":
-              return alert("User doesn't have permission to access the object");
-            case "storage/canceled":
-              return alert("User canceled the upload");
-            case "storage/unknown":
-              return alert("Unknown error occurred, inspect error.serverResponse");
-          }
-        };
+          const storageErrHandler = err => {
+            switch(err.code) {
+              case "storage/unauthorized":
+                return alert("User doesn't have permission to access the object");
+              case "storage/canceled":
+                return alert("User canceled the upload");
+              case "storage/unknown":
+                return alert("Unknown error occurred, inspect error.serverResponse");
+            }
+          };
 
       };
 

@@ -99,7 +99,7 @@ export default async (req, res) => {
       };
 
       if (req.body.img) {
-        data.img = req.body.img;
+        data.img = req.body.category.img;
       }
 
       // 카테고리 수정

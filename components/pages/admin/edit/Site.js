@@ -387,6 +387,9 @@ const Site = () => {
   const dispatch = useDispatch();
   const { userInfo, siteState, siteValue } = useSelector(state => state.user);
 
+  let site;
+  if(userInfo.site) site = userInfo.site[siteValue];
+
   const [openPopup, setOpenPopup] = useState(false);
   const closePopup = () => {
     setOpenPopup(!openPopup);
@@ -461,7 +464,7 @@ const Site = () => {
                       name={item.name}
                       img={item.thumbnail ? item.thumbnail.path : ""}
                       url={item.url}
-                      activeTarget={siteValue !== "" ? siteValue : ""}
+                      activeTarget={siteValue !== 9999 ? siteValue : ""}
                     />
                   ))}
 
@@ -481,14 +484,14 @@ const Site = () => {
               <None />
             ) : siteState === "selected" ? (
               <Selected
-                title={siteValue !== "" ? userInfo.site[siteValue].name : ""}
-                logoPath={userInfo.site[siteValue].logo.path}
-                thumbnailPath={userInfo.site[siteValue].thumbnail.path}
-                intro={userInfo.site[siteValue].intro}
-                email={userInfo.site[siteValue].email}
-                phone={userInfo.site[siteValue].phone}
-                url={userInfo.site[siteValue].url}
-                template={userInfo.site[siteValue].template}
+                title={siteValue !== "" ? site.name : ""}
+                logoPath={site.logo ? site.logo.path : ""}
+                thumbnailPath={site.thumbnail ? site.thumbnail.path : ""}
+                intro={site.intro ? site.intro : ""}
+                email={site.email ? site.email : ""}
+                phone={site.phone ? site.phone : ""}
+                url={site.url ? site.url : ""}
+                template={site.template ? site.template : 1}
               />
             ) : (
               <Unselected />

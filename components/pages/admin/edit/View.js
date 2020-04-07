@@ -6,19 +6,8 @@ import { loadStorage } from "../../../../public/js/db";
 import Alert from '../../../popup/alert';
 import Confirm from '../../../popup/Confirm';
 import shortid from 'shortid'
-import { CATEGORY_STATE, VIEW_STATE } from '../../../../redux/reducers/user'
-/*
-1. ? : => 'active'
-2. (input)intro 수정 기능 onChange
-3. (textarea) title 수정 기능 onChange
-4. (textarea) 글자수 제한 및 카운트 기능
-5. 썸네일 이미지 변경 -> file 찾기 -> 이미지 변경
-6. 새 이미지 추가 -> modal(알림창 '이미지가 추가되었습니다.')
-7. 이미지 저장 -> modal(알림창 '이미지가 저장되었습니다.')
-8. 삭제 -> modal(알림창 '삭제하시겠습니까?->확인/취소->'삭제되었습니다.')
-9. 저장 ->  modal(알림창 '저장하겠습니까?->저장/취소->'저장되었습니다..')
-10. 취소
-* */
+import { VIEW_STATE } from '../../../../redux/reducers/user'
+
 const ViewList = props => {
 
   const dispatch = useDispatch();
@@ -132,18 +121,19 @@ const Selected = props => {
         viewList.push(props.saveName);
         const newView = {
           ...newView,
+
+          originName : props.originName,
           img : {
             saveName : props.saveName,
             path: props.imgPath
           }
         }
       }
-
       const newCategoryList= {
         category : {
           ...category,
-          view: newView,
-          viewList
+          originName : title,
+          intro : intro
         }
       };
       // API 연동
@@ -160,7 +150,7 @@ const Selected = props => {
       // newView 배열에 스토리지 저장 후 반환된 URL 값으로 img : {} 만들어 넣고 API 연동
       // 스토리지 저장
       const storage = await loadStorage();
-      const storageRef = storage.ref(`site/${props.site}/category/${viewId}`);
+      const storageRef = storage.ref(`site/${props.site}/category/${props.category.id}`);
       const uploadTask = storageRef.put(img);
       uploadTask.on(
         "state_changed",
@@ -192,7 +182,16 @@ const Selected = props => {
               };
             }else{
               // 수정
+              viewList.push(props.saveName);
+              const newView = {
+                ...newView,
 
+                originName : props.originName,
+                img : {
+                  saveName : props.saveName,
+                  path: props.imgPath
+                }
+              }
             }
 
             const newCategoryListImg= {

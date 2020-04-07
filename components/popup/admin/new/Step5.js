@@ -18,6 +18,7 @@ const Step5 = props => {
   const [msg, setMsg] = useState("");
 
   const handleTemplateSelect = idx => {
+    console.log(idx)
     setTemplate(idx);
     handleTemplateChange(idx);
   };
@@ -154,7 +155,7 @@ const TemplateList = props => {
     <div className="card-box">
       {templateList.map((template, idx) => (
         <div className="d-inline-block" key={template.index}>
-          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${idx === selected ? "active" : ""}`}>
+          <div className={`card mb-4 ${idx % 3 === 2 ? "mr-0" : ""} ${(idx + 1) === selected ? "active" : ""}`}>
 
             <div className="img">
               {template.img

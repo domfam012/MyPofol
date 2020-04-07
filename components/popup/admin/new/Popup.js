@@ -30,7 +30,7 @@ import Step6 from "./Step6";
 const Popup = props => {
   const { closePopup } = props;
 
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
   const [site, setSite] = useState({
     name: '',
     url: '',

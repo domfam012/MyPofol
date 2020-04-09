@@ -22,10 +22,10 @@ const Layout = props => {
     const getUserInfo = async() => {
         const userInfo = {};
 
-        const userRes = await axios.get(`http://localhost:8080/api/user/${localStorage.id}`);
+        const userRes = await axios.get(`${process.env.ASSET_PREFIX}/api/user/${localStorage.id}`);
         userInfo[userRes.googleId] = userRes.data.data[0];
 
-        const siteRes = await axios.get(`http://localhost:8080/api/user/${localStorage.id}/site`);
+        const siteRes = await axios.get(`${process.env.ASSET_PREFIX}/api/user/${localStorage.id}/site`);
         userInfo[userRes.googleId] = { ...userInfo[userRes.googleId], site: siteRes.data.site };
         // console.log(siteRes.data)
 

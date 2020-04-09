@@ -21,7 +21,8 @@ const option = {
         dev: 8080,
         production: 80
     },
-    GA_TRACKING_ID: "UA-158587547-1"
+    GA_TRACKING_ID: "UA-158587547-1",
+    GoogleClientId: "663788746339-5rvu1mtvtc32md4iloqpvm4bja2f3von.apps.googleusercontent.com"
 };
 
 module.exports = {

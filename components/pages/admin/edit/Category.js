@@ -13,7 +13,12 @@ const CategoryList = props => {
 
     // 카테고리 리스트 클릭 시 CATEGORY_STATE 변경
     const setCategoryState = e => {
-        dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e }});
+        if(props.categoryState === 'selected' && props.activeTarget === e){
+            dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+        }else{
+            dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e , change : true}});
+        }
+
     };
 
     return(
@@ -50,14 +55,13 @@ const Unselected = () => {
 
 const EditCategory = props => {
     const dispatch = useDispatch();
-
     const [name, setName] = useState("");
-    const [type, setType] = useState("");
+    const [cType, setType] = useState("");
     const [openAlert, setOpenAlert ] = useState(false);
     const [isSave, checkIsSave ] = useState(true);
 
     const [previewImg, setPreview] = useState("");
-    const [img, setImg] = useState();
+    const [img, setImg] = useState("");
     const inputImgEl = useRef(null);
 
     // 카테고리 수정 및 추가 저장 완료 Alert 팝업 노출
@@ -83,6 +87,7 @@ const EditCategory = props => {
     // 카테고리 명 입력
     const onNameChange = e => {
         setName(e.target.value);
+
     };
     // 카테고리 타입 선택
     const onTypeChange = e => {
@@ -117,7 +122,7 @@ const EditCategory = props => {
     const categoryEditApi = async subProps => {
         const categoryInfo = {
             category : {
-                type :props.addCategory ? type === 'pc' ? 1 : 2 : type === '' ? props.type : type === 'pc' ? 1 : 2,
+                type :props.addCategory ? cType === 'pc' ? 1 : 2 : cType === '' ? props.type : cType === 'pc' ? 1 : 2,
                 img : img === '' ? (props.addCategory ? '' : {saveName: props.id , path : props.imgPath}) : (props.addCategory ? {saveName : subProps.categoryKey, path : subProps.url} :{saveName : props.id , path : subProps.url}),
                 name : props.addCategory ? name : name === '' ? props.title : name,
                 view : props.addCategory ? {} : props.view,
@@ -125,7 +130,7 @@ const EditCategory = props => {
             }
         };
         const res = await axios[props.addCategory ? 'post' : 'patch'](
-            `http://localhost:8080/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`,
+            `${process.env.ASSET_PREFIX}/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`,
             categoryInfo
         );
         if(res.status === 200) closeAlert();
@@ -163,12 +168,11 @@ const EditCategory = props => {
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" onChange={onTypeChange} className="custom-control-input"  defaultChecked={props.type === 1 }/>
-
+                    <input type="radio" id="pc" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && props.type === 1 || cType === 'pc'}/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" onChange={onTypeChange}  className="custom-control-input" defaultChecked={props.type === 2 }/>
+                    <input type="radio" id="mobile" name="category" onChange={onTypeChange}  className="custom-control-input" checked={cType === '' && props.type === 2 || cType === 'mobile' }/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -258,7 +262,7 @@ const Category = props => {
 
     const categoryDeleteApi = async() => {
         const res = await axios.delete(
-            `http://localhost:8080/api/site/${siteInfo.url}/category/${categoryValue}`
+            `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${categoryValue}`
         );
         if(res.status === 200) closeConfirm('delete');
         else alert('카테고리 삭제 실패');
@@ -277,7 +281,7 @@ const Category = props => {
                             <a><h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.name}</h2></a>
                         </Link>
                         <div className="btn-area mb">
-                            <button  onClick={onDeleteCategory} className="btn btn-outline-secondary">삭제</button>
+                            <button  onClick={onDeleteCategory} className={ categoryState === 'selected' ? 'btn btn-outline-secondary' : 'btn btn-outline-secondary disabled'}>삭제</button>
                             <button onClick={onAddCategory} className="btn btn-primary">새 카테고리 추가</button>
                         </div>
                     </div>
@@ -291,6 +295,7 @@ const Category = props => {
                                     id={siteInfo.category[item].id}
                                     activeTarget={categoryValue !== '' ? categoryValue : ''}
                                     site={props.site}
+                                    categoryState={categoryState}
                                 />
                             ))}
                             <a onClick={onAddCategory} className={ addCategory ? "site add active" : "site add"} href="#">

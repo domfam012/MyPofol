@@ -60,7 +60,7 @@ const Step2 = props => {
       setMsg("사이트 url을 입력해주세요.");
       return setOpenAlert(true);
     }
-    const res = await axios.get(`http://localhost:8080/api/site/${url}/check`);
+    const res = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${url}/check`);
     if (!res.data.urlChecked) {
       setMsg("이미 사용중인 주소입니다.");
       return setOpenAlert(true);

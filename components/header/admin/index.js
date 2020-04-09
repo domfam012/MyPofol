@@ -4,6 +4,7 @@ import {LOG_OUT} from "../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import { GoogleLogout } from 'react-google-login';
+import config from "../../../config";
 
 // Header
 const Header = () => {
@@ -11,13 +12,13 @@ const Header = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const logout = () => {
-        dispatch({type :LOG_OUT});
-        const auth2 = window.gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() =>{console.log('로그아웃')});
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() =>{
+        console.log('로그아웃');
         localStorage.clear();
+        dispatch({type :LOG_OUT});
         router.push(`/`);
-    };
+    });
 
   return (
     <header className="bg-header">
@@ -46,7 +47,7 @@ const Header = () => {
                   {
                       isLoggedIn
                           ? <GoogleLogout
-                              clientId="715542130806-oe0pdnl5jtlov6suh1787c2fofk6ahos.apps.googleusercontent.com"
+                              clientId={config.option.GoogleClientId}
                               buttonText="Logout"
                               onLogoutSuccess={logout}
                               render={renderProps => (

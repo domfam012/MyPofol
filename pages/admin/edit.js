@@ -49,14 +49,14 @@ const Edit = props => {
 Edit.getInitialProps = async function(ctx) {
   const query = ctx.query;
 
-  // const res = await axios.get(`http://localhost:8080/api/user/${query.site}`);
+  // const res = await axios.get(`${process.env.ASSET_PREFIX}/api/user/${query.site}`);
   // ctx.store.dispatch({
   //   type: PORTFOLIO_SITE_INFO,
   //   data: res.data.data[query.site]
   // });
 
   if (query.site) {
-    const res = await axios.get(`http://localhost:8080/api/site/${query.site}`);
+    const res = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${query.site}`);
     ctx.store.dispatch({
       type: SITE_INFO,
       data: res.data.data[query.site]

@@ -160,7 +160,7 @@ const Selected = props => {
       }
       // API 연동
       const res = axios.patch (
-        `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
+        `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
         newCategoryList
       )
       if (res.status === 200) {
@@ -231,7 +231,7 @@ const Selected = props => {
                 }
                 //API 연동
                 const res = await axios.patch (
-                  `http://localhost:8080/api/site/${props.url}/category/${props.category.id}`,
+                  `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
                   newCategoryListImg
                 )
                 if (res.status === 200) {
@@ -393,7 +393,7 @@ const View = props => {
   const deleteImageApi = async () => {
     debugger
     const res = await axios.patch(
-      `http://localhost:8080/api/site/${siteInfo.url}/category/${category.id}`
+      `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${category.id}`
     );
     if(res.status === 200) closeConfirm('delete');
     else alert('이미지 삭제 실패');

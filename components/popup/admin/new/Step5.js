@@ -18,7 +18,7 @@ const Step5 = props => {
   const [msg, setMsg] = useState("");
 
   const handleTemplateSelect = idx => {
-    console.log(idx);
+    // console.log(idx);
     setTemplate(idx);
     handleTemplateChange(idx);
   };

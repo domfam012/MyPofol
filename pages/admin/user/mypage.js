@@ -16,29 +16,29 @@ const Mypage = () => {
     const [openCheckConfirm, setOpenCheckConfirm ] = useState(false);
     const [openAlert, setOpenAlert ] = useState(false);
 
-    const closeCheckConfirm= () => {
-        setOpenCheckConfirm(!openCheckConfirm);
+    const closeCheckConfirm = props => {
+        if(props !== undefined) if(props.state === undefined || props.state) setOpenCheckConfirm(!openCheckConfirm);
     };
-    const closeAlert = props => {
-        if(props){
-            dispatch({type :LOG_OUT});
-            router.push(`/`);
-            const auth2 = window.gapi.auth2.getAuthInstance();
-            auth2.signOut().then(() =>{console.log('로그아웃')});
-            localStorage.clear();
-        }
-        setOpenAlert(!openAlert);
-    };
-
     const checkConfirmCallback = () => {
         axios.delete(`http://localhost:8080/api/user/${localStorage.id}`)
             .then(res => {
-                if(res.status === 200){
-                    closeAlert(true);
-                }else{
-                    alert("사용자 삭제 신청 실패")
-                }
+                if(res.status === 200) {
+                    console.log('사용자 삭제 신청 성공');
+                    closeCheckConfirm({state : true});
+                    closeAlert(false);
+                } else alert("사용자 삭제 신청 실패");
             })
+    };
+    const closeAlert = props => {
+        if(props) alertCallback();
+        else setOpenAlert(!openAlert);
+    };
+    const alertCallback = () => {
+        dispatch({type :LOG_OUT});
+        router.push(`/`);
+        const auth2 = window.gapi.auth2.getAuthInstance();
+        auth2.signOut().then(() =>{console.log('로그아웃')});
+        localStorage.clear();
     };
 
     return (
@@ -95,7 +95,7 @@ const Mypage = () => {
                                 }
                                 {
                                     openAlert
-                                        ?  <Alert message={"삭제되었습니다."} closeAlert={closeAlert}/> : ''
+                                        ?  <Alert message={"삭제되었습니다."} closeAlert={closeAlert} cb={alertCallback}/> : ''
                                 }
                             </section>
                         </div> : ''

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 /**
  *  삭제 신청 팝업
 
@@ -22,9 +23,18 @@
 */
 
 const CheckConfirm = props => {
-  const {closeCheckConfirm , cb } = props;
+  const { closeCheckConfirm , cb } = props;
+
+  const [check, setCheck] = useState(false);
+  const [state, setState] = useState(false);
+
+  const onCheckBox = () => {
+      setCheck(!check);
+      closeCheckConfirm({check: check, state : state});
+  };
 
   const handleProgress = async () => {
+    setState(true);
     await cb();
     closeCheckConfirm();
   };
@@ -45,12 +55,12 @@ const CheckConfirm = props => {
                           <span className="font-weight-bold">삭제하시겠습니까?</span>
                       </div>
                       <div className="custom-control custom-checkbox text-center mb-4">
-                          <input type="checkbox" className="custom-control-input" id="deleteAccount" defaultChecked={true}/>
+                          <input onChange={onCheckBox} type="checkbox" className="custom-control-input" id="deleteAccount" checked={check}/>
                               <label className="custom-control-label" htmlFor="deleteAccount">네, 계정을 삭제하겠습니다.</label>
                       </div>
                       <div className="btn-area">
                           <button className="btn btn-xl btn-outline-secondary" onClick={closeCheckConfirm}>취소</button>
-                          <button className="btn btn-xl btn-primary" data-toggle="modal"
+                          <button className={check ? 'btn btn-xl btn-primary' : 'btn btn-xl btn-primary disabled'} data-toggle="modal"
                                   data-target=".bd-example-modal-sm" onClick={handleProgress}>삭제신청
                           </button>
                       </div>

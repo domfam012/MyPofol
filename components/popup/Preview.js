@@ -29,24 +29,19 @@ const Preview = props => {
             className="modal"
             style={{ display: "block" }}
         >
-            <div className="modal-dialog modal-sm modal-dialog-centered">
+            <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <span className="modal-title" id="saveLabel" />
-                        <button type="button" className="close" onClick={closePreview}>
-                            <span aria-hidden="true">&times;</span>
+                        <span className="modal-title">TEMPLATE NAME....</span>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div className="modal-body text-center">{message}</div>
+                    <div className="modal-body">
+                        <div className="img"><img src="../img/temp/UI_AD_AA_03_01S_snb.png" alt="Template Preview"/></div>
+                    </div>
                     <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn btn-lg btn-primary btn-block"
-                            style={{ width: "165px" }}
-                            onClick={closePreview}
-                        >
-                            확인
-                        </button>
+                        <button type="button" className="btn btn-lg btn-primary">확인</button>
                     </div>
                 </div>
             </div>
@@ -55,3 +50,24 @@ const Preview = props => {
 };
 
 export default Preview;
+
+
+// <div className="modal fade bd-example-modal-lg2" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel5"
+//      aria-hidden="true">
+//     <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
+//         <div className="modal-content">
+//             <div className="modal-header">
+//                 <span className="modal-title" id="myLargeModalLabel5">test modal</span>
+//                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+//                     <span aria-hidden="true">×</span>
+//                 </button>
+//             </div>
+//             <div className="modal-body">
+//                 <div className="img"><img src="../img/temp/UI_AD_AA_03_01S_snb.png" alt=""></div>
+//             </div>
+//             <div className="modal-footer">
+//                 <button type="button" className="btn btn-lg btn-primary">확인</button>
+//             </div>
+//         </div>
+//     </div>
+// </div>

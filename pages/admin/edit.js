@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import Layout from "../../components/Layout";
 import Header from "../../components/header/admin/Edit";
 
@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Site from "../../components/pages/admin/edit/Site";
 import Category from "../../components/pages/admin/edit/Category";
 import View from "../../components/pages/admin/edit/View";
-import {SITE_INFO} from "../../redux/reducers/user";
+import { SITE_INFO } from "../../redux/reducers/user";
 import axios from "axios";
 
 const Edit = props => {
@@ -17,14 +17,13 @@ const Edit = props => {
   const site = router.query.site;
   const category = router.query.category;
 
-
   let render;
   if (!site && !category) {
     // http://localhost/admin/edit
     // http://localhost/admin/edit?site=
     // http://localhost/admin/edit?category=
     // http://localhost/admin/edit?site=&category=
-    render = <Site/>;
+    render = <Site />;
   } else if (site && category) {
     // http://localhost/admin/edit?site=ab&category=cd
     // -> View 가서 Site/Category 조회 후 없으면 404
@@ -33,10 +32,10 @@ const Edit = props => {
     // http://localhost/admin/edit?site=ab
     // http://localhost/admin/edit?site=ab&category=
     // -> Category 가서 Site 조회 후 없으면 404
-    render = <Category site={props.site}/>;
+    render = <Category site={props.site} />;
   } else {
     // http://localhost/admin/edit?category=cd
-    render = (<div>404</div>);
+    render = <div>404</div>;
   }
 
   return (
@@ -47,21 +46,26 @@ const Edit = props => {
   );
 };
 
-
 Edit.getInitialProps = async function(ctx) {
-    const query = ctx.query;
+  const query = ctx.query;
 
-    if(query.site){
-        const res = await axios.get(`http://localhost:8080/api/site/${query.site}`);
-        ctx.store.dispatch({
-            type : SITE_INFO,
-            data : res.data.data[query.site]
-        });
-    }
-    return ({
-        site : query.site ? query.site : '',
-        category : query.category ? query.category : ''
-    })
+  // const res = await axios.get(`${process.env.ASSET_PREFIX}/api/user/${query.site}`);
+  // ctx.store.dispatch({
+  //   type: PORTFOLIO_SITE_INFO,
+  //   data: res.data.data[query.site]
+  // });
+
+  if (query.site) {
+    const res = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${query.site}`);
+    ctx.store.dispatch({
+      type: SITE_INFO,
+      data: res.data.data[query.site]
+    });
+  }
+  return {
+    site: query.site ? query.site : "",
+    category: query.category ? query.category : ""
+  };
 };
 
 export default Edit;

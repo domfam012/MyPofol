@@ -44,7 +44,9 @@ const Popup = props => {
     template: 0
   });
 
+  const [urlChecked, setUrlChecked] = useState(false);
   const [logoImg, setLogoImg] = useState();
+  const [logoPreview, setLogoPreview] = useState();
 
   const handleNext = () => setStep(step => ++step);
   const handlePrev = () => setStep(step => --step);
@@ -52,19 +54,20 @@ const Popup = props => {
 
   const handleNameChange = val => setSite({ ...site, name: val });
   const handleUrlChange = val => setSite({ ...site, url: val });
+  const handleUrlChecked = val => setUrlChecked(val);
   const handlePhoneChange = val => setSite({ ...site, phone: val });
   const handleEmailChange = val => setSite({ ...site, email: val });
   const handleImgChange = (saveName, path) => setSite({ ...site, logo: { saveName: saveName, path: path } });
   const handleImgFile = val => setLogoImg(val);
+  const handleImgPreview = val => setLogoPreview(val);
   const handleCategoryChange = val => setSite({ ...site, categoryList: val });
   const handleTemplateChange = val => setSite({ ...site, template: val });
 
   const [templateList, setTemplateList] = useState([]);
   useEffect(() => {
     const fetchTemplate = async () => {
-      const res = await axios.get(`http://localhost:8080/api/template/list`);
+      const res = await axios.get(`${process.env.ASSET_PREFIX}/api/template/list`);
       setTemplateList(res.data.data);
-      // console.log(res.data.data);
     };
     fetchTemplate();
   }, []);
@@ -90,6 +93,8 @@ const Popup = props => {
                 site={site}
                 handleNameChange={handleNameChange}
                 handleUrlChange={handleUrlChange}
+                urlChecked={urlChecked}
+                handleUrlChecked={handleUrlChecked}
               />
             );
           case 3:
@@ -101,6 +106,8 @@ const Popup = props => {
                 handlePhoneChange={handlePhoneChange}
                 handleEmailChange={handleEmailChange}
                 handleImgFile={handleImgFile}
+                logoPreview={logoPreview}
+                handleImgPreview={handleImgPreview}
               />
             );
           case 4:
@@ -160,9 +167,5 @@ const Popup = props => {
     </div>
   );
 };
-
-// Popup.getInitialProps = async () => {
-//
-// };
 
 export default Popup;

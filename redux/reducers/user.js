@@ -2,11 +2,13 @@ export const initialState = {
     isLoggedIn : false,
     userInfo : {},
     siteInfo : {},
+    siteState : 'unselected', // 'unselected' : 사이트 선택 안됨 'selected' : 사이트 선택 됨 'none' : 사이트 없음
+    siteValue : 9999,
+    categoryInfo : {},
     viewState : 'none',
     viewValue : '',
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
     categoryValue : '' ,
-    addCategory : false,
     portfolioInfo : {},
     portfolioImgInfo : {},
     portfolioIdx : 0,
@@ -25,6 +27,7 @@ export const LOG_ING = 'LOG_ING';
 export const LOG_IN = 'LOG_IN';
 export const LOG_OUT = 'LOG_OUT';
 export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
+export const SITE_STATE = 'SITE_STATE';
 export const CATEGORY_STATE = 'CATEGORY_STATE';
 export const VIEW_STATE = 'VIEW_STATE';
 
@@ -97,6 +100,13 @@ export default (state = initialState , action) => {
         case CONTROL_REGISTER_POPUP : {
             return {
                 ...state
+            }
+        }
+        case SITE_STATE : {
+            return {
+                ...state,
+                siteState: action.data.state,
+                siteValue: action.data.value !== 9999 ? action.data.value : 9999
             }
         }
         case CATEGORY_STATE : {

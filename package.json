@@ -1,5 +1,5 @@
 {
-  "_from": "myui-react",
+  "_from": "mypofol",
   "_id": "myui-react@1.0.4",
   "_inBundle": false,
   "_integrity": "sha512-/IO1aZbL6Ty/GPWQTIUwJ9cKfFi/U4QBVnmfeUoBYJ6eUExXFpUBDt+mby2p9M5hpbNVBw9DlrVz+HNGp54Zzw==",
@@ -21,7 +21,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/myui-react/-/myui-react-1.0.4.tgz",
   "_shasum": "0cb8e67488b20402468d31e9eb10d4e4d17d0bfe",
-  "_spec": "myui-react",
+  "_spec": "mypofol",
   "_where": "C:\\Users\\85219\\WebstormProjects\\MyProject\\Npm-install",
   "author": {
     "name": "Domfam",
@@ -29,7 +29,7 @@
     "url": "http://www.domfam.com/domfam_homepage_v2019/dist/html/index.html"
   },
   "bugs": {
-    "url": "https://github.com/domfam012/MyUI-react/issues"
+    "url": "https://github.com/domfam012/MyPofol/issues"
   },
   "bundleDependencies": false,
   "dependencies": {
@@ -37,6 +37,7 @@
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "firebase": "^7.12.0",
     "firebase-admin": "^8.10.0",
@@ -57,7 +58,7 @@
     "styled-jsx-plugin-sass": "^1.0.0"
   },
   "deprecated": false,
-  "description": "MyUI React start package (Redux, NextJS, Express, Bootstrap included)",
+  "description": "MyPofol start package (Redux, NextJS, Express, Bootstrap included)",
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "eslint": "^6.8.0",
@@ -72,7 +73,7 @@
     "node": ">=12.14.0",
     "npm": ">=6.13.4"
   },
-  "homepage": "https://github.com/domfam012/MyUI-react#readme",
+  "homepage": "https://github.com/domfam012/MyPofol#readme",
   "keywords": [
     "react",
     "redux",
@@ -82,14 +83,16 @@
   ],
   "license": "ISC",
   "main": "index.js",
-  "name": "myui-react",
+  "name": "mypofol",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/domfam012/MyUI-react.git"
+    "url": "git+https://github.com/domfam012/MyPofol.git"
   },
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build" : "cross-env NODE_ENV=production next build"
+
   },
   "version": "1.0.4"
 }

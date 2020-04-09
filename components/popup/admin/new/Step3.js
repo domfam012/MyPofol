@@ -1,14 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Alert from "../../alert";
 
 const Step3 = props => {
   const { onNext, onPrev } = props;
-  const { handlePhoneChange, handleEmailChange, handleImgFile } = props;
+  const { handlePhoneChange, handleEmailChange, handleImgFile, handleImgPreview } = props;
   const { site } = props;
   const [phone, setPhone] = useState(site.phone);
   const [email, setEmail] = useState(site.email);
-
-  const [img, setImg] = useState("");
+console.log(props)
+  const [img, setImg] = useState(props.logoPreview);
   const inputImgEl = useRef(null);
 
   const [openAlert, setOpenAlert] = useState(false);
@@ -33,6 +33,9 @@ const Step3 = props => {
     handleImgFile(e.target.files[0]);
     inputImgEl.current.focus();
   };
+  useEffect(() => {
+    handleImgPreview(img);
+  }, [img]);
 
   const handleNext = () => {
     if (!phone) {
@@ -52,7 +55,7 @@ const Step3 = props => {
       <h2 className="sr-only">당신의 상세정보를 등록,혹은 편집 하세요.</h2>
       <p className="title font-weight-normal pl">
         <img src="/img/common/2.png" alt="1" />
-        당신의 상세정보를 <span className="font-weight-bold">등록,</span>
+        당신의 상세정보를 <span className="font-weight-bold">등록</span>
         하세요.
       </p>
       <form className="form_info detail">
@@ -89,7 +92,7 @@ const Step3 = props => {
             이미지 없을 때, display:none; => 이미지를 넣으면 display:block; 처리
           */}
           <a href="#">
-            {img === "" ? (
+            {!img ? (
               <label style={{ cursor: "pointer" }} htmlFor={"logoUploader"}>
                 <span className="plus">
                   <i className="fal fa-plus" />

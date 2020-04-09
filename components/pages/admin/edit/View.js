@@ -235,13 +235,14 @@ const Selected = props => {
                   newCategoryListImg
                 )
                 if (res.status === 200) {
+                  handleAlert("저장되었습니다.", () => {window.location.reload();});
                   dispatch({
                     type: VIEW_STATE,
                     data: { state: 'unselected' }
                   })
                   window.location.reload()
                 } else {
-                  alert(`이미지 ${props.addImage ? '추가' : '수정'} 실패`)
+                  alert(`이미지 ${ props.addImage ? '추가' : '수정'}실패` );
                 }
               }
             )
@@ -249,8 +250,6 @@ const Selected = props => {
       )
     }
   }
-
-  // console.log(newCategoryList)
 
   const storageErrHandler = err => {
     switch (err.code) {
@@ -338,35 +337,37 @@ const View = props => {
 
   const dispatch = useDispatch()
   const { siteInfo, viewState, viewValue, addImage } = useSelector(state => state.user)
-  const [openConfirm, setOpenConfirm] = useState(false)
-  const [openAlert, setOpenAlert] = useState(false)
 
   const category = siteInfo.category[props.category]
   const view = category.view
   const viewList = category.viewList
   const url = siteInfo.url
 
-  // 이미지 삭제 시 Alert 팝업 노출
-  const closeAlert = () => {
-    setOpenAlert(!openAlert)
-  }
-  const alertCallback = () => {
-    closeAlert()
-  }
-  // 이미지 정상 삭제 시 Confirm 팝업 노출
-  const closeConfirm = props => {
-    if (props === 'delete') {
-      dispatch({
-        type: VIEW_STATE,
-        data: { state: 'unselected' }
-      })
-      window.location.reload()
-    }
-    setOpenConfirm(!openConfirm)
-  }
-  const confirmCallback = () => {
-    deleteImageApi();
-  }
+  // Alert 모달
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlert = () => setOpenAlert(!openAlert);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertCb, setAlertCb] = useState(() => {});
+  const handleAlert = (msg , func)=> {
+    setAlertMsg(msg);
+    setAlertCb(() => func);
+  };
+  useEffect(() => {
+    if (alertMsg !== '') setOpenAlert(true);
+  }, [alertCb]);
+
+  // Confirm 모달
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const closeConfirm = () => setOpenConfirm(!openConfirm);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [confirmCb, setConfirmCb] = useState(() => {});
+  const handleConfirm = (msg , func) => {
+    setConfirmMsg(msg);
+    setConfirmCb(() => func);
+  };
+  useEffect(() => {
+    if (confirmMsg !== '') setOpenConfirm(true);
+  }, [confirmCb]);
 
   // 새 이미지 추가 클릭 시 VIEW_STATE 변경
   const onAddImage = useCallback(() => {
@@ -379,15 +380,15 @@ const View = props => {
     })
   }, [])
 
-  // 삭제 버튼 클릭 시 카테고리 삭제
+  // 삭제 버튼 클릭 시 이미지 삭제
   const onDeleteImage =  async () => {
-    if(viewList.length === 1) closeAlert();
-    else {
+    // if(viewList.length === 1) closeAlert();
+    // else {
       if (viewValue === '' )  alert ("삭제할 이미지를 선택해주세요");
       else{
         closeConfirm();
       }
-    }
+    // }
   };
   // 삭제 버튼 클릭 시 이미지 삭제
   const deleteImageApi = async () => {
@@ -418,7 +419,7 @@ const View = props => {
               <a href="#"><h2 className="title"><i className="far fa-chevron-left"></i>{category.name}</h2></a>
             </Link>
             <div className="btn-area mb">
-              <button onClick={onDeleteImage} className="btn btn-outline-secondary">삭제</button>
+              <button onClick={onDeleteImage} className={ viewState === 'selected' ? 'btn btn-outline-secondary' : 'btn btn-outline-secondary disabled'}>삭제</button>
               <button onClick={onAddImage} className="btn btn-primary">새 이미지 추가</button>
             </div>
           </div>
@@ -431,6 +432,7 @@ const View = props => {
                   title={view[item] ? view[item].originName : ''}
                   id={view[item] ? view[item].id : ''}
                   activeTarget={viewValue !== '' ? viewValue : ''}
+                  handleAlert={handleAlert}
                 />
               ))}
               <a onClick={onAddImage} className={addImage ? 'site add active' : 'site add'} href="#">
@@ -455,12 +457,13 @@ const View = props => {
                 id={view[viewValue] ? view[viewValue].id : ''}
                 imgPath={viewValue !== '' ? view[viewValue].img.path : ''}
                 intro={view[viewValue] ? view[viewValue].intro : ''}
+                handleAlert={handleAlert}
               /> :
               <Unselected/>
         }
       </div>
-        { openConfirm ? <Confirm message={'선택한 이미지를 삭제하시겠습니까?'} closeConfirm={closeConfirm} cb={confirmCallback}/> : ''}
-        { openAlert ?  <Alert message={"삭제할 이미지를 선택해주세요."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
+      {openAlert ? <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} /> : ""}
+      {openConfirm ? <Confirm message={confirmMsg} cb={confirmCb} closeConfirm={closeConfirm} /> : ""}
       </div>
   );
 };

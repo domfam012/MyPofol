@@ -84,8 +84,8 @@ const Category = props => {
 Category.getInitialProps = async function(ctx) {
     const site = ctx.query.site;
     const category = ctx.query.category;
-    const siteRes = await axios.get(`http://localhost:8080/api/site/${site}`);
-    const categoryRes = await axios.get(`http://localhost:8080/api/site/${site}/category/${category}`);
+    const siteRes = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${site}`);
+    const categoryRes = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${site}/category/${category}`);
     ctx.store.dispatch({
         type : PORTFOLIO_SITE_INFO,
         data : {

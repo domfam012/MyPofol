@@ -93,7 +93,7 @@ const Step5 = props => {
 
       const url = site.url;
       const res = await axios.post(
-        `http://localhost:8080/api/site/${url}`,
+        `${process.env.ASSET_PREFIX}/api/site/${url}`,
         site
       );
       // console.log(res);

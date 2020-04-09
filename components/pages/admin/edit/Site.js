@@ -221,7 +221,7 @@ const Selected = props => {
     };
 
     const dbUpload = async () => {
-      const res = await axios.patch(`http://localhost:8080/api/site/${url}`, {
+      const res = await axios.patch(`${process.env.ASSET_PREFIX}/api/site/${url}`, {
         site
       });
       if (res.status === 200) {
@@ -465,7 +465,7 @@ const Site = () => {
       else {
         const reqData = { userId: localStorage.id };
         axios.delete(
-            `http://localhost:8080/api/site/${userInfo.siteList[siteValue]}`,
+            `${process.env.ASSET_PREFIX}/api/site/${userInfo.siteList[siteValue]}`,
             { data: reqData }
         ).then(res => {
           if (res.status === 200) {

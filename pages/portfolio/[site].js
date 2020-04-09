@@ -56,7 +56,7 @@ const Site = props => {
 
 Site.getInitialProps = async function(ctx) {
     const site = ctx.query.site;
-    const res = await axios.get(`http://localhost:8080/api/site/${site}`);
+    const res = await axios.get(`${process.env.ASSET_PREFIX}/api/site/${site}`);
     ctx.store.dispatch({
         type : PORTFOLIO_SITE_INFO,
         data : {

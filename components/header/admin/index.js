@@ -4,6 +4,7 @@ import {LOG_OUT} from "../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import { GoogleLogout } from 'react-google-login';
+import config from "../../../config";
 
 // Header
 const Header = () => {
@@ -46,7 +47,7 @@ const Header = () => {
                   {
                       isLoggedIn
                           ? <GoogleLogout
-                              clientId="715542130806-oe0pdnl5jtlov6suh1787c2fofk6ahos.apps.googleusercontent.com"
+                              clientId={config.GoogleClientId}
                               buttonText="Logout"
                               onLogoutSuccess={logout}
                               render={renderProps => (

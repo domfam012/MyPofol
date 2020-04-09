@@ -90,7 +90,7 @@ const Social = () => {
                     <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
                         src="/img/common/facebook.png" alt="페이스북"/></button>*/}
                     <GoogleLogin
-                        clientId={config.GoogleClientId}
+                        clientId={config.option.GoogleClientId}
                         buttonText="Google"
                         render={renderProps => (
                             <button  type="button" className="btn btn-xl btn-block btn-outline-secondary" onClick={renderProps.onClick} disabled={renderProps.disabled}>

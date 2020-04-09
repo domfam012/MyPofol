@@ -47,7 +47,7 @@ const Step3 = props => {
     } else if (!email) {
       setMsg("이메일을 입력해주세요.");
       return setOpenAlert(true);
-    } else if (regex('email').test(email)) {
+    } else if (!regex('email').test(email)) {
       setMsg("이메일을 형식을 확인해주세요.");
       return setOpenAlert(true);
     } else if (!img) {

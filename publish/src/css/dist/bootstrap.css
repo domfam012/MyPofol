@@ -6109,6 +6109,19 @@ a.close.disabled {
   height: 100%;
 }
 
+.modal-body .title_area .txt {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+.modal-body .title_area .sub {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 70px;
+}
+
 .modal-footer {
   display: flex;
   flex-wrap: wrap;
@@ -27901,6 +27914,10 @@ footer .footer .copyright {
 
 .d-center .site.active .site-body .title {
   line-height: 42px;
+}
+
+.d-center.modal-temp {
+  margin-bottom: 60px;
 }
 
 .d-center.modal-temp .site {

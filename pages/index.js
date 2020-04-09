@@ -6,7 +6,7 @@ import Header from "../components/header/admin/Index";
 import React, { useState , useEffect} from 'react';
 import Popup from '../components/popup/admin/new/Popup';
 import {useRouter} from "next/router";
-import { LOG_ING} from "../redux/reducers/user";
+import { LOG_IN } from "../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
 
 import axios from "axios";

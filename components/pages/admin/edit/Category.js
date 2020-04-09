@@ -11,14 +11,10 @@ import shortid from 'shortid';
 const CategoryList = props => {
     const dispatch = useDispatch();
 
-    // 카테고리 리스트 클릭 시 CATEGORY_STATE 변경
+    // 카테고리 선택 클릭
     const setCategoryState = e => {
-        if(props.categoryState === 'selected' && props.activeTarget === e){
-            dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-        }else{
-            dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e , change : true}});
-        }
-
+        if(props.categoryState === 'selected' && props.activeTarget === e) dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+        else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e , change : true}})
     };
 
     return(
@@ -35,14 +31,6 @@ const CategoryList = props => {
     )
 };
 
-const None= () => {
-    return(
-        <div className="select">
-            <p className="title">카테고리를 추가하세요</p>
-        </div>
-    )
-};
-
 const Unselected = () => {
     return(
         <div className="select">
@@ -55,55 +43,38 @@ const Unselected = () => {
 
 const EditCategory = props => {
     const dispatch = useDispatch();
-    const [name, setName] = useState("");
-    const [cType, setType] = useState("");
-    const [openAlert, setOpenAlert ] = useState(false);
-    const [isSave, checkIsSave ] = useState(true);
+    const { handleAlert } = props;
 
+    // 카테고리 명
+    const [name, setName] = useState("");
+    const onNameChange = e => {setName(e.target.value);};
+
+    // 카테고리 타입
+    const [cType, setType] = useState("");
+    const onTypeChange = e => {setType(e.target.id);};
+
+    // 카테고리 썸네일
     const [previewImg, setPreview] = useState("");
     const [img, setImg] = useState("");
     const inputImgEl = useRef(null);
-
-    // 카테고리 수정 및 추가 저장 완료 Alert 팝업 노출
-    const closeAlert = props => {
-        if(props === 'save'){
-            dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-            window.location.reload();
-        }
-        setOpenAlert(!openAlert);
-    };
-    const alertCallback = () => {
-        if(props.addCategory && name === '') closeAlert();
-        else closeAlert('save');
-
-    };
-    // 이미지 변경
     const onImgUpload= e => {
         const preview = URL.createObjectURL(e.target.files[0]);
         setPreview(preview);
         setImg(e.target.files[0]);
         inputImgEl.current.focus();
     };
-    // 카테고리 명 입력
-    const onNameChange = e => {
-        setName(e.target.value);
 
-    };
-    // 카테고리 타입 선택
-    const onTypeChange = e => {
-        setType(e.target.id);
-    };
-    // 카테고리 수정 취소 버튼 선택 시 CATEGORY_STATE 변경
+    // 취소 클릭
     const prevAddCategory = () => {
+        handleAlert("취소되었습니다.", ()=>{});
         dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
     };
-    // 카테고리 수정 저장 버튼 클릭 시 카테고리 수정 또는 저장- Storage 등록
+
+    // 저장 클릭
     const editCategory = async () => {
         const categoryKey = shortid.generate();
-        if (props.addCategory && name === '') {
-            checkIsSave(false);
-            closeAlert();
-        } else {
+        if (props.addCategory && name === '') handleAlert("카테고리 명을 입력해주새요", () => {});
+        else {
             if(img === '') categoryEditApi({categoryKey : categoryKey});
             else{
                 const storage = await loadStorage();
@@ -118,7 +89,7 @@ const EditCategory = props => {
             }
         }
     };
-    // 카테고리 수정 저장 버튼 클릭 시 카테고리 수정 또는 저장 - API 연동
+    // 카테고리 저장 API 연동
     const categoryEditApi = async subProps => {
         const categoryInfo = {
             category : {
@@ -130,11 +101,12 @@ const EditCategory = props => {
             }
         };
         const res = await axios[props.addCategory ? 'post' : 'patch'](
-            `${process.env.ASSET_PREFIX}/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`,
-            categoryInfo
+            `${process.env.ASSET_PREFIX}/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`, categoryInfo
         );
-        if(res.status === 200) closeAlert();
-        else alert(`카테고리 ${ props.addCategory ? '추가' : '수정'}실패` );
+        if(res.status === 200) {
+            handleAlert("저장되었습니다.", () => {window.location.reload();});
+            dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+        } else alert(`카테고리 ${ props.addCategory ? '추가' : '수정'}실패` );
     };
     // Storage 등록 에러 핸들러
     const storageErrHandler = err => {
@@ -172,7 +144,7 @@ const EditCategory = props => {
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" onChange={onTypeChange}  className="custom-control-input" checked={cType === '' && props.type === 2 || cType === 'mobile' }/>
+                    <input type="radio" id="mobile" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && props.type === 2 || cType === 'mobile' }/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -180,23 +152,18 @@ const EditCategory = props => {
                 <form className="form_intro">
                     <div className="form-group mb-2">
                         <span className="img">
-                          <img
-                              src={
-                                  previewImg !== '' ? previewImg : props.addCategory ? "/img/common/default_thumbnail.png" : props.imgPath
-                          }
-                            alt="template"
-                          />
+                          <img src={ previewImg !== ''
+                                      ? previewImg
+                                      : props.addCategory
+                                          ? "/img/common/default_thumbnail.png"
+                                          : props.imgPath }
+                               alt="template"/>
                         </span>
                     </div>
                 </form>
                 <div className="btn-area mb change">
                     <button className="btn btn-secondary">
-                        <label
-                            style={{ cursor: "pointer", marginBottom: "0" }}
-                            htmlFor={"imgUploader"}
-                        >
-                            썸네일 변경
-                        </label>
+                        <label style={{ cursor: "pointer", marginBottom: "0" }} htmlFor={"imgUploader"}>썸네일 변경</label>
                     </button>
                     <input
                         style={{ display: "none" }}
@@ -214,7 +181,6 @@ const EditCategory = props => {
                 <button onClick={prevAddCategory} className="btn btn-lg btn-outline-secondary">취소</button>
                 <button onClick={editCategory} className="btn btn-lg btn-primary">저장</button>
             </div>
-            { openAlert ?  <Alert message={isSave ? "저장되었습니다." : "카테고리 명을 입력해주세요."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
         </div>
     )
 };
@@ -222,54 +188,52 @@ const EditCategory = props => {
 const Category = props => {
     const dispatch = useDispatch();
     const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
-    const [openConfirm, setOpenConfirm ] = useState(false);
-    const [openAlert, setOpenAlert ] = useState(false);
 
-    // 카테고리 전체 혹은 1개만 있는 경우 삭제 시 Alert 팝업 노출
-    const closeAlert = () => {
-        setOpenAlert(!openAlert);
+    // Alert 모달
+    const [openAlert, setOpenAlert] = useState(false);
+    const closeAlert = () => setOpenAlert(!openAlert);
+    const [alertMsg, setAlertMsg] = useState("");
+    const [alertCb, setAlertCb] = useState(() => {});
+    const handleAlert = (msg , func)=> {
+        setAlertMsg(msg);
+        setAlertCb(() => func);
     };
-    const alertCallback = () => {
-        closeAlert();
+    useEffect(() => {
+        if (alertMsg !== '') setOpenAlert(true);
+    }, [alertCb]);
+
+    // Confirm 모달
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const closeConfirm = () => setOpenConfirm(!openConfirm);
+    const [confirmMsg, setConfirmMsg] = useState("");
+    const [confirmCb, setConfirmCb] = useState(() => {});
+    const handleConfirm = (msg , func) => {
+        setConfirmMsg(msg);
+        setConfirmCb(() => func);
     };
-    // 카테고리 정상 삭제 시 Confirm 팝업 노출
-    const closeConfirm = props => {
-        if(props === 'delete'){
+    useEffect(() => {
+        if (confirmMsg !== '') setOpenConfirm(true);
+    }, [confirmCb]);
+
+    // 삭제 클릭
+    const onDeleteCategory = () => {
+        if(siteInfo.categoryList.length === 1) handleAlert("최소 1개의 카테고리는 존재해야 합니다.", ()=>{});
+        else handleConfirm("선택한 카테고리를 삭제하시겠습니까?", categoryDeleteApi);
+    };
+
+    // 삭제 API 연동
+    const categoryDeleteApi = async() => {
+        const res = await axios.delete(`${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${categoryValue}`);
+        if(res.status === 200) {
             dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
             window.location.reload();
-        }
-        setOpenConfirm(!openConfirm);
+        } else alert('카테고리 삭제 실패');
     };
-    const confirmCallback = () => {
-        categoryDeleteApi();
-    };
-    // 새 카테고리 추가 클릭 시 CATEGORY_STATE 변경
+
+    // 새 카테고리 추가 클릭
     const onAddCategory = useCallback(() => {
         if(siteInfo.categoryList.length === 8) alert('카테고리 최대 8개');
         else dispatch({type : CATEGORY_STATE, data : { state : 'selected' , add : true}});
-    }, []);
-
-    // 삭제 버튼 클릭 시 카테고리 삭제
-    const onDeleteCategory =  async () => {
-        if(siteInfo.categoryList.length === 1) closeAlert();
-        else {
-            if (categoryValue === '' )  alert ("삭제 할 카테고리를 선택해주세요");
-            else{
-                closeConfirm();
-            }
-        }
-    };
-
-    const categoryDeleteApi = async() => {
-        const res = await axios.delete(
-            `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${categoryValue}`
-        );
-        if(res.status === 200) closeConfirm('delete');
-        else alert('카테고리 삭제 실패');
-    };
-    // 카테고리 개수에 따른 CATEGORY_STATE 변경
-    useEffect(() => {
-        siteInfo.categoryList.length === 0 ? dispatch({type : CATEGORY_STATE, data : { state : 'none'}}) : dispatch({type : CATEGORY_STATE, data : { state : 'unselected'} });
     }, []);
 
     return (
@@ -281,7 +245,7 @@ const Category = props => {
                             <a><h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.name}</h2></a>
                         </Link>
                         <div className="btn-area mb">
-                            <button  onClick={onDeleteCategory} className={ categoryState === 'selected' ? 'btn btn-outline-secondary' : 'btn btn-outline-secondary disabled'}>삭제</button>
+                            <button  onClick={onDeleteCategory} className={ categoryState === 'selected' && !addCategory ? 'btn btn-outline-secondary' : 'btn btn-outline-secondary disabled'}>삭제</button>
                             <button onClick={onAddCategory} className="btn btn-primary">새 카테고리 추가</button>
                         </div>
                     </div>
@@ -307,24 +271,22 @@ const Category = props => {
                 </section>
             </div>
             <div className="snb">
-                { categoryState === 'none'
-                        ? <None/> :
-                        categoryState !== 'selected'
-                            ? <Unselected/> :
-                                <EditCategory
-                                site = {siteInfo.url}
-                                addCategory={addCategory}
-                                title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
-                                type = {categoryValue !== '' ? siteInfo.category[categoryValue].type : ''}
-                                imgPath={categoryValue !== '' ? siteInfo.category[categoryValue].img.path : ''}
-                                id = {categoryValue !== '' ? siteInfo.category[categoryValue].id : ''}
-                                view = {categoryValue !== '' ? siteInfo.category[categoryValue].view : ''}
-                                viewList={categoryValue !== '' ? siteInfo.category[categoryValue].viewList : ''}
-                                />
+                {   categoryState !== 'selected'
+                        ? <Unselected/>
+                        : <EditCategory
+                            site = {siteInfo.url}
+                            addCategory={addCategory}
+                            title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
+                            type = {categoryValue !== '' ? siteInfo.category[categoryValue].type : ''}
+                            imgPath={categoryValue !== '' ? siteInfo.category[categoryValue].img.path : ''}
+                            id = {categoryValue !== '' ? siteInfo.category[categoryValue].id : ''}
+                            view = {categoryValue !== '' ? siteInfo.category[categoryValue].view : ''}
+                            viewList={categoryValue !== '' ? siteInfo.category[categoryValue].viewList : ''}
+                            handleAlert={handleAlert}/>
                 }
             </div>
-            { openConfirm ?  <Confirm message={"선택한 카테고리를 삭제하시겠습니까?"}  closeConfirm={closeConfirm} cb={confirmCallback}/> : '' }
-            { openAlert ?  <Alert message={"최소 1개의 카테고리는 존재해야 합니다."} closeAlert={closeAlert} cb={alertCallback}/> : '' }
+            {openAlert ? <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} /> : ""}
+            {openConfirm ? <Confirm message={confirmMsg} cb={confirmCb} closeConfirm={closeConfirm} /> : ""}
         </div>
     );
 };

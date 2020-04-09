@@ -70,11 +70,12 @@ const Unselected = props => {
 };
 
 const Selected = props => {
+  // console.log(props);
   const dispatch = useDispatch();
   const { template, handleSaveClick, handleCancelClick } = props;
   const [title, setTitle] = useState(props.title);
-  const [intro, setIntro] = useState(props.intro);
-  const [introLength, setIntroLength] = useState(props.intro.length);
+  const [intro, setIntro] = useState(props.intro ? props.intro : '');
+  const [introLength, setIntroLength] = useState(props.intro ? props.intro.length : 0);
   const [email, setEmail] = useState(props.email);
   const [phone, setPhone] = useState(props.phone);
   const url = props.url;
@@ -90,14 +91,13 @@ const Selected = props => {
   // console.log(props.title);
 
   useEffect(() => {
-    setTitle(props.title);
-    setIntro(props.intro);
-    setEmail(props.email);
-    setPhone(props.phone);
-    // if(title !== props.title) setTitle(props.title);
-    // if(intro !== props.intro) setTitle(props.intro);
-    // if(email !== props.email) setTitle(props.email);
-    // if(phone !== props.phone) setTitle(props.phone);
+    // setTitle(props.title);
+    // const intro = props.intro ? props.intro : '';
+    // setIntro(props.intro);
+    // const introLength = intro.length;
+    // setIntroLength(introLength);
+    // setEmail(props.email);
+    // setPhone(props.phone);
   }, []);
 
   const setState = () => {
@@ -432,7 +432,7 @@ const Site = () => {
   const [confirmCb, setConfirmCb] = useState(() => {});
 
   const handleDeleteCheck = () => {
-    console.log('click')
+    // console.log('click')
     setConfirmMsg("선택한 사이트를 삭제하시겠습니까?");
     setConfirmCb(() => handleDelete);
   };
@@ -559,7 +559,7 @@ const Site = () => {
                   siteValue !== "" ? userInfo.site[siteValue].logo.path : ""
                 }
                 thumbnailPath={
-                  siteValue !== ""
+                  (siteValue !== "" && userInfo.site[siteValue].thumbnail)
                     ? userInfo.site[siteValue].thumbnail.path
                     : "/img/common/default_thumbnail.png"
                 }

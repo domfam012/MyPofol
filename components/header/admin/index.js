@@ -47,7 +47,7 @@ const Header = () => {
                   {
                       isLoggedIn
                           ? <GoogleLogout
-                              clientId={config.option.GoogleClientId}
+                              clientId={config.GoogleClientId}
                               buttonText="Logout"
                               onLogoutSuccess={logout}
                               render={renderProps => (

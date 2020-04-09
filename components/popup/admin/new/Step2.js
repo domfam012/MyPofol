@@ -91,8 +91,9 @@ const Step2 = props => {
               onChange={onNameChange}
               type="text"
               className="form-control mb-1"
-              title="사이트명"
-              placeholder="사이트명"
+              title="사이트명*"
+              placeholder="이름 혹은 사이트명을 입력하세요.*"
+              maxLength={20}
               style={{ width: "400px" }}
             />
             <span className="desc">
@@ -111,7 +112,7 @@ const Step2 = props => {
               type="text"
               className="form-control d-inline-block ml-1"
               title="사이트 주소*"
-              placeholder="사이트 주소*"
+              placeholder="사용할 도메인주소를 입력하세요.*"
               style={{ width: "200px" }}
             />
             <button className="btn btn-primary" onClick={checkUrl}>

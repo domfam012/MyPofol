@@ -88,17 +88,15 @@ const Selected = props => {
   const [thumbnailFile, setThumbnailFile] = useState(); // file
   const inputThumbnailEl = useRef(null); // file elem
 
-  // console.log(props.title);
-
-  useEffect(() => {
-    // setTitle(props.title);
-    // const intro = props.intro ? props.intro : '';
-    // setIntro(props.intro);
-    // const introLength = intro.length;
-    // setIntroLength(introLength);
-    // setEmail(props.email);
-    // setPhone(props.phone);
-  }, []);
+  // useEffect(() => {
+  //   setTitle(props.title);
+  //   const intro = props.intro ? props.intro : '';
+  //   setIntro(props.intro);
+  //   const introLength = intro.length;
+  //   setIntroLength(introLength);
+  //   setEmail(props.email);
+  //   setPhone(props.phone);
+  // }, []);
 
   const setState = () => {
     dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });

@@ -8,6 +8,7 @@ import {GoogleLogin} from 'react-google-login';
 import shortid from 'shortid';
 import moment from "moment";
 import axios from "axios";
+import config from "../../../config";
 
 
 const Social = () => {
@@ -15,7 +16,7 @@ const Social = () => {
     const [sign, setSign] = useState('');
 
     const responseGoogle = async(googleRes) => {
-        axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
+        axios.get(`${process.env.ASSET_PREFIX}/api/user/google_${googleRes.googleId}`)
             .then( userRes => {
                 if (userRes.data.data === 404) {
                     console.log('회원가입 진행');
@@ -29,12 +30,12 @@ const Social = () => {
                         siteList : []
                     };
                     axios.post(
-                        `http://localhost:8080/api/user/google_${googleRes.googleId}`, user
+                        `${process.env.ASSET_PREFIX}/api/user/google_${googleRes.googleId}`, user
                     ).then( userRes => {
                         if (userRes.data.data === 404) console.log('회원가입 실패');
                         else{
                             console.log('회원가입 완료');
-                            axios.get(`http://localhost:8080/api/user/google_${googleRes.googleId}`)
+                            axios.get(`${process.env.ASSET_PREFIX}/api/user/google_${googleRes.googleId}`)
                                 .then( userRes => {
                                     if (userRes.data.data === 404) console.log('로그인 실패');
                                     else login(googleRes, userRes);
@@ -89,7 +90,7 @@ const Social = () => {
                     <button type="button" className="btn btn-xl btn-block btn-outline-secondary"><img
                         src="/img/common/facebook.png" alt="페이스북"/></button>*/}
                     <GoogleLogin
-                        clientId={'715542130806-oe0pdnl5jtlov6suh1787c2fofk6ahos.apps.googleusercontent.com'}
+                        clientId={config.GoogleClientId}
                         buttonText="Google"
                         render={renderProps => (
                             <button  type="button" className="btn btn-xl btn-block btn-outline-secondary" onClick={renderProps.onClick} disabled={renderProps.disabled}>

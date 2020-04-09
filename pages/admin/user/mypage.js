@@ -20,7 +20,7 @@ const Mypage = () => {
         if(props !== undefined) if(props.state === undefined || props.state) setOpenCheckConfirm(!openCheckConfirm);
     };
     const checkConfirmCallback = () => {
-        axios.delete(`http://localhost:8080/api/user/${localStorage.id}`)
+        axios.delete(`${process.env.ASSET_PREFIX}/api/user/${localStorage.id}`)
             .then(res => {
                 if(res.status === 200) {
                     console.log('사용자 삭제 신청 성공');

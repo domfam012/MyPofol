@@ -66,7 +66,7 @@ const Popup = props => {
   const [templateList, setTemplateList] = useState([]);
   useEffect(() => {
     const fetchTemplate = async () => {
-      const res = await axios.get(`http://localhost:8080/api/template/list`);
+      const res = await axios.get(`${process.env.ASSET_PREFIX}/api/template/list`);
       setTemplateList(res.data.data);
     };
     fetchTemplate();

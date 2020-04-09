@@ -130,7 +130,7 @@ const EditCategory = props => {
             }
         };
         const res = await axios[props.addCategory ? 'post' : 'patch'](
-            `http://localhost:8080/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`,
+            `${process.env.ASSET_PREFIX}/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`,
             categoryInfo
         );
         if(res.status === 200) closeAlert();
@@ -262,7 +262,7 @@ const Category = props => {
 
     const categoryDeleteApi = async() => {
         const res = await axios.delete(
-            `http://localhost:8080/api/site/${siteInfo.url}/category/${categoryValue}`
+            `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${categoryValue}`
         );
         if(res.status === 200) closeConfirm('delete');
         else alert('카테고리 삭제 실패');

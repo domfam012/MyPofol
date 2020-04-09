@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "../../alert";
+import regex from "../../../../public/js/regex";
+
+console.log(regex('eng').test('sdf12f'));
 
 const Step2 = props => {
   const { onNext } = props;
@@ -55,6 +58,13 @@ const Step2 = props => {
   const checkUrl = async e => {
     e.preventDefault();
     isChecking = true;
+
+    // 이후 tooltip 으로 수정
+    if(!regex('eng').test(url)) {
+      setMsg("주소는 영문 대소문자만 입력 가능합니다.");
+      setOpenAlert(true);
+      return;
+    }
 
     if (!url) {
       setMsg("사이트 url을 입력해주세요.");

@@ -7,7 +7,7 @@ export const initialState = {
     categoryInfo : {},
     viewState : 'none',
     viewValue : '',
-    categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨 'none' : 카테고리 없음
+    categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨
     categoryValue : '' ,
     portfolioInfo : {},
     portfolioImgInfo : {},

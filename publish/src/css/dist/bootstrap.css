@@ -1946,6 +1946,15 @@ pre code {
   outline: none;
 }
 
+textarea {
+  color: #333;
+}
+
+textarea::placeholder {
+  color: #303030;
+  opacity: 1;
+}
+
 select.form-control:focus::-ms-value {
   color: #333;
   background-color: #fff;
@@ -6098,6 +6107,19 @@ a.close.disabled {
 .modal-body .img img {
   width: 100%;
   height: 100%;
+}
+
+.modal-body .title_area .txt {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+.modal-body .title_area .sub {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 70px;
 }
 
 .modal-footer {
@@ -27849,7 +27871,11 @@ footer .footer .copyright {
   margin-bottom: 105px;
 }
 
-.init.select_template .d-center {
+.init.select_template .btn-area .btn.mr {
+  margin-right: 37px;
+}
+
+.d-center {
   display: flex;
   justify-content: center;
   -webkit-align-items: center;
@@ -27858,23 +27884,23 @@ footer .footer .copyright {
   margin-bottom: 100px;
 }
 
-.init.select_template .d-center .site {
+.d-center .site {
   width: 232px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   margin-right: 40px;
   margin-bottom: 0;
 }
 
-.init.select_template .d-center .site .site-img img {
+.d-center .site .site-img img {
   height: 131px;
 }
 
-.init.select_template .d-center .site .site-body {
+.d-center .site .site-body {
   padding: 0 10px;
   background: #fff;
 }
 
-.init.select_template .d-center .site .site-body .title {
+.d-center .site .site-body .title {
   padding: 0;
   text-align: left;
   margin-bottom: 0;
@@ -27882,16 +27908,24 @@ footer .footer .copyright {
   font-size: 20px;
 }
 
-.init.select_template .d-center .site .btn-area {
+.d-center .site .btn-area {
   left: 29px;
 }
 
-.init.select_template .d-center .site.active .site-body .title {
+.d-center .site.active .site-body .title {
   line-height: 42px;
 }
 
-.init.select_template .btn-area .btn.mr {
-  margin-right: 37px;
+.d-center.modal-temp {
+  margin-bottom: 60px;
+}
+
+.d-center.modal-temp .site {
+  margin-right: 20px;
+}
+
+.d-center.modal-temp .site:last-child {
+  margin-right: 0;
 }
 
 .site {
@@ -28193,8 +28227,12 @@ footer .footer .copyright {
 }
 
 .inner .snb .contents .box .form_intro .img {
+  display: block;
   width: 260px;
-  height: 147px;
+  height: 146px;
+  border: 1px solid #c2c2c2;
+  margin-bottom: 8px;
+  background-color: #fff;
 }
 
 .inner .snb .contents .box .form_intro .img img {

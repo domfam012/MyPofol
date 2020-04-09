@@ -489,7 +489,7 @@ const Site = () => {
     if (Object.keys(userInfo).length !== 0) {
       userInfo.siteList.length === 0
         ? dispatch({ type: SITE_STATE, data: { state: "none" } })
-        : dispatch({ type: SITE_STATE, data: { state: "unselected" } });
+        : dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
     }
   }, []);
 

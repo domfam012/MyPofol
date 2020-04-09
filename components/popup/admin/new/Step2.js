@@ -3,8 +3,6 @@ import axios from "axios";
 import Alert from "../../alert";
 import regex from "../../../../public/js/regex";
 
-console.log(regex('eng').test('sdf12f'));
-
 const Step2 = props => {
   const { onNext } = props;
   const { handleNameChange, handleUrlChange, handleUrlChecked } = props;

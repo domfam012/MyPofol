@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import Alert from "../../alert";
+import regex from "../.././../../public/js/regex";
+
+console.log(regex)
 
 const Step3 = props => {
   const { onNext, onPrev } = props;
@@ -43,6 +46,9 @@ const Step3 = props => {
       return setOpenAlert(true);
     } else if (!email) {
       setMsg("이메일을 입력해주세요.");
+      return setOpenAlert(true);
+    } else if (regex('email').test(email)) {
+      setMsg("이메일을 형식을 확인해주세요.");
       return setOpenAlert(true);
     } else if (!img) {
       setMsg("로고 이미지를 넣어주세요.");

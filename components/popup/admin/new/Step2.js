@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "../../alert";
 
 const Step2 = props => {
   const { onNext } = props;
-  const { handleNameChange, handleUrlChange } = props;
+  const { handleNameChange, handleUrlChange, handleUrlChecked } = props;
   const { site } = props;
   const [name, setName] = useState(site.name);
   const [url, setUrl] = useState(site.url);
-  const [urlChecked, setUrlChecked] = useState(false);
+  const [urlChecked, setUrlChecked] = useState(props.urlChecked);
 
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => {
@@ -28,6 +28,10 @@ const Step2 = props => {
     setUrlChecked(false);
     handleUrlChange(e.target.value);
   };
+
+  useEffect(() => {
+    handleUrlChecked(urlChecked);
+  }, [urlChecked]);
 
   const handleNext = () => {
     if (isChecking) {

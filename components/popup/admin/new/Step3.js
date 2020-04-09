@@ -7,7 +7,7 @@ const Step3 = props => {
   const { site } = props;
   const [phone, setPhone] = useState(site.phone);
   const [email, setEmail] = useState(site.email);
-console.log(props)
+// console.log(props)
   const [img, setImg] = useState(props.logoPreview);
   const inputImgEl = useRef(null);
 
@@ -69,7 +69,7 @@ console.log(props)
             type="tel"
             className="form-control mb-1"
             title="연락처"
-            placeholder="연락처"
+            placeholder="연락처를 입력하세요."
             style={{ width: "400px" }}
           />
         </div>
@@ -82,7 +82,7 @@ console.log(props)
             type="email"
             className="form-control d-inline-block"
             title="이메일"
-            placeholder="이메일"
+            placeholder="이메일을 입력하세요."
             style={{ width: "400px" }}
           />
         </div>

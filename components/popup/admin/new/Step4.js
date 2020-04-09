@@ -117,7 +117,7 @@ const CategoryInput = props => {
           type="text"
           className={`form-control ${isLast ? "d-inline-block" : "mb-1"}`}
           title="카테고리"
-          placeholder="카테고리*"
+          placeholder="카테고리 명을 입력하세요.*"
           style={{ width: "400px" }}
         />
       </div>

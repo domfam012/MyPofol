@@ -12,13 +12,15 @@ const Header = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(() =>{
-        console.log('로그아웃');
-        localStorage.clear();
-        dispatch({type :LOG_OUT});
-        router.push(`/`);
-    });
+    const logout = () => {
+        const auth2 = window.gapi.auth2.getAuthInstance();
+        auth2.signOut().then(() =>{
+            console.log('로그아웃');
+            localStorage.clear();
+            dispatch({type :LOG_OUT});
+            router.push(`/`);
+        });
+    };
 
     return (
         <header className="bg-header">

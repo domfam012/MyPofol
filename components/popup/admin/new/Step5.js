@@ -3,6 +3,7 @@ import axios from "axios";
 import { loadStorage } from "../../../../public/js/db";
 import shortid from "shortid";
 import Alert from "../../alert";
+import Preview from "../../Preview";
 
 const Step5 = props => {
   const { onNext, onPrev, onClose } = props;
@@ -144,8 +145,15 @@ const TemplateList = props => {
   const { onTemplateSelect } = props;
   const { selected } = props;
 
-  const handlePreview = () => {
-    //  template.preview => modal
+  const [openPreview, setOpenPreview] = useState(false);
+  const closePreview = () => setOpenPreview(!openPreview);
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewPath, setPreviewPath] = useState("");
+
+  const handlePreview = template => {
+    setPreviewTitle(template.title);
+    setPreviewPath(template.img.path);
+    setOpenPreview(true);
   };
 
   return (
@@ -184,13 +192,14 @@ const TemplateList = props => {
               >
                 선택
               </button>
-              <button className="btn btn-primary" onClick={handlePreview}>
+              <button className="btn btn-primary" onClick={() => handlePreview(template)}>
                 미리보기
               </button>
             </div>
           </div>
         </div>
       ))}
+      {openPreview ? <Preview title={previewTitle} path={previewPath} closePreview={closePreview} /> : ""}
     </div>
   );
 };

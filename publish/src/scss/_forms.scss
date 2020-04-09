@@ -70,6 +70,14 @@
   }
 }
 
+textarea {
+  color: #333;
+  &::placeholder {
+    color: #303030;
+    opacity: 1;
+  }
+}
+
 select.form-control {
   &:focus::-ms-value {
     // Suppress the nested default white text on blue background highlight given to

@@ -670,8 +670,12 @@
 
         .form_intro {
           .img {
+            display: block;
             width: 260px;
-            height: 147px;
+            height: 146px;
+            border: 1px solid #c2c2c2;
+            margin-bottom: 8px;
+            background-color: #fff;
 
             img {
               width: 100%;

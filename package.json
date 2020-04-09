@@ -90,7 +90,9 @@
   },
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build" : "cross-env NODE_ENV=production next build"
+
   },
   "version": "1.0.4"
 }

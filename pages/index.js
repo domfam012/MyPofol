@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import Header from "../components/header/admin/Index";
 import React, { useState , useEffect} from 'react';
 import Popup from '../components/popup/admin/new/Popup';
+import Preview from "../components/popup/Preview";
 import {useRouter} from "next/router";
 import { LOG_IN } from "../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,6 +14,17 @@ import axios from "axios";
 
 const TemplateList = props => {
   const { imgPath, title } = props;
+  const [openPreview, setOpenPreview] = useState(false);
+  const closePreview = () => setOpenPreview(!openPreview);
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewPath, setPreviewPath] = useState("");
+
+  const handlePreview = (title, imgPath) => {
+    setPreviewTitle(title);
+    setPreviewPath(imgPath);
+    setOpenPreview(true);
+  };
+
   return(
     <div className="col">
       <div className="site">
@@ -23,9 +35,12 @@ const TemplateList = props => {
           <div className="title">{title}</div>
         </div>
         <div className="btn-area single">
-          <button className="btn btn-primary">미리보기</button>
+          <button className="btn btn-primary"
+                  onClick={() => handlePreview(title, imgPath)}
+          >미리보기</button>
         </div>
       </div>
+      {openPreview ? <Preview title={previewTitle} path={previewPath} closePreview={closePreview} /> : ""}
     </div>
   )
 };

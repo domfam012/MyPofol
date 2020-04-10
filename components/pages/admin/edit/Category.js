@@ -16,9 +16,8 @@ const CategoryList = props => {
     const setCategoryState = e => {
         if(categoryState === 'selected' && activeTarget === e) dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
         else {
-            dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});
-            /*if(categoryState === 'selected' && categoryChange) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", ()=>{EditCategory.editCategory()});
-            else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});*/
+            if(categoryState === 'selected' && categoryChange) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", ()=>{alert("정확한 시나리오 확인 필요 (저장기능추가예정)")});
+            else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});
         }
     };
 

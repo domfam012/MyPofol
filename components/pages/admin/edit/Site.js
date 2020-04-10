@@ -209,6 +209,7 @@ const Selected = props => {
               className="form-control"
               title="사이트명"
               placeholder="사이트명을 입력해주세요"
+              maxLength={20}
               value={title !== undefined ? title : props.title}
               onChange={handleTitleChange}
             />

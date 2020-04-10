@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useCallback, useEffect, useState,  useRef} from "react";
-import {CATEGORY_STATE} from "../../../../redux/reducers/user";
-import { loadStorage } from "../../../../public/js/db";
+import {CATEGORY_STATE, CATEGORY_CHANGE} from "../../../../redux/reducers/user";
+import {loadStorage } from "../../../../public/js/db";
 import Alert from '../../../popup/alert';
 import Confirm from '../../../popup/Confirm';
 import Link from 'next/link'
@@ -10,20 +10,25 @@ import shortid from 'shortid';
 
 const CategoryList = props => {
     const dispatch = useDispatch();
+    const { categoryId, categoryImg, categoryName, activeTarget, site, categoryState, categoryChange, handleConfirm } = props;
 
     // 카테고리 선택 클릭
     const setCategoryState = e => {
-        if(props.categoryState === 'selected' && props.activeTarget === e) dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-        else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e , change : true}})
+        if(categoryState === 'selected' && activeTarget === e) dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+        else {
+            dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});
+            /*if(categoryState === 'selected' && categoryChange) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", ()=>{EditCategory.editCategory()});
+            else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});*/
+        }
     };
 
     return(
-        <div className={props.activeTarget === props.id ? 'site active' : 'site'}>
-            <span className="site-img"><img src={props.imgPath} alt="thumbnail"/></span>
-            <span className="site-body"><span className="title">{props.title}</span></span>
+        <div className={`site ${activeTarget === categoryId ? 'active' : ''}`}>
+            <span className="site-img"><img src={categoryImg} alt="thumbnail"/></span>
+            <span className="site-body"><span className="title">{categoryName}</span></span>
             <span className="btn-area">
-                <button onClick={() => setCategoryState(props.id)}  className="btn btn-outline-secondary mr-1">선택</button>
-                <Link href={`/admin/edit?site=${props.site}&category=${props.id}`} as={`/admin/edit?site=${props.site}&category=${props.id}`}>
+                <button onClick={() => setCategoryState(categoryId)}  className="btn btn-outline-secondary mr-1">선택</button>
+                <Link href={`/admin/edit?site=${site}&category=${categoryId}`} as={`/admin/edit?site=${site}&category=${categoryId}`}>
                     <button className="btn btn-primary">상세</button>
                 </Link>
             </span>
@@ -41,9 +46,9 @@ const Unselected = () => {
     )
 };
 
-const EditCategory = props => {
+export const EditCategory = props => {
     const dispatch = useDispatch();
-    const { handleAlert } = props;
+    const { site,  categoryId, categoryImg, categoryName, categoryType, view, viewList, addCategory, handleAlert } = props;
 
     // 카테고리 명
     const [name, setName] = useState("");
@@ -64,6 +69,13 @@ const EditCategory = props => {
         inputImgEl.current.focus();
     };
 
+    // SNB 노출 시 선택 클릭
+    useEffect(() => {
+        if(name !== '' || cType !=='' || img !== '') dispatch({type : CATEGORY_CHANGE, data : { change : true }});
+        else dispatch({type : CATEGORY_CHANGE, data : { change : false }});
+    }, [name, cType, img]);
+
+
     // 취소 클릭
     const prevAddCategory = () => {
         handleAlert("취소되었습니다.", ()=>{});
@@ -73,12 +85,12 @@ const EditCategory = props => {
     // 저장 클릭
     const editCategory = async () => {
         const categoryKey = shortid.generate();
-        if (props.addCategory && name === '') handleAlert("카테고리 명을 입력해주새요", () => {});
+        if (addCategory && name === '') handleAlert("카테고리 명을 입력해주새요", () => {});
         else {
             if(img === '') categoryEditApi({categoryKey : categoryKey});
             else{
                 const storage = await loadStorage();
-                const storageRef = props.addCategory ? storage.ref(`site/${props.site}/category/${categoryKey}`) : storage.ref(`site/${props.site}/category/${props.id}`);
+                const storageRef = addCategory ? storage.ref(`site/${site}/category/${categoryKey}`) : storage.ref(`site/${site}/category/${categoryId}`);
                 const uploadTask = storageRef.put(img);
                 uploadTask.on(
                     "state_changed",
@@ -90,23 +102,47 @@ const EditCategory = props => {
         }
     };
     // 카테고리 저장 API 연동
-    const categoryEditApi = async subProps => {
+    const categoryEditApi = async props => {
+        const { url, categoryKey } = props;
         const categoryInfo = {
             category : {
-                type :props.addCategory ? cType === 'pc' ? 1 : 2 : cType === '' ? props.type : cType === 'pc' ? 1 : 2,
-                img : img === '' ? (props.addCategory ? '' : {saveName: props.id , path : props.imgPath}) : (props.addCategory ? {saveName : subProps.categoryKey, path : subProps.url} :{saveName : props.id , path : subProps.url}),
-                name : props.addCategory ? name : name === '' ? props.title : name,
-                view : props.addCategory ? {} : props.view,
-                viewList : props.addCategory ? [] : props.viewList
+                type :
+                    addCategory
+                    ? cType === 'pc'
+                        ? 1
+                        : 2
+                    : cType === ''
+                        ? categoryType
+                        : cType === 'pc'
+                            ? 1
+                            : 2,
+                img : img === ''
+                    ? (addCategory
+                        ? ''
+                        : {saveName: categoryId , path : categoryImg})
+                    : (addCategory
+                        ? {saveName : categoryKey, path : url}
+                        : {saveName : categoryId , path : url}),
+                name : addCategory
+                    ? name
+                    : name === ''
+                        ? categoryName
+                        : name,
+                view : addCategory
+                    ? {}
+                    : view,
+                viewList : addCategory
+                    ? []
+                    : viewList
             }
         };
-        const res = await axios[props.addCategory ? 'post' : 'patch'](
-            `${process.env.ASSET_PREFIX}/api/site/${props.site}/category/${props.addCategory ? subProps.categoryKey : props.id }`, categoryInfo
+        const res = await axios[addCategory ? 'post' : 'patch'](
+            `${process.env.ASSET_PREFIX}/api/site/${site}/category/${addCategory ? categoryKey : categoryId }`, categoryInfo
         );
         if(res.status === 200) {
             handleAlert("저장되었습니다.", () => {window.location.reload();});
             dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
-        } else alert(`카테고리 ${ props.addCategory ? '추가' : '수정'}실패` );
+        } else alert(`카테고리 ${addCategory ? '추가' : '수정'}실패` );
     };
     // Storage 등록 에러 핸들러
     const storageErrHandler = err => {
@@ -133,18 +169,19 @@ const EditCategory = props => {
                             type="text"
                             className="form-control"
                             title="카테고리"
-                            placeholder={props.title}
+                            placeholder={categoryName}
+                            maxLength='20'
                         />
                     </div>
                 </form>
             </div>
             <div className="box">
                 <div className="custom-control custom-radio custom-control-inline mr">
-                    <input type="radio" id="pc" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && props.type === 1 || cType === 'pc'}/>
+                    <input type="radio" id="pc" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && categoryType === 1 || cType === 'pc'}/>
                     <label className="custom-control-label" htmlFor="pc">PC</label>
                 </div>
                 <div className="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="mobile" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && props.type === 2 || cType === 'mobile' }/>
+                    <input type="radio" id="mobile" name="category" onChange={onTypeChange} className="custom-control-input" checked={cType === '' && categoryType === 2 || cType === 'mobile' }/>
                     <label className="custom-control-label" htmlFor="mobile">MOBILE</label>
                 </div>
             </div>
@@ -154,9 +191,9 @@ const EditCategory = props => {
                         <span className="img">
                           <img src={ previewImg !== ''
                                       ? previewImg
-                                      : props.addCategory
+                                      : addCategory
                                           ? "/img/common/default_thumbnail.png"
-                                          : props.imgPath }
+                                          : categoryImg }
                                alt="template"/>
                         </span>
                     </div>
@@ -187,7 +224,8 @@ const EditCategory = props => {
 
 const Category = props => {
     const dispatch = useDispatch();
-    const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
+    const { site } = props;
+    const { siteInfo, categoryState, categoryValue, addCategory, categoryChange} = useSelector(state => state.user);
 
     // Alert 모달
     const [openAlert, setOpenAlert] = useState(false);
@@ -236,6 +274,11 @@ const Category = props => {
         else dispatch({type : CATEGORY_STATE, data : { state : 'selected' , add : true}});
     }, []);
 
+    useEffect(() => {
+        dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
+        dispatch({type : CATEGORY_CHANGE, data : { change : false }});
+    }, []);
+
     return (
         <div className="inner no-mw clearfix">
             <div className="section-container edit">
@@ -245,7 +288,7 @@ const Category = props => {
                             <a><h2 className="title"><i className="far fa-chevron-left"></i>{siteInfo.name}</h2></a>
                         </Link>
                         <div className="btn-area mb">
-                            <button  onClick={onDeleteCategory} className={ categoryState === 'selected' && !addCategory ? 'btn btn-outline-secondary' : 'btn btn-outline-secondary disabled'}>삭제</button>
+                            <button  onClick={onDeleteCategory} className={`btn btn-outline-secondary ${categoryState === 'selected' && !addCategory ? '' : 'disabled'}`}>삭제</button>
                             <button onClick={onAddCategory} className="btn btn-primary">새 카테고리 추가</button>
                         </div>
                     </div>
@@ -254,15 +297,17 @@ const Category = props => {
                             {siteInfo.categoryList.map((item , index) => (
                                 <CategoryList
                                     key={index}
-                                    imgPath={siteInfo.category[item].img.path}
-                                    title={siteInfo.category[item].name}
-                                    id={siteInfo.category[item].id}
-                                    activeTarget={categoryValue !== '' ? categoryValue : ''}
-                                    site={props.site}
+                                    site={site}
+                                    categoryId = {siteInfo.category[item].id}
+                                    categoryImg = {siteInfo.category[item].img.path}
+                                    categoryName = {siteInfo.category[item].name}
                                     categoryState={categoryState}
+                                    categoryChange={categoryChange}
+                                    activeTarget={categoryValue !== '' ? categoryValue : ''}
+                                    handleConfirm={handleConfirm}
                                 />
                             ))}
-                            <a onClick={onAddCategory} className={ addCategory ? "site add active" : "site add"} href="#">
+                            <a onClick={onAddCategory} className={`site add ${addCategory ? 'active' : ''}`} href="#">
                                 <p className="plus"><i className="fal fa-plus"></i></p>
                                 <p className="txt">새 카테고리 추가</p>
                             </a>
@@ -275,13 +320,13 @@ const Category = props => {
                         ? <Unselected/>
                         : <EditCategory
                             site = {siteInfo.url}
-                            addCategory={addCategory}
-                            title = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
-                            type = {categoryValue !== '' ? siteInfo.category[categoryValue].type : ''}
-                            imgPath={categoryValue !== '' ? siteInfo.category[categoryValue].img.path : ''}
-                            id = {categoryValue !== '' ? siteInfo.category[categoryValue].id : ''}
+                            categoryId = {categoryValue !== '' ? siteInfo.category[categoryValue].id : ''}
+                            categoryImg={categoryValue !== '' ? siteInfo.category[categoryValue].img.path : ''}
+                            categoryName = {categoryValue !== '' ? siteInfo.category[categoryValue].name : ''}
+                            categoryType = {categoryValue !== '' ? siteInfo.category[categoryValue].type : ''}
                             view = {categoryValue !== '' ? siteInfo.category[categoryValue].view : ''}
                             viewList={categoryValue !== '' ? siteInfo.category[categoryValue].viewList : ''}
+                            addCategory={addCategory}
                             handleAlert={handleAlert}/>
                 }
             </div>

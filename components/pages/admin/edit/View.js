@@ -43,6 +43,9 @@ const ViewList = props => {
     </div>
   )
 }
+
+
+
 // 이미지가 없을 경우
 const None = props => {
   return (
@@ -70,8 +73,6 @@ const Selected = props => {
   const [introLength, setIntroLength] = useState(props.intro.length)
   const [previewImg, setPreview] = useState('')
   const inputImgEl = useRef(null)
-  const [isSave, checkIsSave] = useState(true)
-  const [openAlert, setOpenAlert] = useState(false)
   const { handleAlert } = props;
 
   const dispatch = useDispatch();
@@ -105,83 +106,16 @@ const Selected = props => {
 
   // 이미지 변경 및 추가
   const EditView = async () => {
-    const view = category.view
-    const viewList = category.viewList
-    const newView = { ...view }  // view 데이터 복사
-
-    console.log('#1')
-    console.log(newView)
-
-    if (props.addImage && name === '') handleAlert('이미지 명을 입력해주세요', () => {});
+    if (props.addImage && title === '') handleAlert('이미지 명을 입력해주세요', () => {});
     else {
+      let viewId = shortid.generate();
       if (img === '') {
-        // newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣고 API 연동
-        /*
-         * newView  배열에 img : { path : '/img/common/default_thumbnail.png' , saveName : viewId }
-         *  > 추가 : 이미지 선택 X
-         *     > path : 디폴트 , saveName : viewId  : 새로 만들어준 ID값
-         *
-         * newView  배열에 img : { path : '기존 이미지(props.imgPath)' , saveName : '기존 saveName (props로 기존 saveName 전달 받아서 처리)'}
-         *  > 수정 : 이미지 수정 X
-         *     > path : 기존 , saveName  : 기존
-         */
-        // TODO : newView 배열에 기존 데이터 또는 새로운 데이터 가지고 img : {} 만들어 넣기
-        if (props.addImage) {
-          // 추가
-          let viewId = shortid.generate()
-          viewList.push(viewId)
-          newView[viewId] = {
-            ...newView[viewId],
-            id: viewId,
-            originName: title,
-            intro: intro,
-            img: {
-              saveName: viewId,
-              path: '/img/common/default_thumbnail.png'
-            }
-          }
-        } else {
-          // 수정
-          const newView = {
-            ...newView,
-            originName: props.title,
-            intro: props.intro,
-            img: {
-              saveName: props.saveName,
-              path: props.imgPath
-            }
-          }
-        }
-        const newCategoryList = {
-          category: {
-            ...category,
-            view: {
-              ...newView
-            },
-            viewList
-          }
-        }
-        // API 연동
-        const res = axios.patch(
-          `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
-          newCategoryList
-        )
-        if (res.status === 200) {
-          handleAlert('저장되었습니다.', () => {
-            window.location.reload()
-          })
-          dispatch({
-            type: CATEGORY_STATE,
-            data: { state: 'unselected' }
-          })
-        } else {
-          alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
-        }
+        EditViewApi({ viewId : viewId})
       } else {
         // newView 배열에 스토리지 저장 후 반환된 URL 값으로 img : {} 만들어 넣고 API 연동
-        let viewId = shortid.generate() // 스토리지 저장
+        // 스토리지 저장
         const storage = await loadStorage()
-        const storageRef = storage.ref(`site/${props.url}/category/${props.category.id}/${viewId}`)
+        const storageRef = storage.ref(`site/${props.url}/category/${props.category.id}/${props.addImage? viewId : props.id}`)
         const uploadTask = storageRef.put(img)
         uploadTask.on(
           'state_changed',
@@ -190,68 +124,7 @@ const Selected = props => {
           err => storageErrHandler(err),
           () => {
             uploadTask.snapshot.ref.getDownloadURL()
-              .then(async newUrl => {
-                  /*
-                  *  > 추가 : 이미지 선택 O
-                  *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : viewId  : 새로 만들어준 ID값
-                  *
-                  *  > 수정 : 이미지 수정 O
-                  *     > path : 선택한 이미지 : 스토리지가 반환해준 url , saveName : 기존
-                  */
-                  // TODO : 반환된 URL 값으로 img : {} 만들기
-                  if (props.addImage) {
-                    // 추가
-                    viewList.push(viewId)
-                    newView[viewId] = {
-                      ...newView[viewId],
-                      id: viewId,
-                      originName: title,
-                      intro: intro,
-                      img: {
-                        saveName: viewId,
-                        path: newUrl
-                      }
-                    }
-                  } else {
-                    // 수정
-                    debugger
-                    const newView = {
-                      ...newView,
-                      originName: title,
-                      intro: intro,
-                      img: {
-                        saveName: props.id,
-                        path: newUrl
-                      }
-                    }
-                  }
-                  const newCategoryListImg = {
-                    category: {
-                      ...category,
-                      view: {
-                        ...newView
-                      },
-                      viewList
-                    }
-                  }
-                  //API 연동
-                  const res = await axios.patch(
-                    `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
-                    newCategoryListImg
-                  )
-                  if (res.status === 200) {
-                    handleAlert('저장되었습니다.', () => {
-                      window.location.reload()
-                    })
-                    dispatch({
-                      type: VIEW_STATE,
-                      data: { state: 'unselected' }
-                    })
-                    window.location.reload()
-                  } else {
-                    alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
-                  }
-                }
+              .then(async newUrl => {EditViewApi({ newUrl : newUrl , viewId : viewId});}
               )
           }
         )
@@ -259,6 +132,65 @@ const Selected = props => {
     }
   }
 
+  const EditViewApi = async subProps => {
+    const { newUrl , viewId} = subProps ;
+    const view = category.view
+    const viewList = category.viewList
+    const newView = { ...view }
+    const newViewList = [...viewList]// view 데이터 복사
+
+    if (props.addImage) {
+      // 추가
+      newViewList.push(viewId)
+      newView[viewId] = {
+        ...newView[viewId],
+        id: viewId,
+        originName: title,
+        intro: intro,
+        img: {
+          saveName: viewId,
+          path: img === '' ? '/img/common/default_thumbnail.png' : newUrl
+        }
+      }
+    }  else {
+      // 수정
+      newView[props.id] = {
+        id : props.id,
+        originName: title === '' ? props.title : title,
+        intro: intro === '' ? props.intro : intro,
+        img: {
+          saveName: props.id,
+          path: img === '' ? props.imgPath : newUrl
+        }
+      }
+    }
+
+    const newCategoryList = {
+      category: {
+        ...category,
+        view: {
+          ...newView
+        },
+        viewList : newViewList
+      }
+    }
+    // API 연동
+    const res = await axios.patch(
+      `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
+      newCategoryList
+    )
+    if (res.status === 200) {
+      handleAlert('저장되었습니다.', () => {
+        window.location.reload()
+      })
+      dispatch({
+        type: VIEW_STATE,
+        data: { state: 'unselected' }
+      })
+    } else {
+      alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
+    }
+  }
   const storageErrHandler = err => {
     switch (err.code) {
       case 'storage/unauthorized':
@@ -343,8 +275,6 @@ const Selected = props => {
         <button className="btn btn-lg btn-outline-secondary" onClick={handleCancel}>취소</button>
         <button className="btn btn-lg btn-primary" onClick={EditView}>저장</button>
       </div>
-      {openAlert ?
-        <Alert message={isSave ? '저장되었습니다.' : '이미지명을 입력해주세요.'} closeAlert={closeAlert} cb={alertCallback}/> : ''}
     </div>
   )
 }
@@ -363,8 +293,7 @@ const View = props => {
   const [openAlert, setOpenAlert] = useState(false)
   const closeAlert = () => setOpenAlert(!openAlert)
   const [alertMsg, setAlertMsg] = useState('')
-  const [alertCb, setAlertCb] = useState(() => {
-  })
+  const [alertCb, setAlertCb] = useState(() => {})
   const handleAlert = (msg, func) => {
     setAlertMsg(msg)
     setAlertCb(() => func)
@@ -404,30 +333,35 @@ const View = props => {
 
   // 삭제 버튼 클릭 시 이미지 삭제
   const onDeleteImage = async () => {
-    handleConfirm('선택한 카테고리를 삭제하시겠습니까?', deleteImageApi)
+    handleConfirm('선택한 이미지를 삭제하시겠습니까?', deleteImageApi)
   }
   // 삭제 버튼 클릭 시 이미지 삭제
   const deleteImageApi = async () => {
-    debugger
+    const view = category.view
+    const viewList = category.viewList
+
+    const index = viewList.indexOf(viewValue);
+    viewList.splice(index, 1);
+    delete view[viewValue];
+
+    const newCategoryList = {
+      category: {
+        ...category,
+        view: view,
+        viewList
+      }
+    }
+
     const res = await axios.patch(
-      `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${category.id}`
+      `${process.env.ASSET_PREFIX}/api/site/${siteInfo.url}/category/${category.id}`,
+      newCategoryList
     )
     if (res.status === 200) {
-      closeConfirm('delete')
+      dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
     } else {
       alert('이미지 삭제 실패')
     }
   }
-
-  useEffect(() => {
-    viewList.length === 0 ? dispatch({
-      type: VIEW_STATE,
-      data: { state: 'none' }
-    }) : dispatch({
-      type: VIEW_STATE,
-      data: { state: 'unselected' }
-    })
-  }, [])
 
   return (
     <div className="inner no-mw clearfix">

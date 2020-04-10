@@ -6,7 +6,7 @@ import { loadStorage } from '../../../../public/js/db'
 import Alert from '../../../popup/alert'
 import Confirm from '../../../popup/Confirm'
 import shortid from 'shortid'
-import { CATEGORY_STATE, VIEW_STATE } from '../../../../redux/reducers/user'
+import { CATEGORY_CHANGE, CATEGORY_STATE, VIEW_CHANGE, VIEW_STATE } from '../../../../redux/reducers/user'
 
 const ViewList = props => {
   const dispatch = useDispatch();
@@ -73,7 +73,8 @@ const Selected = props => {
   const [introLength, setIntroLength] = useState(props.intro.length)
   const [previewImg, setPreview] = useState('')
   const inputImgEl = useRef(null)
-  const { handleAlert } = props;
+  const { handleAlert, handleConfirm } = props;
+  const {addImage, viewSave} = useSelector(state => state.user);
 
   const dispatch = useDispatch();
   const setState = e => {dispatch({ type: VIEW_STATE, data: { state: 'unselected', value: e } })}
@@ -97,6 +98,17 @@ const Selected = props => {
     setImg(e.target.files[0])
     inputImgEl.current.focus()
   }
+
+  // SNB 노출 시 선택 클릭
+  useEffect(() => {
+    if(title !== '' || img !== '') dispatch({type : VIEW_CHANGE, data : { change : true }});
+    else dispatch({type : VIEW_CHANGE, data : { change : false }});
+  }, [title, img]);
+
+  // 변경 내용 저장 팝업 노출
+  useEffect(() => {
+    if(viewSave) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", EditView);
+  }, [viewSave]);
 
   // 취소 클릭
   const handleCancel = () => {
@@ -328,8 +340,14 @@ const View = props => {
         state: 'selected',
         add: true
       }
-    })
-  }, [])
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch({type : VIEW_STATE, data : { state : 'unselected'}});
+    dispatch({type : VIEW_CHANGE, data : { change : false }});
+  }, []);
+
 
   // 삭제 버튼 클릭 시 이미지 삭제
   const onDeleteImage = async () => {

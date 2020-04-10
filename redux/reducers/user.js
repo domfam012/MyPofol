@@ -32,6 +32,7 @@ export const SITE_STATE = 'SITE_STATE';
 export const CATEGORY_STATE = 'CATEGORY_STATE';
 export const VIEW_STATE = 'VIEW_STATE';
 export const CATEGORY_CHANGE = 'CATEGORY_CHANGE';
+export const VIEW_CHANGE = 'VIEW_CHANGE';
 
 export default (state = initialState , action) => {
     switch (action.type) {
@@ -125,6 +126,13 @@ export default (state = initialState , action) => {
                 viewState: action.data.state,
                 viewValue: action.data.value ? action.data.value : '',
                 addImage: action.data.add ? action.data.add : false
+            }
+        }
+        case VIEW_CHANGE : {
+            return{
+                ...state,
+                viewChange: action.data.change,
+                viewSave: action.data.save
             }
         }
         case CATEGORY_CHANGE : {

@@ -32,9 +32,11 @@ const Category = props => {
         }
     };
 
-    image.name = portfolioAutoPlay
-        ? portfolioImgInfo.view[portfolioImgInfo.viewList[index]].originName
-        : portfolioImgInfo.view[portfolioImgInfo.viewList[portfolioIdx]].originName
+    if(Object.keys(portfolioImgInfo).length !== 0) {
+        image.name = portfolioAutoPlay
+            ? portfolioImgInfo.view[portfolioImgInfo.viewList[index]].originName
+            : portfolioImgInfo.view[portfolioImgInfo.viewList[portfolioIdx]].originName
+    }
 
     return (
         portfolioPopup
@@ -47,36 +49,41 @@ const Category = props => {
                 currentIdx={ portfolioAutoPlay? index : portfolioIdx}
             />
             : <Layout>
-                <Header
-                    site={props.site}
-                    siteImgPath={portfolioInfo.logo.path}
-                    siteName={portfolioInfo.name}
-                    image={image.name}
-                    imageLength={portfolioImgInfo.viewList.length}
-                    autoPlay={portfolioAutoPlay}
-                    currentIdx={ portfolioAutoPlay? index+1 : portfolioIdx+1}
-                />
-                <section className="p_section slider">
-                    <h2 className="sr-only">project</h2>
-                    <div className="container-fluid p-0">
-                        <div className="row">
-                            <div className="col">
-                                <div id="carouselProject" className="carousel slide">
-                                    <Carousel interval={portfolioAutoPlay ? 2000 : null} activeIndex={portfolioAutoPlay? index : portfolioIdx} onSelect={handleSelect}>
-                                        {portfolioImgInfo.viewList.map((item , idx) => (
-                                            <CarouselList
-                                                key={idx}
-                                                src={portfolioImgInfo.view[item].img.path}
-                                                index={idx}
-                                                current={portfolioAutoPlay? index : portfolioIdx}
-                                            />
-                                        ))}
-                                    </Carousel>
+                {
+                    Object.keys(portfolioImgInfo).length !== 0 ?
+                        <>
+                            <Header
+                                site={props.site}
+                                siteImgPath={portfolioInfo.logo.path}
+                                siteName={portfolioInfo.name}
+                                image={image.name}
+                                imageLength={portfolioImgInfo.viewList.length}
+                                autoPlay={portfolioAutoPlay}
+                                currentIdx={ portfolioAutoPlay? index+1 : portfolioIdx+1}
+                            />
+                            <section className="p_section slider">
+                                <h2 className="sr-only">project</h2>
+                                <div className="container-fluid p-0">
+                                    <div className="row">
+                                        <div className="col">
+                                            <div id="carouselProject" className="carousel slide">
+                                                <Carousel interval={portfolioAutoPlay ? 2000 : null} activeIndex={portfolioAutoPlay? index : portfolioIdx} onSelect={handleSelect}>
+                                                    {portfolioImgInfo.viewList.map((item , idx) => (
+                                                        <CarouselList
+                                                            key={idx}
+                                                            src={portfolioImgInfo.view[item].img.path}
+                                                            index={idx}
+                                                            current={portfolioAutoPlay? index : portfolioIdx}
+                                                        />
+                                                    ))}
+                                                </Carousel>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                            </section>
+                        </> : ''
+                }
             </Layout>
     );
 };

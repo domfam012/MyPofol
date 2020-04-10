@@ -10,6 +10,7 @@ export const initialState = {
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨
     categoryValue : '' ,
     categoryChange : false,
+    categorySave : false,
     portfolioInfo : {},
     portfolioImgInfo : {},
     portfolioIdx : 0,
@@ -130,7 +131,8 @@ export default (state = initialState , action) => {
         case CATEGORY_CHANGE : {
             return{
                 ...state,
-                categoryChange: action.data.change
+                categoryChange: action.data.change,
+                categorySave: action.data.save
             }
         }
         default: {

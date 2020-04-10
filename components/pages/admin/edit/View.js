@@ -6,7 +6,7 @@ import { loadStorage } from '../../../../public/js/db'
 import Alert from '../../../popup/alert'
 import Confirm from '../../../popup/Confirm'
 import shortid from 'shortid'
-import { VIEW_STATE } from '../../../../redux/reducers/user'
+import { CATEGORY_STATE, VIEW_STATE } from '../../../../redux/reducers/user'
 
 const ViewList = props => {
   const dispatch = useDispatch();
@@ -43,6 +43,9 @@ const ViewList = props => {
     </div>
   )
 }
+
+
+
 // 이미지가 없을 경우
 const None = props => {
   return (
@@ -103,73 +106,16 @@ const Selected = props => {
 
   // 이미지 변경 및 추가
   const EditView = async () => {
-    const view = category.view
-    const viewList = category.viewList
-    const newView = { ...view }  // view 데이터 복사
-
-    console.log('#1')
-    console.log(newView)
-
     if (props.addImage && title === '') handleAlert('이미지 명을 입력해주세요', () => {});
     else {
-    let viewId = shortid.generate()
-    if (img === '') {
-        if (props.addImage) {
-          // 추가
-          debugger
-          viewList.push(viewId)
-          newView[viewId] = {
-            ...newView[viewId],
-            id: viewId,
-            originName: title,
-            intro: intro,
-            img: {
-              saveName: viewId,
-              path: '/img/common/default_thumbnail.png'
-            }
-          }
-        } else {
-          // 수정
-          const newView = {
-            ...newView,
-            originName: props.title,
-            intro: props.intro,
-            img: {
-              saveName: props.saveName,
-              path: props.imgPath
-            }
-          }
-        }
-        const newCategoryList = {
-          category: {
-            ...category,
-            view: {
-              ...newView
-            },
-            viewList
-          }
-        }
-        // API 연동
-        const res = axios.patch(
-          `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
-          newCategoryList
-        )
-        if (res.status === 200) {
-          handleAlert('저장되었습니다.', () => {
-            window.location.reload()
-          })
-          dispatch({
-            type: VIEW_STATE,
-            data: { state: 'unselected' }
-          })
-        } else {
-          alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
-        }
+      let viewId = shortid.generate();
+      if (img === '') {
+        EditViewApi({ viewId : viewId})
       } else {
         // newView 배열에 스토리지 저장 후 반환된 URL 값으로 img : {} 만들어 넣고 API 연동
-        let viewId = shortid.generate() // 스토리지 저장
+        // 스토리지 저장
         const storage = await loadStorage()
-        const storageRef = storage.ref(`site/${props.url}/category/${props.category.id}/${viewId}`)
+        const storageRef = storage.ref(`site/${props.url}/category/${props.category.id}/${props.addImage? viewId : props.id}`)
         const uploadTask = storageRef.put(img)
         uploadTask.on(
           'state_changed',
@@ -178,59 +124,7 @@ const Selected = props => {
           err => storageErrHandler(err),
           () => {
             uploadTask.snapshot.ref.getDownloadURL()
-              .then(async newUrl => {
-
-                  if (props.addImage) {
-                    // 추가
-                    viewList.push(viewId)
-                    newView[viewId] = {
-                      ...newView[viewId],
-                      id: viewId,
-                      originName: title,
-                      intro: intro,
-                      img: {
-                        saveName: viewId,
-                        path: newUrl
-                      }
-                    }
-                    // 수정
-                    debugger
-                    const newView = {
-                      ...newView,
-                      originName: title,
-                      intro: intro,
-                      img: {
-                        saveName: props.id,
-                        path: newUrl
-                      }
-                    }
-                  }
-                  const newCategoryList = {
-                    category: {
-                      ...category,
-                      view: {
-                        ...newView
-                      },
-                      viewList
-                    }
-                  }
-                  //API 연동
-                  const res = await axios.patch(
-                    `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
-                    newCategoryList
-                  )
-                  if (res.status === 200) {
-                    handleAlert('저장되었습니다.', () => {
-                      window.location.reload()
-                    })
-                    dispatch({
-                      type: VIEW_STATE,
-                      data: { state: 'unselected' }
-                    })
-                  } else {
-                    alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
-                  }
-                }
+              .then(async newUrl => {EditViewApi({ newUrl : newUrl , viewId : viewId});}
               )
           }
         )
@@ -238,6 +132,65 @@ const Selected = props => {
     }
   }
 
+  const EditViewApi = async subProps => {
+    const { newUrl , viewId} = subProps ;
+    const view = category.view
+    const viewList = category.viewList
+    const newView = { ...view }
+    const newViewList = [...viewList]// view 데이터 복사
+
+    if (props.addImage) {
+      // 추가
+      newViewList.push(viewId)
+      newView[viewId] = {
+        ...newView[viewId],
+        id: viewId,
+        originName: title,
+        intro: intro,
+        img: {
+          saveName: viewId,
+          path: img === '' ? '/img/common/default_thumbnail.png' : newUrl
+        }
+      }
+    }  else {
+      // 수정
+      newView[props.id] = {
+        id : props.id,
+        originName: title === '' ? props.title : title,
+        intro: intro === '' ? props.intro : intro,
+        img: {
+          saveName: props.id,
+          path: img === '' ? props.imgPath : newUrl
+        }
+      }
+    }
+
+    const newCategoryList = {
+      category: {
+        ...category,
+        view: {
+          ...newView
+        },
+        viewList : newViewList
+      }
+    }
+    // API 연동
+    const res = await axios.patch(
+      `${process.env.ASSET_PREFIX}/api/site/${props.url}/category/${props.category.id}`,
+      newCategoryList
+    )
+    if (res.status === 200) {
+      handleAlert('저장되었습니다.', () => {
+        window.location.reload()
+      })
+      dispatch({
+        type: VIEW_STATE,
+        data: { state: 'unselected' }
+      })
+    } else {
+      alert(`이미지 ${props.addImage ? '추가' : '수정'}실패`)
+    }
+  }
   const storageErrHandler = err => {
     switch (err.code) {
       case 'storage/unauthorized':
@@ -340,8 +293,7 @@ const View = props => {
   const [openAlert, setOpenAlert] = useState(false)
   const closeAlert = () => setOpenAlert(!openAlert)
   const [alertMsg, setAlertMsg] = useState('')
-  const [alertCb, setAlertCb] = useState(() => {
-  })
+  const [alertCb, setAlertCb] = useState(() => {})
   const handleAlert = (msg, func) => {
     setAlertMsg(msg)
     setAlertCb(() => func)

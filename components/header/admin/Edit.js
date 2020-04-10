@@ -13,7 +13,6 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const logout = () => {
-
         const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut().then(() =>{
             console.log('로그아웃');

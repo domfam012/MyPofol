@@ -364,7 +364,7 @@
 
   .site-body {
     display: block;
-    //border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0;
     padding: 0 20px;
 
     .title {
@@ -418,7 +418,14 @@
   }
 
   &.active {
-    border: 4px solid #d63d45;
+    &::after {
+      content: '';
+      border: 4px solid #d63d45;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+    }
   }
 
   &:hover {
@@ -438,6 +445,7 @@
 
     .btn-area {
       display: block;
+      z-index: 111;
 
       &.single {
         left: 84px;
@@ -890,19 +898,18 @@
 }
 
 .p_section {
-  height: 870px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  padding: 40px 0;
   .img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 133px;
 
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
     }
   }
 
@@ -961,6 +968,9 @@
       .title {
         margin-top: 28px;
       }
+    }
+    .img {
+      height: 133px;
     }
   }
 

@@ -4,11 +4,13 @@ export const initialState = {
     siteInfo : {},
     siteState : 'unselected', // 'unselected' : 사이트 선택 안됨 'selected' : 사이트 선택 됨 'none' : 사이트 없음
     siteValue : 9999,
+    siteSave: false,
+    siteEdit: false,
     categoryInfo : {},
     viewState : 'none',
     viewValue : '',
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨
-    categoryValue : '' ,
+    categoryValue : '',
     portfolioInfo : {},
     portfolioImgInfo : {},
     portfolioIdx : 0,
@@ -30,6 +32,8 @@ export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
 export const SITE_STATE = 'SITE_STATE';
 export const CATEGORY_STATE = 'CATEGORY_STATE';
 export const VIEW_STATE = 'VIEW_STATE';
+export const SITE_SAVE = 'SITE_SAVE';
+export const SITE_EDIT = 'SITE_EDIT';
 
 export default (state = initialState , action) => {
     switch (action.type) {
@@ -107,6 +111,18 @@ export default (state = initialState , action) => {
                 ...state,
                 siteState: action.data.state,
                 siteValue: action.data.value !== 9999 ? action.data.value : 9999
+            }
+        }
+        case SITE_SAVE : {
+            return {
+                ...state,
+                siteSave: action.data.value ? action.data.value : false
+            }
+        }
+        case SITE_EDIT : {
+            return {
+                ...state,
+                siteEdit: action.data.value ? action.data.value : false
             }
         }
         case CATEGORY_STATE : {

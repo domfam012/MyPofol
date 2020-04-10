@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import Alert from "../../alert";
 import regex from "../.././../../public/js/regex";
 
-console.log(regex)
-
 const Step3 = props => {
   const { onNext, onPrev } = props;
   const { handlePhoneChange, handleEmailChange, handleImgFile, handleImgPreview } = props;
@@ -65,7 +63,7 @@ const Step3 = props => {
         하세요.
       </p>
       <form className="form_info detail">
-        <div className="site_name _sName">Domfam</div>
+        <div className="site_name _sName">{site.name}</div>
         <div className="form-group">
           <input
             id={"phone"}

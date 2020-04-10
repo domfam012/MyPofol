@@ -154,7 +154,7 @@ export default async (req, res) => {
 
       Promise.all(promises)
         .then(function() {
-          console.log("All subcollections were added!");
+          // console.log("All subcollections were added!");
           return res.status(200).end();
         })
         .catch(function(error) {

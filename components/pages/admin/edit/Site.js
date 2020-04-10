@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { REMOVE_SITE, SITE_STATE } from "../../../../redux/reducers/user";
+import {REMOVE_SITE, SITE_SAVE, SITE_STATE} from "../../../../redux/reducers/user";
 import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
 import Alert from "../../../popup/alert";
@@ -9,55 +9,14 @@ import Confirm from "../../../popup/Confirm";
 import axios from "axios";
 import { loadStorage } from "../../../../public/js/db";
 
-const SiteList = props => {
-  const dispatch = useDispatch();
-  const setState = idx => {
-    dispatch({ type: SITE_STATE, data: { state: "selected", value: idx } });
-  };
-
-  return (
-    <div className={`site ${props.activeTarget === props.idx ? "active" : ""}`}>
-      <span className="site-img">
-        <img
-          src={`${props.img ? props.img : "/img/common/default_thumbnail.png"}`}
-          alt="thumbnail"
-        />
-      </span>
-      <p className="site-body">
-        <span className="title">{props.name}</span>
-        <Link href="/portfolio/[site]" as={`/portfolio/${props.url}`}>
-          <a className="address" href="#">
-            http://www.mypofol.com/{props.url}
-          </a>
-        </Link>
-      </p>
-      <span className="btn-area">
-        <button
-          className="btn btn-outline-secondary mr-1"
-          onClick={() => setState(props.idx)}
-        >
-          선택
-        </button>
-        <Link
-          href={`/admin/edit?site=${props.url}`}
-          as={`/admin/edit?site=${props.url}`}
-        >
-          <button className="btn btn-primary">상세</button>
-        </Link>
-      </span>
-    </div>
-  );
-};
-
-const None = props => {
+const None = () => {
   return (
     <div className="select">
       <p className="title">사이트를 추가하세요</p>
     </div>
   );
 };
-
-const Unselected = props => {
+const Unselected = () => {
   return (
     <div className="select">
       <p className="title">사이트를 선택하세요</p>
@@ -70,12 +29,12 @@ const Unselected = props => {
 };
 
 const Selected = props => {
-  // console.log(props);
-  const dispatch = useDispatch();
   const { template, handleSaveClick, handleCancelClick } = props;
   const [title, setTitle] = useState(props.title);
-  const [intro, setIntro] = useState(props.intro ? props.intro : '');
-  const [introLength, setIntroLength] = useState(props.intro ? props.intro.length : 0);
+  const [intro, setIntro] = useState(props.intro ? props.intro : "");
+  const [introLength, setIntroLength] = useState(
+    props.intro ? props.intro.length : 0
+  );
   const [email, setEmail] = useState(props.email);
   const [phone, setPhone] = useState(props.phone);
   const url = props.url;
@@ -88,62 +47,65 @@ const Selected = props => {
   const [thumbnailFile, setThumbnailFile] = useState(); // file
   const inputThumbnailEl = useRef(null); // file elem
 
-  // useEffect(() => {
-  //   setTitle(props.title);
-  //   const intro = props.intro ? props.intro : '';
-  //   setIntro(props.intro);
-  //   const introLength = intro.length;
-  //   setIntroLength(introLength);
-  //   setEmail(props.email);
-  //   setPhone(props.phone);
-  // }, []);
+  const dispatch = useDispatch();
+  const { siteValue, siteSave } = useSelector(state => state.user);
 
-  const setState = () => {
-    dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
-  };
+  useEffect(() => {
+    dispatch({ type: 'SITE_EDIT', data: { value: false } })
+  }, [siteValue]);
+
+  useEffect(() => {
+    if(siteSave === true) handleSave();
+  }, [siteSave]);
+
+  useEffect(() => {
+    setTitle(props.title);
+    setIntro(props.intro);
+    setIntroLength(props.intro.length);
+    setEmail(props.email);
+    setPhone(props.phone);
+  }, [siteValue]);
 
   const handleTitleChange = e => {
+    dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setTitle(e.target.value);
   };
 
   const handleIntroChange = e => {
     if (e.target.value.length < 201) {
+      dispatch({ type: 'SITE_EDIT', data: { value: true } });
       setIntro(e.target.value);
       setIntroLength(e.target.value.length);
     }
   };
 
   const handleEmailChange = e => {
+    dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setEmail(e.target.value);
   };
 
   const handlePhoneChange = e => {
+    dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setPhone(e.target.value);
   };
 
-  // const [ template ]
   const handleTemplateChange = () => {};
 
   const onLogoUpload = e => {
+    dispatch({ type: 'SITE_EDIT', data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
     setLogo(preview);
     setLogoFile(e.target.files[0]);
     inputLogoEl.current.focus();
   };
-  // const handleLogoChange = (saveName, path) => setSite({ ...site, logo: { saveName: saveName, path: path } });
-  // const handleLogoFile = val => setLogoFile(val);
+
   const onThumbnailUpload = e => {
+    dispatch({ type: 'SITE_EDIT', data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
     setThumbnail(preview);
     setThumbnailFile(e.target.files[0]);
     inputThumbnailEl.current.focus();
   };
-  // const handleThumbnailChange = (saveName, path) => setSite({ ...site, thumbnail: { saveName: saveName, path: path } });
-  // const handleThumbnailFile = val => setThumbnailFile(val);
-
-  // const handleCancel = () => {
-  //   setState();
-  // };
 
   const handleSave = async () => {
     await handleSaveDB();
@@ -221,9 +183,12 @@ const Selected = props => {
     };
 
     const dbUpload = async () => {
-      const res = await axios.patch(`${process.env.ASSET_PREFIX}/api/site/${url}`, {
-        site
-      });
+      const res = await axios.patch(
+        `${process.env.ASSET_PREFIX}/api/site/${url}`,
+        {
+          site
+        }
+      );
       if (res.status === 200) {
         dispatch({ type: SITE_STATE, data: "unselected" });
       } else {
@@ -406,6 +371,66 @@ const Selected = props => {
   );
 };
 
+const SiteList = props => {
+  const { siteEdit } = useSelector(state => state.user);
+
+  const confirmMsg = "변경된 내용이 있습니다.\n저장하시겠습니까?";
+  const [ openConfirm, setOpenConfirm ] = useState(false);
+
+  const dispatch = useDispatch();
+  const handleChangeSelected = idx => {
+    if(siteEdit) setOpenConfirm(true);
+    else changeSelected(idx);
+  };
+
+  const saveSite = () => {
+    dispatch({ type: SITE_SAVE, data: { value: true } });
+  };
+
+  const closeConfirm = (idx) => {
+    setOpenConfirm(!openConfirm);
+    changeSelected(idx);
+  };
+
+  const changeSelected = (idx) => {
+    dispatch({ type: SITE_STATE, data: { state: "selected", value: idx } });
+  };
+
+  return (
+    <div className={`site ${props.activeTarget === props.idx ? "active" : ""}`}>
+      <span className="site-img">
+        <img
+          src={`${props.img ? props.img : "/img/common/default_thumbnail.png"}`}
+          alt="thumbnail"
+        />
+      </span>
+      <p className="site-body">
+        <span className="title">{props.name}</span>
+        <Link href="/portfolio/[site]" as={`/portfolio/${props.url}`}>
+          <a className="address" href="#">
+            http://www.mypofol.com/{props.url}
+          </a>
+        </Link>
+      </p>
+      <span className="btn-area">
+        <button
+          className="btn btn-outline-secondary mr-1"
+          onClick={() => handleChangeSelected(props.idx)}
+        >
+          선택
+        </button>
+        <Link
+          href={`/admin/edit?site=${props.url}`}
+          as={`/admin/edit?site=${props.url}`}
+        >
+          <button className="btn btn-primary">상세</button>
+        </Link>
+      </span>
+      {openConfirm ? <Confirm message={confirmMsg} cb={saveSite} closeConfirm={() => closeConfirm(props.idx)}/>: ""}
+    </div>
+  );
+};
+
 const Site = () => {
   const dispatch = useDispatch();
   const { userInfo, siteState, siteValue } = useSelector(state => state.user);
@@ -430,7 +455,6 @@ const Site = () => {
   const [confirmCb, setConfirmCb] = useState(() => {});
 
   const handleDeleteCheck = () => {
-    // console.log('click')
     setConfirmMsg("선택한 사이트를 삭제하시겠습니까?");
     setConfirmCb(() => handleDelete);
   };
@@ -452,11 +476,11 @@ const Site = () => {
   };
 
   useEffect(() => {
-    if (alertMsg !== '') setOpenAlert(true);
+    if (alertMsg !== "") setOpenAlert(true);
   }, [alertCb]);
 
   useEffect(() => {
-    if (confirmMsg !== '') setOpenConfirm(true);
+    if (confirmMsg !== "") setOpenConfirm(true);
   }, [confirmCb]);
 
   const handleDelete = () => {
@@ -464,23 +488,27 @@ const Site = () => {
       if (siteValue === 9999) alert("삭제할 사이트를 선택해주세요");
       else {
         const reqData = { userId: localStorage.id };
-        axios.delete(
+        axios
+          .delete(
             `${process.env.ASSET_PREFIX}/api/site/${userInfo.siteList[siteValue]}`,
             { data: reqData }
-        ).then(res => {
-          if (res.status === 200) {
-            const newInfo = {
-              ...userInfo,
-              site: userInfo.site.filter((val, idx) => idx !== siteValue),
-              siteList: userInfo.siteList.filter((val, idx) => idx !== siteValue)
-            };
+          )
+          .then(res => {
+            if (res.status === 200) {
+              const newInfo = {
+                ...userInfo,
+                site: userInfo.site.filter((val, idx) => idx !== siteValue),
+                siteList: userInfo.siteList.filter(
+                  (val, idx) => idx !== siteValue
+                )
+              };
 
-            dispatch({ type: REMOVE_SITE, data: newInfo });
-            resolve();
-          } else {
-            alert("사이트 삭제 실패");
-          }
-        });
+              dispatch({ type: REMOVE_SITE, data: newInfo });
+              resolve();
+            } else {
+              alert("사이트 삭제 실패");
+            }
+          });
       }
     });
   };
@@ -489,7 +517,10 @@ const Site = () => {
     if (Object.keys(userInfo).length !== 0) {
       userInfo.siteList.length === 0
         ? dispatch({ type: SITE_STATE, data: { state: "none" } })
-        : dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
+        : dispatch({
+            type: SITE_STATE,
+            data: { state: "unselected", value: 9999 }
+          });
     }
   }, []);
 
@@ -505,7 +536,9 @@ const Site = () => {
                 <h2 className="title">웹사이트 관리</h2>
                 <div className="btn-area mb">
                   <button
-                    className={`btn btn-outline-secondary ${siteValue === 9999 ? 'disabled' : ''}`}
+                    className={`btn btn-outline-secondary ${
+                      siteValue === 9999 ? "disabled" : ""
+                    }`}
                     onClick={handleDeleteCheck}
                   >
                     삭제
@@ -557,7 +590,7 @@ const Site = () => {
                   siteValue !== "" ? userInfo.site[siteValue].logo.path : ""
                 }
                 thumbnailPath={
-                  (siteValue !== "" && userInfo.site[siteValue].thumbnail)
+                  siteValue !== "" && userInfo.site[siteValue].thumbnail
                     ? userInfo.site[siteValue].thumbnail.path
                     : "/img/common/default_thumbnail.png"
                 }
@@ -579,8 +612,20 @@ const Site = () => {
       ) : (
         ""
       )}
-      {openAlert ? <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} /> : ""}
-      {openConfirm ? <Confirm message={confirmMsg} cb={confirmCb} closeConfirm={closeConfirm} /> : ""}
+      {openAlert ? (
+        <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} />
+      ) : (
+        ""
+      )}
+      {openConfirm ? (
+        <Confirm
+          message={confirmMsg}
+          cb={confirmCb}
+          closeConfirm={closeConfirm}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

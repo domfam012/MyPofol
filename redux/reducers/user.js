@@ -9,6 +9,7 @@ export const initialState = {
     viewValue : '',
     categoryState : 'unselected', // 'unselected' : 카테고리 선택 안됨 'selected' : 카테고리 선택 됨
     categoryValue : '' ,
+    categoryChange : false,
     portfolioInfo : {},
     portfolioImgInfo : {},
     portfolioIdx : 0,
@@ -30,6 +31,7 @@ export const CONTROL_REGISTER_POPUP = 'CONTROL_REGISTER_POPUP';
 export const SITE_STATE = 'SITE_STATE';
 export const CATEGORY_STATE = 'CATEGORY_STATE';
 export const VIEW_STATE = 'VIEW_STATE';
+export const CATEGORY_CHANGE = 'CATEGORY_CHANGE';
 
 export default (state = initialState , action) => {
     switch (action.type) {
@@ -123,6 +125,12 @@ export default (state = initialState , action) => {
                 viewState: action.data.state,
                 viewValue: action.data.value ? action.data.value : '',
                 addImage: action.data.add ? action.data.add : false
+            }
+        }
+        case CATEGORY_CHANGE : {
+            return{
+                ...state,
+                categoryChange: action.data.change
             }
         }
         default: {

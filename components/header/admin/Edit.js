@@ -11,9 +11,8 @@ const Header = () => {
     const{isLoggedIn , userInfo} = useSelector(state => state.user);
     const router = useRouter();
     const dispatch = useDispatch();
-    console.log(config.option.GoogleClientId);
-    const logout = () => {
 
+    const logout = () => {
         const auth2 = window.gapi.auth2.getAuthInstance();
         auth2.signOut().then(() =>{
             console.log('로그아웃');

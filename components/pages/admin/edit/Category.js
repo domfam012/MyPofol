@@ -167,13 +167,15 @@ export const EditCategory = props => {
                 <form className="form_site">
                     <div className="form-group active">
                         <input
+                            id={"name"}
+                            name={"name"}
+                            value={name}
                             onChange={onNameChange}
                             type="text"
                             className="form-control"
                             title="카테고리"
-                            placeholder="카테고리명을 입력해주세요"
-                            value={name === '' ? categoryName : name}
-                            maxLength={20}
+                            placeholder={categoryName}
+                            maxLength='20'
                         />
                     </div>
                 </form>

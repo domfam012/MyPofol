@@ -230,6 +230,7 @@ const Category = props => {
     const { site } = props;
     const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
 
+    console.log("dfsdfa sdgasdfsdfasdga ssdgasdfasdghadf");
     // Alert 모달
     const [openAlert, setOpenAlert] = useState(false);
     const closeAlert = () => setOpenAlert(!openAlert);

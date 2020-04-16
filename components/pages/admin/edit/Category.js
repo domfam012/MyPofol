@@ -230,8 +230,7 @@ const Category = props => {
     const { site } = props;
     const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
 
-    console.log("dfsdfa sdgasdfsdfasdga ssdgasdfasdghadf");
-    
+
     // Alert 모달
     const [openAlert, setOpenAlert] = useState(false);
     const closeAlert = () => setOpenAlert(!openAlert);
@@ -258,6 +257,8 @@ const Category = props => {
         if (confirmMsg !== '') setOpenConfirm(true);
     }, [confirmCb]);
 
+    console.log("dfsdfa sdgasdfsdfasdga ssdgasdfasdghadf");
+    
     // 삭제 클릭
     const onDeleteCategory = () => {
         if(siteInfo.categoryList.length === 1) handleAlert("최소 1개의 카테고리는 존재해야 합니다.", ()=>{});

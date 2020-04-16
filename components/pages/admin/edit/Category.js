@@ -230,8 +230,6 @@ const Category = props => {
     const { site } = props;
     const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
 
-    console.log("롤백 테스트");
-    
     // Alert 모달
     const [openAlert, setOpenAlert] = useState(false);
     const closeAlert = () => setOpenAlert(!openAlert);

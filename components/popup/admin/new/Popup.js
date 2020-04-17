@@ -31,7 +31,7 @@ const Popup = props => {
   const { closePopup } = props;
 
   // 화면에 보여줄 Step
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(4);
   // 사이트 등록시 필요 data
   const [site, setSite] = useState({
     name: '',

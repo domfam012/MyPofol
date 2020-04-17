@@ -121,15 +121,28 @@ const CategoryInput = props => {
   const { categoryList, handleCatItemChange } = props;
 
   // 사이트명 툴팁 메시지
-  const [categoryFeed, setCategoryFeed] = useState("카테고리를 입력해주세요.");
-  const [openCategoryFeed, setOpenCategoryFeed] = useState(false);
+  // const [categoryFeed, setCategoryFeed] = useState("카테고리를 입력해주세요.");
+  // const [openCategoryFeed, setOpenCategoryFeed] = useState([]);
+  // const feedInit = () => {
+  //   const init = [];
+  //   for (let i in categoryList) init.push(false);
+  //   setOpenCategoryFeed(init);
+  // };
+  // feedInit();
 
   return categoryList.map((cat, idx) => {
+    // setOpenCategoryFeed(prev => [...prev, false]);
+
     // 추가 버튼 들어가는 경우 체크
     const isLast = idx === categoryList.length - 1 && idx !== 7;
     const handleChange = (val, idx) => {
-      if (val === '') setOpenCategoryFeed(true);
-      else setOpenCategoryFeed(false);
+      // 각 카테고리 별로 설정되어야 함
+      // if (val === '') {
+      //   setOpenCategoryFeed(openCategoryFeed.map((item, index) => {if(index === idx) return true;}));
+      // }
+      // else {
+      //   setOpenCategoryFeed(openCategoryFeed.map((item, index) => {if(index === idx) return false;}));
+      // }
 
       handleCatItemChange(val, idx)
     };
@@ -151,19 +164,6 @@ const CategoryInput = props => {
           maxLength={20}
           style={{ width: "400px" }}
         />
-        {openCategoryFeed ? (
-            <Tooltip
-                feed={categoryFeed}
-                style={{
-                  display: "block",
-                  top: "71%",
-                  width: "37%",
-                  left: "31.5%"
-                }}
-            />
-        ) : (
-            ""
-        )}
       </div>
     );
   });

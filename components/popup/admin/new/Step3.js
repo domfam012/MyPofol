@@ -126,9 +126,9 @@ const Step3 = props => {
               feed={phoneFeed}
               style={{
                 display: "block",
-                top: "71%",
-                width: "37%",
-                left: "31.5%"
+                top: "115%",
+                width: "36%",
+                left: "32%"
               }}
             />
           ) : (
@@ -152,9 +152,9 @@ const Step3 = props => {
               feed={emailFeed}
               style={{
                 display: "block",
-                top: "71%",
-                width: "37%",
-                left: "31.5%"
+                top: "115%",
+                width: "36%",
+                left: "32%"
               }}
             />
           ) : (

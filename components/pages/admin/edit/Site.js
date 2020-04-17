@@ -9,10 +9,10 @@ import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
 import Alert from "../../../popup/alert";
 import Confirm from "../../../popup/Confirm";
-
 import axios from "axios";
 import { loadStorage } from "../../../../public/js/db";
 
+// SNB -> 사이트 없는 경우
 const None = () => {
   return (
     <div className="select">
@@ -20,6 +20,8 @@ const None = () => {
     </div>
   );
 };
+
+// SNB -> 사이트는 있으나 선택되지 않은 경우
 const Unselected = () => {
   return (
     <div className="select">
@@ -32,36 +34,44 @@ const Unselected = () => {
   );
 };
 
+// SNB -> 사이트 선택된 경우
 const Selected = props => {
-  const { template, handleSaveClick, handleCancelClick } = props;
-  const [title, setTitle] = useState(props.title);
-  const [intro, setIntro] = useState(props.intro ? props.intro : "");
-  const [introLength, setIntroLength] = useState(
+  // 저장 혹은 취소 처리 함수
+  const { handleSaveClick, handleCancelClick } = props;
+
+  // 선택된 사이트 정보
+  const [title, setTitle] = useState(props.title);  // 사이트명
+  const [intro, setIntro] = useState(props.intro ? props.intro : ""); // 사이트 소개글
+  const [introLength, setIntroLength] = useState( // 사이트 소개글 글자수
     props.intro ? props.intro.length : 0
   );
-  const [email, setEmail] = useState(props.email);
-  const [phone, setPhone] = useState(props.phone);
-  const url = props.url;
+  const [email, setEmail] = useState(props.email); // 사이트 이메일
+  const [phone, setPhone] = useState(props.phone); // 사이트 연락처
+  const url = props.url; // 사이트 주소
+  const template = props.url; // 사이트 템플릿 -> TODO: 변경 가능하도록 해야됨
 
-  const [logo, setLogo] = useState(""); // preview
-  const [logoFile, setLogoFile] = useState(); // file
-  const inputLogoEl = useRef(null); // file elem
+  const [logo, setLogo] = useState(""); // 사이트 로고이미지 preview
+  const [logoFile, setLogoFile] = useState(); // 사이트 로고이미지 file
+  const inputLogoEl = useRef(null); // 사이트 로고이미지 file elem
 
-  const [thumbnail, setThumbnail] = useState(""); // preview
-  const [thumbnailFile, setThumbnailFile] = useState(); // file
-  const inputThumbnailEl = useRef(null); // file elem
+  const [thumbnail, setThumbnail] = useState(""); // 사이트 썸네일이미지 preview
+  const [thumbnailFile, setThumbnailFile] = useState(); // 사이트 썸네일이미지 file
+  const inputThumbnailEl = useRef(null); // 사이트 썸네일이미지 file elem
 
   const dispatch = useDispatch();
   const { siteValue, siteSave } = useSelector(state => state.user);
 
+  // 선택된 사이트 변경시 redux 에서 사이트 수정된 상태 값 초기화
   useEffect(() => {
     dispatch({ type: 'SITE_EDIT', data: { value: false } })
   }, [siteValue]);
 
+  // 변경내용 O -> 변경내용 저장 확인 선택 -> 저장 처리
   useEffect(() => {
     if(siteSave === true) handleSave();
   }, [siteSave]);
 
+  // 사이트 선택 변경시 선택된 사이트 정보 바인딩
   useEffect(() => {
     setTitle(props.title);
     setIntro(props.intro);
@@ -70,11 +80,13 @@ const Selected = props => {
     setPhone(props.phone);
   }, [siteValue]);
 
+  // 사이트명 입력값 처리
   const handleTitleChange = e => {
     dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setTitle(e.target.value);
   };
 
+  // 사이트 소개글 입력값 처리 + 글자수 확인
   const handleIntroChange = e => {
     if (e.target.value.length < 201) {
       dispatch({ type: 'SITE_EDIT', data: { value: true } });
@@ -83,18 +95,22 @@ const Selected = props => {
     }
   };
 
+  // 사이트 이메일 입력값 처리
   const handleEmailChange = e => {
     dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setEmail(e.target.value);
   };
 
+  // 사이트 연락처 입력값 처리
   const handlePhoneChange = e => {
     dispatch({ type: 'SITE_EDIT', data: { value: true } });
     setPhone(e.target.value);
   };
 
+  // 사이트 템플릿 선택값 처리
   const handleTemplateChange = () => {};
 
+  // 사이트 로고 이미지 변경 처리
   const onLogoUpload = e => {
     dispatch({ type: 'SITE_EDIT', data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
@@ -103,6 +119,7 @@ const Selected = props => {
     inputLogoEl.current.focus();
   };
 
+  // 사이트 썸네일 이미지 변경 처리
   const onThumbnailUpload = e => {
     dispatch({ type: 'SITE_EDIT', data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
@@ -111,12 +128,17 @@ const Selected = props => {
     inputThumbnailEl.current.focus();
   };
 
+  // 사이트 저장 처리
   const handleSave = async () => {
+    // Firestore 에 데이터 patch
     await handleSaveDB();
+    // Site Component 에서 받아온 저장 완료 처리 함수
     handleSaveClick();
   };
 
+  // Firestore 에 데이터 patch
   const handleSaveDB = async () => {
+    // 미입력값 확인
     const isValidate = () => {
       if (!title) return false;
       else if (!phone) return false;
@@ -124,10 +146,12 @@ const Selected = props => {
       else return template;
     };
 
+    // 미입력시 알림 처리
     if (!isValidate()) {
       return alert("값을 모두 입력해주세요.");
     }
 
+    // 사이트 정보 저장 요청 데이터
     const site = {
       name: title,
       phone: phone,
@@ -136,7 +160,14 @@ const Selected = props => {
       template: 1
     };
 
+    // firestore storage 이미지 업로드
     const uploadDetailImg = async cb => {
+      /**
+       * 이미지 업로드 프로세스
+       * @param item: 이미지 파일
+       * @param imgType: logo 또는 thumbnail
+       * @returns {Promise<unknown>}
+       */
       const process = (item, imgType) => {
         return new Promise((resolve, reject) => {
           const storageRef = storage.ref(`site/${url}/${imgType}`);
@@ -151,6 +182,7 @@ const Selected = props => {
                 .getDownloadURL()
                 .then(url => url);
 
+              // 업로드 성공시 사이트 정보에 이미지 경로 저장
               site[imgType].path = url;
               resolve();
             }
@@ -158,6 +190,7 @@ const Selected = props => {
         });
       };
 
+      // storage 업로드 에러핸들러
       const storageErrHandler = err => {
         switch (err.code) {
           case "storage/unauthorized":
@@ -171,21 +204,26 @@ const Selected = props => {
         }
       };
 
+      // storage 로드
       const storage = await loadStorage();
 
+      // 로고 이미지 있는 경우 -> 로고 이미지 업로드 프로세스 진행
       if (logoFile) {
         site.logo = { saveName: "logo", path: "" };
         await process(logoFile, "logo");
       }
 
+      // 썸네일 이미지 있는 경우 -> 썸네일 이미지 업로드 프로세스 진행
       if (thumbnailFile) {
         site.thumbnail = { saveName: "thumbnail", path: "" };
         await process(thumbnailFile, "thumbnail");
       }
 
+      // 이미지 업로드 완료 후 콜백함수(dbUpload) 실행
       await cb();
-    };
+    }; // end of uploadDetailImg
 
+    // Firestore 사이트 정보 patch
     const dbUpload = async () => {
       const res = await axios.patch(
         `${process.env.ASSET_PREFIX}/api/site/${url}`,
@@ -194,12 +232,14 @@ const Selected = props => {
         }
       );
       if (res.status === 200) {
+        // 정상적으로 저장된 경우, 선택된 사이트 없음 으로 변경
         dispatch({ type: SITE_STATE, data: "unselected" });
       } else {
         alert("수정에 실패하였습니다.");
       }
     };
 
+    // 이미지 업로드 -> db 저장
     await uploadDetailImg(dbUpload);
   };
 
@@ -376,27 +416,36 @@ const Selected = props => {
   );
 };
 
+// 사이트 목록 바인딩
 const SiteList = props => {
+  // 사용자가 사이트 정보 수정한 부분 있는지 여부
   const { siteEdit } = useSelector(state => state.user);
 
+  // 수정 내역 있을 경우 띄워줄 확인창
   const confirmMsg = "변경된 내용이 있습니다.\n저장하시겠습니까?";
   const [ openConfirm, setOpenConfirm ] = useState(false);
 
+  // 다른 사이트 선택한 경우
   const dispatch = useDispatch();
   const handleChangeSelected = idx => {
+    // 수정 내역 있을 경우 -> 확인창 통해 진행
     if(siteEdit) setOpenConfirm(true);
+    // 수정 내역 없을 경우 -> 선택된 사이트 변경
     else changeSelected(idx);
   };
 
+  // 변경된 내용 O -> 사용자가 저장하겠다고 확인
   const saveSite = () => {
     dispatch({ type: SITE_SAVE, data: { value: true } });
   };
 
+  // 변경사항 저장 확인창 닫기
   const closeConfirm = (idx) => {
     setOpenConfirm(!openConfirm);
     changeSelected(idx);
   };
 
+  // 선택된 사이트 변경 redux dispatch
   const changeSelected = (idx) => {
     dispatch({ type: SITE_STATE, data: { state: "selected", value: idx } });
   };
@@ -436,10 +485,13 @@ const SiteList = props => {
   );
 };
 
+// 사이트 관리 최상위 Component
 const Site = () => {
+  // Redux 에서 사용자 정보, 사용자 보유 사이트 정보 조회
   const dispatch = useDispatch();
   const { userInfo, siteState, siteValue } = useSelector(state => state.user);
 
+  // 사이트 등록 팝업 컨트롤
   const [openPopup, setOpenPopup] = useState(false);
   const closePopup = () => {
     setOpenPopup(!openPopup);
@@ -449,29 +501,36 @@ const Site = () => {
     setOpenPopup(true);
   };
 
+  // 알림창
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => setOpenAlert(!openAlert);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertCb, setAlertCb] = useState(() => {});
 
+  // 확인창
   const [openConfirm, setOpenConfirm] = useState(false);
   const closeConfirm = () => setOpenConfirm(!openConfirm);
   const [confirmMsg, setConfirmMsg] = useState("");
   const [confirmCb, setConfirmCb] = useState(() => {});
 
-  const handleDeleteCheck = () => {
-    setConfirmMsg("선택한 사이트를 삭제하시겠습니까?");
-    setConfirmCb(() => handleDelete);
-  };
-
+  // 페이지 새로고침
   const reload = () => {
     window.location = "";
   };
+
+  // 사이트 수정 완료 팝업
   const handleSaveClick = () => {
     setAlertMsg("저장 되었습니다.");
     setAlertCb(() => reload);
   };
 
+  // 사이트 삭제 처리 -> 확인창 통해 진행
+  const handleDeleteCheck = () => {
+    setConfirmMsg("선택한 사이트를 삭제하시겠습니까?");
+    setConfirmCb(() => handleDelete);
+  };
+
+  // 사이트 선택 취소시 redux 연동
   const setState = () => {
     dispatch({ type: SITE_STATE, data: { state: "unselected", value: 9999 } });
   };
@@ -480,19 +539,31 @@ const Site = () => {
     setAlertCb(() => setState);
   };
 
+  // 알림창 콜백 함수 등록시 알림창 오픈 처리
+  // 알림 메시지 없는 경우(콜백 함수 제거한 경우)
   useEffect(() => {
     if (alertMsg !== "") setOpenAlert(true);
   }, [alertCb]);
 
+  // 확인창 콜백 함수 등록시 확인창 오픈 처리
+  // 확인 메시지 없는 경우(콜백 함수 제거한 경우)
   useEffect(() => {
     if (confirmMsg !== "") setOpenConfirm(true);
   }, [confirmCb]);
 
+  /*
+   *  삭제 처리 함수
+   *  삭제 확인창에 전달될 콜백 함수
+   */
   const handleDelete = () => {
     return new Promise(resolve => {
+      // siteValue === 9999; 선택된 사이트 없음
       if (siteValue === 9999) alert("삭제할 사이트를 선택해주세요");
       else {
+        // 사용자 id -> 사용자 정보 - 사이트 목록에서 삭제할 때 처리
         const reqData = { userId: localStorage.id };
+
+        // 사이트 삭제 요청 api
         axios
           .delete(
             `${process.env.ASSET_PREFIX}/api/site/${userInfo.siteList[siteValue]}`,
@@ -500,6 +571,7 @@ const Site = () => {
           )
           .then(res => {
             if (res.status === 200) {
+              // 정상적으로 삭제된 경우 -> redux dispatch
               const newInfo = {
                 ...userInfo,
                 site: userInfo.site.filter((val, idx) => idx !== siteValue),
@@ -518,6 +590,7 @@ const Site = () => {
     });
   };
 
+  // 사이트 삭제시 SNB 갱신을 위한 dispatch
   useEffect(() => {
     if (Object.keys(userInfo).length !== 0) {
       userInfo.siteList.length === 0

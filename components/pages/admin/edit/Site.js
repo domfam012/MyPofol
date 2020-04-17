@@ -4,7 +4,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {REMOVE_SITE, SITE_SAVE, SITE_STATE} from "../../../../redux/reducers/user";
+import {
+  REMOVE_SITE,
+  SITE_SAVE,
+  SITE_STATE
+} from "../../../../redux/reducers/user";
 import Popup from "../../../../components/popup/admin/new/Popup";
 import Link from "next/link";
 import Alert from "../../../popup/alert";
@@ -40,9 +44,10 @@ const Selected = props => {
   const { handleSaveClick, handleCancelClick } = props;
 
   // 선택된 사이트 정보
-  const [title, setTitle] = useState(props.title);  // 사이트명
+  const [title, setTitle] = useState(props.title); // 사이트명
   const [intro, setIntro] = useState(props.intro ? props.intro : ""); // 사이트 소개글
-  const [introLength, setIntroLength] = useState( // 사이트 소개글 글자수
+  const [introLength, setIntroLength] = useState(
+    // 사이트 소개글 글자수
     props.intro ? props.intro.length : 0
   );
   const [email, setEmail] = useState(props.email); // 사이트 이메일
@@ -63,12 +68,12 @@ const Selected = props => {
 
   // 선택된 사이트 변경시 redux 에서 사이트 수정된 상태 값 초기화
   useEffect(() => {
-    dispatch({ type: 'SITE_EDIT', data: { value: false } })
+    dispatch({ type: "SITE_EDIT", data: { value: false } });
   }, [siteValue]);
 
   // 변경내용 O -> 변경내용 저장 확인 선택 -> 저장 처리
   useEffect(() => {
-    if(siteSave === true) handleSave();
+    if (siteSave === true) handleSave();
   }, [siteSave]);
 
   // 사이트 선택 변경시 선택된 사이트 정보 바인딩
@@ -82,14 +87,14 @@ const Selected = props => {
 
   // 사이트명 입력값 처리
   const handleTitleChange = e => {
-    dispatch({ type: 'SITE_EDIT', data: { value: true } });
+    dispatch({ type: "SITE_EDIT", data: { value: true } });
     setTitle(e.target.value);
   };
 
   // 사이트 소개글 입력값 처리 + 글자수 확인
   const handleIntroChange = e => {
     if (e.target.value.length < 201) {
-      dispatch({ type: 'SITE_EDIT', data: { value: true } });
+      dispatch({ type: "SITE_EDIT", data: { value: true } });
       setIntro(e.target.value);
       setIntroLength(e.target.value.length);
     }
@@ -97,13 +102,13 @@ const Selected = props => {
 
   // 사이트 이메일 입력값 처리
   const handleEmailChange = e => {
-    dispatch({ type: 'SITE_EDIT', data: { value: true } });
+    dispatch({ type: "SITE_EDIT", data: { value: true } });
     setEmail(e.target.value);
   };
 
   // 사이트 연락처 입력값 처리
   const handlePhoneChange = e => {
-    dispatch({ type: 'SITE_EDIT', data: { value: true } });
+    dispatch({ type: "SITE_EDIT", data: { value: true } });
     setPhone(e.target.value);
   };
 
@@ -112,7 +117,7 @@ const Selected = props => {
 
   // 사이트 로고 이미지 변경 처리
   const onLogoUpload = e => {
-    dispatch({ type: 'SITE_EDIT', data: { value: true } });
+    dispatch({ type: "SITE_EDIT", data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
     setLogo(preview);
     setLogoFile(e.target.files[0]);
@@ -121,7 +126,7 @@ const Selected = props => {
 
   // 사이트 썸네일 이미지 변경 처리
   const onThumbnailUpload = e => {
-    dispatch({ type: 'SITE_EDIT', data: { value: true } });
+    dispatch({ type: "SITE_EDIT", data: { value: true } });
     const preview = URL.createObjectURL(e.target.files[0]);
     setThumbnail(preview);
     setThumbnailFile(e.target.files[0]);
@@ -423,13 +428,13 @@ const SiteList = props => {
 
   // 수정 내역 있을 경우 띄워줄 확인창
   const confirmMsg = "변경된 내용이 있습니다.\n저장하시겠습니까?";
-  const [ openConfirm, setOpenConfirm ] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   // 다른 사이트 선택한 경우
   const dispatch = useDispatch();
   const handleChangeSelected = idx => {
     // 수정 내역 있을 경우 -> 확인창 통해 진행
-    if(siteEdit) setOpenConfirm(true);
+    if (siteEdit) setOpenConfirm(true);
     // 수정 내역 없을 경우 -> 선택된 사이트 변경
     else changeSelected(idx);
   };
@@ -440,13 +445,13 @@ const SiteList = props => {
   };
 
   // 변경사항 저장 확인창 닫기
-  const closeConfirm = (idx) => {
+  const closeConfirm = idx => {
     setOpenConfirm(!openConfirm);
     changeSelected(idx);
   };
 
   // 선택된 사이트 변경 redux dispatch
-  const changeSelected = (idx) => {
+  const changeSelected = idx => {
     dispatch({ type: SITE_STATE, data: { state: "selected", value: idx } });
   };
 
@@ -480,7 +485,15 @@ const SiteList = props => {
           <button className="btn btn-primary">상세</button>
         </Link>
       </span>
-      {openConfirm ? <Confirm message={confirmMsg} cb={saveSite} closeConfirm={() => closeConfirm(props.idx)}/>: ""}
+      {openConfirm ? (
+        <Confirm
+          message={confirmMsg}
+          cb={saveSite}
+          closeConfirm={() => closeConfirm(props.idx)}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
@@ -621,12 +634,16 @@ const Site = () => {
                   >
                     삭제
                   </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => setOpenPopup(true)}
-                  >
-                    새 웹사이트 추가
-                  </button>
+                  {userInfo.siteList.length < 12 ? (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => setOpenPopup(true)}
+                    >
+                      새 웹사이트 추가
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
 
@@ -647,12 +664,16 @@ const Site = () => {
                     />
                   ))}
 
-                  <a className="site add" href="#" onClick={handlePopup}>
-                    <p className="plus">
-                      <i className="fal fa-plus" />
-                    </p>
-                    <p className="txt">새 웹사이트 추가</p>
-                  </a>
+                  {userInfo.siteList.length < 12 ? (
+                    <a className="site add" href="#" onClick={handlePopup}>
+                      <p className="plus">
+                        <i className="fal fa-plus" />
+                      </p>
+                      <p className="txt">새 웹사이트 추가</p>
+                    </a>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </section>
@@ -688,7 +709,7 @@ const Site = () => {
           </div>
         </div>
       ) : (
-        <div style={{height: "calc(100vh - 130px)"}}></div>
+        <div style={{ height: "calc(100vh - 130px)" }}></div>
       )}
       {openAlert ? (
         <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} />

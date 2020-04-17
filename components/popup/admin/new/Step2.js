@@ -58,9 +58,23 @@ const Step2 = props => {
     setUrlChecked(false);
     handleUrlChange(e.target.value);
 
-    if (e.target.value.length === 0) setOpenUrlFeed(true);
+    if (e.target.value.length === 0) {
+      setUrlFeed('사이트주소를 입력해주세요.');
+      setOpenUrlFeed(true);
+    }
     else setOpenUrlFeed(false);
   };
+
+  // url 입력시 유효성 검사
+  useEffect(() => {
+    if (!regex("url").test(url)) {
+      setUrlFeed("영어와 숫자만 입력 가능합니다.");
+      setOpenUrlFeed(true);
+    }
+    else {
+      setOpenUrlFeed(false);
+    }
+  }, [url]);
 
   // url 체크 여부 초기 바인딩
   useEffect(() => {
@@ -95,7 +109,7 @@ const Step2 = props => {
     // 체크 진행중 = true
     isChecking = true;
 
-    // 이후 tooltip 으로 수정
+    // 사이트 주소 유효성 검사
     if (!regex("url").test(url)) {
       setMsg("영어와 숫자만 입력 가능합니다.");
       setOpenAlert(true);
@@ -113,9 +127,14 @@ const Step2 = props => {
     );
     // 이미 사용중인 url
     if (!res.data.urlChecked) {
+      setUrlFeed("이미 사용중인 주소입니다.");
+      setOpenUrlFeed(true);
       setMsg("이미 사용중인 주소입니다.");
       return setOpenAlert(true);
     }
+
+    setUrlFeed("등록 가능한 주소입니다.");
+    setOpenUrlFeed(true);
 
     // url 체크값 state 에 반영
     setUrlChecked(res.data.urlChecked);

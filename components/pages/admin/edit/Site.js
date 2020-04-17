@@ -688,7 +688,7 @@ const Site = () => {
           </div>
         </div>
       ) : (
-        ""
+        <div style={{height: "calc(100vh - 130px)"}}></div>
       )}
       {openAlert ? (
         <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} />

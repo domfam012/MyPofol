@@ -1,12 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import Alert from "../../alert";
-import regex from "../.././../../public/js/regex";
+import Tooltip from "../../../tooltip/Tooltip";
+import regex from "../../../../public/js/regex";
 
 const Step3 = props => {
   const { onNext, onPrev } = props;
 
   // 입력값 처리 함수
-  const { handlePhoneChange, handleEmailChange, handleImgFile, handleImgPreview } = props;
+  const {
+    handlePhoneChange,
+    handleEmailChange,
+    handleImgFile,
+    handleImgPreview
+  } = props;
 
   // 등록 중인 사이트 정보
   const { site } = props;
@@ -26,14 +32,37 @@ const Step3 = props => {
   };
   const [msg, setMsg] = useState("");
 
+  // 사이트 연락처 툴팁 메시지
+  const [phoneFeed, setPhoneFeed] = useState("연락처를 입력해주세요.");
+  const [openPhoneFeed, setOpenPhoneFeed] = useState(true);
+  // 사이트 이메일 툴팁 메시지
+  const [emailFeed, setEmailFeed] = useState("이메일을 입력해주세요.");
+  const [openEmailFeed, setOpenEmailFeed] = useState(true);
+
   // 입력값 처리
   const onPhoneChange = e => {
     setPhone(e.target.value);
     handlePhoneChange(e.target.value);
+
+    if (e.target.value.length === 0) {
+      setPhoneFeed("연락처를 입력해주세요.");
+      setOpenPhoneFeed(true);
+    } else if (!regex("num").test(phone)) {
+      setPhoneFeed("연락처 형식을 확인해주세요.");
+      setOpenPhoneFeed(true);
+    } else setOpenPhoneFeed(false);
   };
   const onEmailChange = e => {
     setEmail(e.target.value);
     handleEmailChange(e.target.value);
+
+    if (e.target.value.length === 0) {
+      setEmailFeed("이메일을 입력해주세요.");
+      setOpenEmailFeed(true);
+    } else if (!regex("email").test(email)) {
+      setEmailFeed("이메일을 형식을 확인해주세요.");
+      setOpenEmailFeed(true);
+    } else setOpenEmailFeed(false);
   };
 
   // 이미지 업로드
@@ -55,10 +84,13 @@ const Step3 = props => {
     if (!phone) {
       setMsg("연락처를 입력해주세요.");
       return setOpenAlert(true);
+    } else if (!regex("num").test(phone)) {
+      setMsg("연락처 형식을 확인해주세요.");
+      setOpenAlert(true);
     } else if (!email) {
       setMsg("이메일을 입력해주세요.");
       return setOpenAlert(true);
-    } else if (!regex('email').test(email)) {
+    } else if (!regex("email").test(email)) {
       setMsg("이메일을 형식을 확인해주세요.");
       return setOpenAlert(true);
     } else if (!img) {
@@ -89,6 +121,19 @@ const Step3 = props => {
             placeholder="연락처를 입력하세요."
             style={{ width: "400px" }}
           />
+          {openPhoneFeed ? (
+            <Tooltip
+              feed={phoneFeed}
+              style={{
+                display: "block",
+                top: "71%",
+                width: "37%",
+                left: "31.5%"
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
         <div className="form-group">
           <input
@@ -102,6 +147,19 @@ const Step3 = props => {
             placeholder="이메일을 입력하세요."
             style={{ width: "400px" }}
           />
+          {openEmailFeed ? (
+            <Tooltip
+              feed={emailFeed}
+              style={{
+                display: "block",
+                top: "71%",
+                width: "37%",
+                left: "31.5%"
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
         <div className="add_img">
           {/*

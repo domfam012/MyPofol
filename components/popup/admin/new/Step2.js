@@ -33,9 +33,7 @@ const Step2 = props => {
   const [msg, setMsg] = useState("");
 
   // 사이트명 툴팁 메시지
-  const [nameFeed, setNameFeed] = useState(
-    "이름 혹은 사이트명을 입력해주세요."
-  );
+  const [nameFeed, setNameFeed] = useState("이름 혹은 사이트명을 입력해주세요.");
   const [openNameFeed, setOpenNameFeed] = useState(true);
   // 사이트 주소 툴팁 메시지
   const [urlFeed, setUrlFeed] = useState("사이트주소를 입력해주세요.");

@@ -1,3 +1,7 @@
+/*
+ *  사이트 등록 Step2
+ */
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "../../alert";
@@ -6,27 +10,41 @@ import regex from "../../../../public/js/regex";
 
 const Step2 = props => {
   const { onNext } = props;
+
+  // 입력값 처리 함수
   const { handleNameChange, handleUrlChange, handleUrlChecked } = props;
+
+  // 등록 중인 사이트 정보
   const { site } = props;
+
+  // 사이트명
   const [name, setName] = useState(site.name);
+  // 사이트 주소
   const [url, setUrl] = useState(site.url);
+  // 사이트 주소 중복확인 결과
   const [urlChecked, setUrlChecked] = useState(props.urlChecked);
 
+  // 알림창
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => {
     setOpenAlert(!openAlert);
   };
+  // 알림창 전달 메시지
   const [msg, setMsg] = useState("");
 
+  // 사이트명 툴팁 메시지
   const [nameFeed, setNameFeed] = useState(
     "이름 혹은 사이트명을 입력해주세요."
   );
   const [openNameFeed, setOpenNameFeed] = useState(true);
+  // 사이트 주소 툴팁 메시지
   const [urlFeed, setUrlFeed] = useState("사이트주소를 입력해주세요.");
   const [openUrlFeed, setOpenUrlFeed] = useState(true);
 
+  // url 체크 진행중 여부
   let isChecking = false;
 
+  // 입력값 처리
   const onNameChange = e => {
     setName(e.target.value);
     handleNameChange(e.target.value);
@@ -44,17 +62,21 @@ const Step2 = props => {
     else setOpenUrlFeed(false);
   };
 
+  // url 체크 여부 초기 바인딩
   useEffect(() => {
     handleUrlChecked(urlChecked);
   }, [urlChecked]);
 
+  // Step 이동
   const handleNext = () => {
+    // url 체크 중인지 확인
     if (isChecking) {
       setMsg("사이트 중복 확인중입니다.");
       setOpenAlert(true);
       return;
     }
 
+    // 미입력 및 url 체크 여부 확인
     if (!name) {
       setMsg("사이트명을 입력해주세요.");
       setOpenAlert(true);
@@ -67,8 +89,10 @@ const Step2 = props => {
     } else onNext();
   };
 
+  // url 중복 확인
   const checkUrl = async e => {
     e.preventDefault();
+    // 체크 진행중 = true
     isChecking = true;
 
     // 이후 tooltip 으로 수정
@@ -78,22 +102,27 @@ const Step2 = props => {
       return;
     }
 
+    // url 미입력
     if (!url) {
       setMsg("사이트 url을 입력해주세요.");
       return setOpenAlert(true);
     }
+    // DB 조회 api 연동
     const res = await axios.get(
       `${process.env.ASSET_PREFIX}/api/site/${url}/check`
     );
+    // 이미 사용중인 url
     if (!res.data.urlChecked) {
       setMsg("이미 사용중인 주소입니다.");
       return setOpenAlert(true);
     }
 
+    // url 체크값 state 에 반영
     setUrlChecked(res.data.urlChecked);
     setMsg("사용할 수 있는 주소입니다.");
     setOpenAlert(true);
 
+    // 체크 진행중 = false
     isChecking = false;
   };
 

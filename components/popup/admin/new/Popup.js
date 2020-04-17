@@ -30,7 +30,9 @@ import Step6 from "./Step6";
 const Popup = props => {
   const { closePopup } = props;
 
+  // 화면에 보여줄 Step
   const [step, setStep] = useState(1);
+  // 사이트 등록시 필요 data
   const [site, setSite] = useState({
     name: '',
     url: '',
@@ -44,14 +46,16 @@ const Popup = props => {
     template: 0
   });
 
+  // 이전 단계로 돌아갈 경우 필요 정보
   const [urlChecked, setUrlChecked] = useState(false);
   const [logoImg, setLogoImg] = useState();
   const [logoPreview, setLogoPreview] = useState();
 
+  // 이전, 다음 단계 이동
   const handleNext = () => setStep(step => ++step);
   const handlePrev = () => setStep(step => --step);
-  // const handleClose = () => closePopup;
 
+  // 입력값 처리
   const handleNameChange = val => setSite({ ...site, name: val });
   const handleUrlChange = val => setSite({ ...site, url: val });
   const handleUrlChecked = val => setUrlChecked(val);
@@ -63,6 +67,7 @@ const Popup = props => {
   const handleCategoryChange = val => setSite({ ...site, categoryList: val });
   const handleTemplateChange = val => setSite({ ...site, template: val });
 
+  // 템플릿 조회(-> Step5)
   const [templateList, setTemplateList] = useState([]);
   useEffect(() => {
     const fetchTemplate = async () => {
@@ -72,6 +77,7 @@ const Popup = props => {
     fetchTemplate();
   }, []);
 
+  // Step1~6 렌더링
   return (
     <div className="wrap popup-wrap">
       <Header onClose={closePopup} />

@@ -1,3 +1,7 @@
+/*
+ *  사이트 관리
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {REMOVE_SITE, SITE_SAVE, SITE_STATE} from "../../../../redux/reducers/user";

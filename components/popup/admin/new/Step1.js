@@ -1,3 +1,7 @@
+/*
+ *  사이트 등록 Step1
+ */
+
 const Step1 = props => {
   const { onNext } = props;
 

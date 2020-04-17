@@ -3,11 +3,20 @@ import Alert from "../../alert";
 
 const Step4 = props => {
   const { onNext, onPrev } = props;
+
+  // 입력값 처리 함수
   const { handleCategoryChange } = props;
+
+  // 등록 중인 사이트 정보
   const { site } = props;
+
+  // 카테고리
   const [categoryList, setCategoryList] = useState(site.categoryList);
+
+  // Step 이동
   const [itGo, setItGo] = useState(false);
 
+  // 알림창
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => {
     setOpenAlert(!openAlert);
@@ -28,6 +37,12 @@ const Step4 = props => {
     setCategoryList(newCategory);
   };
 
+  // 카테고리 입력값 혹은 카테고리 추가 처리
+  useEffect(() => {
+    handleCategoryChange(categoryList);
+  }, [categoryList]);
+
+  // Step 이동
   const handleNext = () => {
     const newCategory = categoryList.filter(item => item !== "");
     if (!newCategory.length) {
@@ -39,10 +54,7 @@ const Step4 = props => {
     }
   };
 
-  useEffect(() => {
-    handleCategoryChange(categoryList);
-  }, [categoryList]);
-
+  // Step 이동
   useEffect(() => {
     if (itGo) {
       onNext();
@@ -98,6 +110,12 @@ const Step4 = props => {
   );
 };
 
+
+
+/*
+ *  카테고리 입력창
+ *  categoryList 로 바인딩
+ */
 const CategoryInput = props => {
   const { categoryList, handleCatItemChange } = props;
 

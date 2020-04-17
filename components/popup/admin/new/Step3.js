@@ -4,20 +4,29 @@ import regex from "../.././../../public/js/regex";
 
 const Step3 = props => {
   const { onNext, onPrev } = props;
+
+  // 입력값 처리 함수
   const { handlePhoneChange, handleEmailChange, handleImgFile, handleImgPreview } = props;
+
+  // 등록 중인 사이트 정보
   const { site } = props;
+
+  // 연락처
   const [phone, setPhone] = useState(site.phone);
+  // 이메일
   const [email, setEmail] = useState(site.email);
-// console.log(props)
+  // 로고이미지
   const [img, setImg] = useState(props.logoPreview);
   const inputImgEl = useRef(null);
 
+  // 알림창
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => {
     setOpenAlert(!openAlert);
   };
   const [msg, setMsg] = useState("");
 
+  // 입력값 처리
   const onPhoneChange = e => {
     setPhone(e.target.value);
     handlePhoneChange(e.target.value);
@@ -34,11 +43,15 @@ const Step3 = props => {
     handleImgFile(e.target.files[0]);
     inputImgEl.current.focus();
   };
+  // 이미 선택한 이미지 있는 경우(이전 혹은 다음 스텝에서 넙어왔을 때)
+  // 초기 이미지 바인딩
   useEffect(() => {
     handleImgPreview(img);
   }, [img]);
 
+  // Step 이동
   const handleNext = () => {
+    // 미입력 데이터 및 기타 유효성 확인
     if (!phone) {
       setMsg("연락처를 입력해주세요.");
       return setOpenAlert(true);

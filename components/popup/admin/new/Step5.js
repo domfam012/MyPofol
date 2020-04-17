@@ -7,32 +7,42 @@ import Preview from "../../Preview";
 
 const Step5 = props => {
   const { onNext, onPrev, onClose } = props;
+
+  // 입력값 처리 함수
   const { handleTemplateChange, handleImgChange } = props;
+
+  // 등록 팝업 오픈시 조회한 템플릿 목록
   const { templateList } = props;
+
+  // 등록 중인 사이트 정보, 로고 이미지 미리보기
   const { site, logoImg } = props;
+
+  // 템플릿
   const [template, setTemplate] = useState(site.template);
 
+  // 알림창
   const [openAlert, setOpenAlert] = useState(false);
   const closeAlert = () => {
     setOpenAlert(!openAlert);
   };
   const [msg, setMsg] = useState("");
 
+  // 템플릿 선택 처리
   const handleTemplateSelect = idx => {
     // console.log(idx);
     setTemplate(idx);
     handleTemplateChange(idx);
   };
 
+  // Step 이동
   const handleNext = () => {
-    // template 선택 확인
-    // site 에서 전체 확인
-
+    // 선택된 템플릿 있는지 확인
     if (!template) {
       setMsg("템플릿을 선택해주세요.");
       return setOpenAlert(true);
     }
 
+    // 등록 전 사이트 등록 정보 확인
     const isValidate = () => {
       if (!site.name) return false;
       else if (!site.url) return false;
@@ -43,8 +53,7 @@ const Step5 = props => {
     };
 
     if (isValidate()) {
-      // console.log(`site: ${JSON.stringify(site)}`);
-
+      // 로고 이미지 업로드
       const storageUpload = async () => {
         const storage = await loadStorage();
         const saveName = shortid.generate();
@@ -56,12 +65,15 @@ const Step5 = props => {
           () => {},
           err => storageErrHandler(err),
           () => {
+            // firestore storage 로고 이미지 저장 위치 확인
             uploadTask.snapshot.ref.getDownloadURL().then(url => {
+              // 이미지 저장 경로(path) 사이트 정보에 저장
               handleImgChange(saveName, url);
             });
           }
         );
 
+        // storage 업로드 에러 핸들러
         const storageErrHandler = err => {
           switch (err.code) {
             case "storage/unauthorized":
@@ -79,8 +91,10 @@ const Step5 = props => {
         };
       };
 
+      // 이미지 업로드 실행
       storageUpload();
     } else {
+      // hacking tried
       alert("happy hacking");
     }
 
@@ -88,6 +102,7 @@ const Step5 = props => {
     // else onNext();
   };
 
+  // Firestore 에 사이트 정보 insert
   useEffect(() => {
     const dbUpload = async () => {
       site.userId = localStorage.id;
@@ -140,16 +155,24 @@ const Step5 = props => {
   );
 };
 
+
+/*
+ *  템플릿 목록
+ *  팝업 오픈(./Popup.js)시 조회한 templateList 로 바인딩
+ */
 const TemplateList = props => {
   const { templateList } = props;
+  // 선택된 템플릿
   const { onTemplateSelect } = props;
   const { selected } = props;
 
+  // 템플릿 미리보기
   const [openPreview, setOpenPreview] = useState(false);
   const closePreview = () => setOpenPreview(!openPreview);
   const [previewTitle, setPreviewTitle] = useState("");
   const [previewPath, setPreviewPath] = useState("");
 
+  // 미리보기 팝업 열기 | 닫기
   const handlePreview = template => {
     setPreviewTitle(template.title);
     setPreviewPath(template.img.path);

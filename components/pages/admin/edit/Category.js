@@ -10,13 +10,14 @@ import shortid from 'shortid';
 
 const CategoryList = props => {
     const dispatch = useDispatch();
-    const { categoryId, categoryImg, categoryName, activeTarget, site, categoryState, categoryChange, handleConfirm } = props;
+    const {categoryState, categoryChange} = useSelector(state => state.user);
+    const { categoryId, categoryImg, categoryName, activeTarget, site} = props;
 
     // 카테고리 선택 클릭
     const setCategoryState = e => {
         if(categoryState === 'selected' && activeTarget === e) dispatch({type : CATEGORY_STATE, data : { state : 'unselected'}});
         else {
-            if(categoryState === 'selected' && categoryChange) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", ()=>{alert("정확한 시나리오 확인 필요 (저장기능추가예정)")});
+            if(categoryState === 'selected' && categoryChange) dispatch({type : CATEGORY_CHANGE, data : {change: true, save: () => {} }});
             else dispatch({type : CATEGORY_STATE, data : { state : 'selected', value : e}});
         }
     };
@@ -47,7 +48,8 @@ const Unselected = () => {
 
 export const EditCategory = props => {
     const dispatch = useDispatch();
-    const { site,  categoryId, categoryImg, categoryName, categoryType, view, viewList, addCategory, handleAlert } = props;
+    const {addCategory, categorySave} = useSelector(state => state.user);
+    const {site, categoryId, categoryImg, categoryName, categoryType, view, viewList, handleAlert, handleConfirm } = props;
 
     // 카테고리 명
     const [name, setName] = useState("");
@@ -74,6 +76,10 @@ export const EditCategory = props => {
         else dispatch({type : CATEGORY_CHANGE, data : { change : false }});
     }, [name, cType, img]);
 
+    // 변경 내용 저장 팝업 노출
+    useEffect(() => {
+        if(categorySave) handleConfirm("변경된 내용이 있습니다. 저장하시겠습니까?", editCategory);
+    }, [categorySave]);
 
     // 취소 클릭
     const prevAddCategory = () => {
@@ -161,15 +167,13 @@ export const EditCategory = props => {
                 <form className="form_site">
                     <div className="form-group active">
                         <input
-                            id={"name"}
-                            name={"name"}
-                            value={name}
                             onChange={onNameChange}
                             type="text"
                             className="form-control"
                             title="카테고리"
-                            placeholder={categoryName}
-                            maxLength='20'
+                            placeholder="카테고리명을 입력해주세요"
+                            value={name === '' ? categoryName : name}
+                            maxLength={20}
                         />
                     </div>
                 </form>
@@ -224,7 +228,7 @@ export const EditCategory = props => {
 const Category = props => {
     const dispatch = useDispatch();
     const { site } = props;
-    const { siteInfo, categoryState, categoryValue, addCategory, categoryChange} = useSelector(state => state.user);
+    const { siteInfo, categoryState, categoryValue, addCategory} = useSelector(state => state.user);
 
     // Alert 모달
     const [openAlert, setOpenAlert] = useState(false);
@@ -300,10 +304,7 @@ const Category = props => {
                                     categoryId = {siteInfo.category[item].id}
                                     categoryImg = {siteInfo.category[item].img.path}
                                     categoryName = {siteInfo.category[item].name}
-                                    categoryState={categoryState}
-                                    categoryChange={categoryChange}
                                     activeTarget={categoryValue !== '' ? categoryValue : ''}
-                                    handleConfirm={handleConfirm}
                                 />
                             ))}
                             <a onClick={onAddCategory} className={`site add ${addCategory ? 'active' : ''}`} href="#">
@@ -325,8 +326,8 @@ const Category = props => {
                             categoryType = {categoryValue !== '' ? siteInfo.category[categoryValue].type : ''}
                             view = {categoryValue !== '' ? siteInfo.category[categoryValue].view : ''}
                             viewList={categoryValue !== '' ? siteInfo.category[categoryValue].viewList : ''}
-                            addCategory={addCategory}
-                            handleAlert={handleAlert}/>
+                            handleAlert={handleAlert}
+                            handleConfirm={handleConfirm}/>
                 }
             </div>
             {openAlert ? <Alert message={alertMsg} cb={alertCb} closeAlert={closeAlert} /> : ""}

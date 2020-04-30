@@ -67,7 +67,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "jquery": "^3.4.1"
+    "jquery": "^3.5.0"
   },
   "engines": {
     "node": ">=12.14.0",

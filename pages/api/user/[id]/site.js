@@ -42,7 +42,7 @@ export default async (req, res) => {
           }
         }
         resData.status = 200;
-        resData.msg = "success";
+        resData.msg = "success"
 
         // 정상 조회 응답
         return res.status(200).send(resData);
